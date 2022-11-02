@@ -12,7 +12,7 @@ class AdminHomePage extends StatefulWidget {
 }
 
 class _AdminHomePageState extends State<AdminHomePage> {
-  UserPreferences _userPreferences = UserPreferences();
+  final _userPreferences = UserPreferences();
   late Credential _credential;
 
   @override

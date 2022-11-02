@@ -16,7 +16,7 @@ class _LeadNavigationMenuState extends State<LeadNavigationMenu> {
             color: Theme.of(context).primaryColor,
             height: 100,
             child: Center(
-              child: Text('G D P',
+              child: Text('G P D',
                   style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,

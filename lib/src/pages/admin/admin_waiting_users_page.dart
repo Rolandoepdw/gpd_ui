@@ -57,11 +57,11 @@ class _AdminWaitingUsersPageState extends State<AdminWaitingUsersPage> {
         child: Column(children: [
           Text('Waiting to be activated', style: TextStyle(fontSize: 20)),
           Divider(),
-          Expanded(child: _buildAwaitingList(context))
+          Expanded(child: _buildAwaitingUsersList(context))
         ]));
   }
 
-  Widget _buildAwaitingList(BuildContext context) {
+  Widget _buildAwaitingUsersList(BuildContext context) {
     return FutureBuilder(
       future: getAwaitingUsers(_credential.token),
       builder: (BuildContext context, AsyncSnapshot<ApiResponse?> snapshot) {

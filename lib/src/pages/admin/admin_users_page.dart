@@ -16,7 +16,7 @@ class AdminUsersPage extends StatefulWidget {
 }
 
 class _AdminUsersPageState extends State<AdminUsersPage> {
-  UserPreferences _userPreferences = UserPreferences();
+  final _userPreferences = UserPreferences();
   late Credential _credential;
 
   @override
@@ -71,12 +71,12 @@ class _AdminUsersPageState extends State<AdminUsersPage> {
           children: [
             Text('List of users', style: TextStyle(fontSize: 20)),
             Divider(),
-            Expanded(child: _buildAwaitingList(context))
+            Expanded(child: _buildUsersList(context))
           ],
         ));
   }
 
-  Widget _buildAwaitingList(BuildContext context) {
+  Widget _buildUsersList(BuildContext context) {
     return FutureBuilder(
       future: getUsers(_credential.token),
       builder: (BuildContext context, AsyncSnapshot<ApiResponse?> snapshot) {

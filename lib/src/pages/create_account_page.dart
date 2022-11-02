@@ -18,7 +18,7 @@ class _CreateAccauntPageState extends State<CreateAccauntPage> {
   final _phoneController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
-  UserPreferences userPreferences = UserPreferences();
+  final userPreferences = UserPreferences();
   late ApiResponse apiResponse;
 
   @override

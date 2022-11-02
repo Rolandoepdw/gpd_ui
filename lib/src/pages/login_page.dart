@@ -18,10 +18,8 @@ class _LoginPageState extends State<LoginPage> {
   final _formLoginKey = GlobalKey<FormState>();
   final _userController = TextEditingController();
   final _passwordController = TextEditingController();
-  UserPreferences _userPreferences = UserPreferences();
+  final _userPreferences = UserPreferences();
   late ApiResponse apiResponse;
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -113,16 +111,10 @@ class _LoginPageState extends State<LoginPage> {
                 else
                   Navigator.pushNamed(context, 'leadHome');
               }
-              if (apiResponse.statusCode == 4) {
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                    content: Text(apiResponse.message[0],
-                        textAlign: TextAlign.center),
-                    backgroundColor: Colors.blue,
-                    elevation: 5,
-                    dismissDirection: DismissDirection.endToStart,
-                    duration: Duration(seconds: 2)));
-              }
-              if (apiResponse.statusCode == 22)
+
+              print(apiResponse.statusCode);
+
+              if (apiResponse.statusCode != 1)
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                     content: Text(apiResponse.message[0],
                         textAlign: TextAlign.center),
