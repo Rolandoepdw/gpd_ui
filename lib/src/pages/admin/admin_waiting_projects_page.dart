@@ -2,20 +2,21 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:gpd/src/models/apiResponse.dart';
 import 'package:gpd/src/models/credential.dart';
+import 'package:gpd/src/models/project.dart';
 import 'package:gpd/src/models/user.dart';
 import 'package:gpd/src/pages/admin/admin_widgets/admin_navigaton_menu.dart';
 import 'package:gpd/src/provider/http_provider.dart';
 import 'package:gpd/src/user_preferences/user_preferences.dart';
 import 'package:gpd/src/my_widgets/my_alert.dart';
 
-class AdminWaitingUsersPage extends StatefulWidget {
-  const AdminWaitingUsersPage({Key? key}) : super(key: key);
+class AdminWaitingProjectsPage extends StatefulWidget {
+  const AdminWaitingProjectsPage({Key? key}) : super(key: key);
 
   @override
-  State<AdminWaitingUsersPage> createState() => _AdminWaitingUsersPageState();
+  State<AdminWaitingProjectsPage> createState() => _AdminWaitingProjectsPageState();
 }
 
-class _AdminWaitingUsersPageState extends State<AdminWaitingUsersPage> {
+class _AdminWaitingProjectsPageState extends State<AdminWaitingProjectsPage> {
   UserPreferences _userPreferences = UserPreferences();
   late Credential _credential;
 
@@ -44,18 +45,18 @@ class _AdminWaitingUsersPageState extends State<AdminWaitingUsersPage> {
         ),
         body: SafeArea(
             child: Row(children: [
-          Flexible(flex: 2, child: AdminNavigatonMenu()),
-          Flexible(flex: 5, child: _buildCenterPage(context)),
-          Flexible(
-              flex: 2, child: Container(color: Theme.of(context).primaryColor))
-        ])));
+              Flexible(flex: 2, child: AdminNavigatonMenu()),
+              Flexible(flex: 5, child: _buildCenterPage(context)),
+              Flexible(
+                  flex: 2, child: Container(color: Theme.of(context).primaryColor))
+            ])));
   }
 
   Widget _buildCenterPage(BuildContext context) {
     return Container(
         padding: EdgeInsets.all(20),
         child: Column(children: [
-          Text('Users waiting to be activated', style: TextStyle(fontSize: 20)),
+          Text('Projects waiting to be activated', style: TextStyle(fontSize: 20)),
           Divider(),
           Expanded(child: _buildAwaitingUsersList(context))
         ]));
@@ -69,10 +70,10 @@ class _AdminWaitingUsersPageState extends State<AdminWaitingUsersPage> {
         if (snapshot.data!.statusCode != 1)
           return Center(child: Text('No records.'));
 
-        List<User> list = [];
-        if (snapshot.data!.data["formatedPeople"].length != 0)
-          list = List<User>.from(snapshot.data!.data["formatedPeople"]
-              .map((user) => User.fromJson(user)));
+        List<Project> list = [];
+        if (snapshot.data!.data.length != 0)
+          list = List<Project>.from(snapshot.data!.data
+              .map((project) => User.fromJson(project)));
 
         return ListView.builder(
             itemCount: list.length,
@@ -83,12 +84,12 @@ class _AdminWaitingUsersPageState extends State<AdminWaitingUsersPage> {
     );
   }
 
-  Widget _buildListTile(BuildContext context, User user) {
+  Widget _buildListTile(BuildContext context, Project project) {
     return ListTile(
         onTap: () {},
         leading: Icon(Icons.person_add),
-        title: Text(user.toString(), style: TextStyle(fontSize: 16)),
-        subtitle: Text(user.allRole, style: TextStyle(fontSize: 10)),
+        title: Text(project.toString(), style: TextStyle(fontSize: 16)),
+        subtitle: Text(project.area, style: TextStyle(fontSize: 10)),
         trailing: Container(
             width: 100,
             child: Row(children: [
@@ -98,11 +99,12 @@ class _AdminWaitingUsersPageState extends State<AdminWaitingUsersPage> {
                         context: context,
                         builder: (BuildContext context) {
                           return Alert(
-                              text: 'Do you want to activate the user?');
+                              text: 'Do you want to activate the project?');
                         });
                     if (result) {
-                      await aceptUsers(user.id, _credential.token);
-                      await getAwaitingUsers(_credential.token);
+                      await aceptProject(project.id, _credential.token);
+                      await getProjects(_credential.token);
+                      // await setRole(person.id, 2, _credential.token); // falta el id de la persona
                       setState(() {});
                     }
                   },
@@ -113,11 +115,11 @@ class _AdminWaitingUsersPageState extends State<AdminWaitingUsersPage> {
                     final result = await showDialog(
                         context: context,
                         builder: (BuildContext context) {
-                          return Alert(text: 'Do you want to delete the user?');
+                          return Alert(text: 'Do you want to delete the project?');
                         });
                     if (result) {
-                      await deleteUsers(user.id, _credential.token);
-                      await getAwaitingUsers(_credential.token);
+                      await deleteProject(project.id, _credential.token);
+                      await getProjects(_credential.token);
                       setState(() {});
                     }
                   },

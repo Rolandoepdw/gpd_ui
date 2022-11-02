@@ -84,6 +84,15 @@ Future<ApiResponse?> updateProfile(
   return apiResponse;
 }
 
+//------------------------------------ Role ------------------------------------
+
+Future<ApiResponse?> setRole(int id, int role, String token) async {
+  http.Response response = await http.get(
+      Uri.parse("http://localhost:3000/api/person/set-role?personId=$id&roleId=$role"),
+      headers: {'Authorization': token});
+  return ApiResponse.fromJson(jsonDecode(response.body));
+}
+
 //---------------------------------- Projects ----------------------------------
 
 Future<ApiResponse?> createProject(
@@ -108,3 +117,35 @@ Future<ApiResponse?> createProject(
   );
   return ApiResponse.fromJson(jsonDecode(response.body));
 }
+
+Future<ApiResponse?> getMyProjects(String token) async {
+  http.Response response = await http.get(
+    Uri.parse("http://localhost:3000/api/project/my-projects"),
+    headers: {"Authorization": token},
+  );
+  return ApiResponse.fromJson(jsonDecode(response.body));
+}
+
+Future<ApiResponse?> deleteProject(int id, String token) async {
+  http.Response response = await http.delete(
+      Uri.parse("http://localhost:3000/api/project?id=$id"),
+      headers: {'Authorization': token});
+  return ApiResponse.fromJson(jsonDecode(response.body));
+}
+
+Future<ApiResponse?> getProjects(String token) async {
+  http.Response response = await http.get(
+    Uri.parse("http://localhost:3000/api/project/all-projects"),
+    headers: {"Authorization": token},
+  );
+  return ApiResponse.fromJson(jsonDecode(response.body));
+}
+
+Future<ApiResponse?> aceptProject(int id, String token) async {
+  http.Response response = await http.get(
+      Uri.parse("http://localhost:3000/api/person/accept-request?id=$id"),
+      headers: {'Authorization': token});
+  return ApiResponse.fromJson(jsonDecode(response.body));
+}
+
+

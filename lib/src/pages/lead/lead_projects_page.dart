@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:gpd/src/models/apiResponse.dart';
 import 'package:gpd/src/models/credential.dart';
+import 'package:gpd/src/models/project.dart';
+import 'package:gpd/src/my_widgets/my_alert.dart';
 import 'package:gpd/src/pages/lead/lead_widgets/lead_navigation_menu.dart';
+import 'package:gpd/src/provider/http_provider.dart';
 import 'package:gpd/src/user_preferences/user_preferences.dart';
 
 class LeadPrejectsPage extends StatefulWidget {
@@ -12,10 +16,11 @@ class LeadPrejectsPage extends StatefulWidget {
 
 class _LeadPrejectsPageState extends State<LeadPrejectsPage> {
   UserPreferences _userPreferences = UserPreferences();
+  late Credential _credential;
 
   @override
   Widget build(BuildContext context) {
-    Credential _credential = credentialFromJson(_userPreferences.userData);
+    _credential = credentialFromJson(_userPreferences.userData);
 
     return Scaffold(
       appBar: AppBar(
@@ -60,9 +65,60 @@ class _LeadPrejectsPageState extends State<LeadPrejectsPage> {
 
   Widget _buildCenterPage(BuildContext context) {
     return Container(
-      child: Center(
-        child: Text('Lead Projects Page'),
+        padding: EdgeInsets.all(20),
+        child: Column(
+          children: [
+            Text('My projects', style: TextStyle(fontSize: 20)),
+            Divider(),
+            Expanded(child: _buildUsersList(context))
+          ],
+        ));
+  }
+
+  Widget _buildUsersList(BuildContext context) {
+    return FutureBuilder(
+      future: getMyProjects(_credential.token),
+      builder: (BuildContext context, AsyncSnapshot<ApiResponse?> snapshot) {
+        if (!snapshot.hasData) return Center(child: Text('No data found.'));
+        if (snapshot.data!.statusCode != 1)
+          return Center(child: Text('No records.'));
+
+        List<Project> list = [];
+        if (snapshot.data!.data.length != 0)
+          list = List<Project>.from(snapshot.data!.data
+              .map((project) => Project.fromJson(project)));
+
+        return ListView.builder(
+            itemCount: list.length,
+            itemBuilder: (BuildContext context, int index) {
+              return _buildListTile(context, list[index]);
+            });
+      },
+    );
+  }
+
+  Widget _buildListTile(BuildContext context, Project project) {
+    return ListTile(
+      leading: Icon(Icons.folder),
+      title: Text(
+        project.toString(),
+        style: TextStyle(fontSize: 16),
       ),
+      subtitle: Text(project.area, style: TextStyle(fontSize: 10)),
+      trailing: IconButton(
+          onPressed: () async {
+            final result = await showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return Alert(text: 'Do you want to delete the project?');
+                });
+            if (result) {
+              await deleteProject(project.id, _credential.token);
+              await getMyProjects(_credential.token);
+              setState(() {});
+            }
+          },
+          icon: Icon(Icons.delete)),
     );
   }
 

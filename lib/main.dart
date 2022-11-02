@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:gpd/src/pages/admin/admin_home_page.dart';
 import 'package:gpd/src/pages/admin/admin_users_page.dart';
+import 'package:gpd/src/pages/admin/admin_waiting_projects_page.dart';
 import 'package:gpd/src/pages/admin/admin_waiting_users_page.dart';
 import 'package:gpd/src/pages/create_account_page.dart';
 import 'package:gpd/src/pages/lead/lead_home_page.dart';
@@ -39,6 +40,7 @@ class GPD extends StatelessWidget {
         'leadHome' : (BuildContext context) => LeadHomePage(),
         'leadProjects' : (BuildContext context) => LeadPrejectsPage(),
         'leadNewProjectForm': (BuildContext context) => LeadNewProjectForm(),
+        'adminWaitingProjects': (BuildContext context) => AdminWaitingProjectsPage(),
       },
       localizationsDelegates: [
         GlobalMaterialLocalizations.delegate,
