@@ -2,20 +2,21 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:gpd/src/models/apiResponse.dart';
 import 'package:gpd/src/models/credential.dart';
+import 'package:gpd/src/models/project.dart';
 import 'package:gpd/src/models/user.dart';
 import 'package:gpd/src/pages/admin/admin_widgets/admin_navigaton_menu.dart';
 import 'package:gpd/src/provider/http_provider.dart';
 import 'package:gpd/src/user_preferences/user_preferences.dart';
 import 'package:gpd/src/my_widgets/my_alert.dart';
 
-class AdminWaitingUsersPage extends StatefulWidget {
-  const AdminWaitingUsersPage({Key? key}) : super(key: key);
+class AdminProjectsPage extends StatefulWidget {
+  const AdminProjectsPage({Key? key}) : super(key: key);
 
   @override
-  State<AdminWaitingUsersPage> createState() => _AdminWaitingUsersPageState();
+  State<AdminProjectsPage> createState() => _AdminProjectsPageState();
 }
 
-class _AdminWaitingUsersPageState extends State<AdminWaitingUsersPage> {
+class _AdminProjectsPageState extends State<AdminProjectsPage> {
   UserPreferences _userPreferences = UserPreferences();
   late Credential _credential;
 
@@ -55,7 +56,7 @@ class _AdminWaitingUsersPageState extends State<AdminWaitingUsersPage> {
     return Container(
         padding: EdgeInsets.all(20),
         child: Column(children: [
-          Text('Users waiting to be activated', style: TextStyle(fontSize: 20)),
+          Text('List of projects', style: TextStyle(fontSize: 20)),
           Divider(),
           Expanded(child: _buildAwaitingUsersList(context))
         ]));
@@ -63,16 +64,16 @@ class _AdminWaitingUsersPageState extends State<AdminWaitingUsersPage> {
 
   Widget _buildAwaitingUsersList(BuildContext context) {
     return FutureBuilder(
-      future: getAwaitingUsers(_credential.token),
+      future: getProjects(_credential.token),
       builder: (BuildContext context, AsyncSnapshot<ApiResponse?> snapshot) {
         if (!snapshot.hasData) return Center(child: Text('No data dound.'));
         if (snapshot.data!.statusCode != 1)
           return Center(child: Text('No records.'));
 
-        List<User> list = [];
-        if (snapshot.data!.data["formatedPeople"].length != 0)
-          list = List<User>.from(snapshot.data!.data["formatedPeople"]
-              .map((user) => User.fromJson(user)));
+        List<Project> list = [];
+        if (snapshot.data!.data.length != 0)
+          list = List<Project>.from(
+              snapshot.data!.data.map((project) => User.fromJson(project)));
 
         return ListView.builder(
             itemCount: list.length,
@@ -83,44 +84,27 @@ class _AdminWaitingUsersPageState extends State<AdminWaitingUsersPage> {
     );
   }
 
-  Widget _buildListTile(BuildContext context, User user) {
+  Widget _buildListTile(BuildContext context, Project project) {
     return ListTile(
         onTap: () {},
-        leading: Icon(Icons.person_add),
-        title: Text(user.toString(), style: TextStyle(fontSize: 16)),
-        subtitle: Text(user.allRole, style: TextStyle(fontSize: 10)),
+        leading: Icon(Icons.folder),
+        title: Text(project.toString(), style: TextStyle(fontSize: 16)),
+        subtitle: Text(project.area, style: TextStyle(fontSize: 10)),
         trailing: Container(
             width: 100,
-            child: Row(children: [
-              IconButton(
-                  onPressed: () async {
-                    final result = await showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return Alert(
-                              text: 'Do you want to activate the user?');
-                        });
-                    if (result) {
-                      await aceptUsers(user.id, _credential.token);
-                      await getAwaitingUsers(_credential.token);
-                      setState(() {});
-                    }
-                  },
-                  icon: Icon(Icons.check)),
-              SizedBox(width: 20),
-              IconButton(
-                  onPressed: () async {
-                    final result = await showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return Alert(text: 'Do you want to delete the user?');
-                        });
-                    if (result) {
-                      await deleteUsers(user.id, _credential.token);
-                      setState(() {});
-                    }
-                  },
-                  icon: Icon(Icons.delete))
-            ])));
+            child: IconButton(
+                onPressed: () async {
+                  final result = await showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return Alert(
+                            text: 'Do you want to delete the project?');
+                      });
+                  if (result) {
+                    await deleteProject(project.id, _credential.token);
+                    setState(() {});
+                  }
+                },
+                icon: Icon(Icons.delete))));
   }
 }

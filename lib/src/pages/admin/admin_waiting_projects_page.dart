@@ -103,7 +103,6 @@ class _AdminWaitingProjectsPageState extends State<AdminWaitingProjectsPage> {
                         });
                     if (result) {
                       await aceptProject(project.id, _credential.token);
-                      await getProjects(_credential.token);
                       // await setRole(person.id, 2, _credential.token); // falta el id de la persona
                       setState(() {});
                     }
@@ -119,7 +118,6 @@ class _AdminWaitingProjectsPageState extends State<AdminWaitingProjectsPage> {
                         });
                     if (result) {
                       await deleteProject(project.id, _credential.token);
-                      await getProjects(_credential.token);
                       setState(() {});
                     }
                   },

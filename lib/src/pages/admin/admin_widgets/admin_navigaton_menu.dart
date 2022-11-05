@@ -38,6 +38,11 @@ class _AdminNavigatonMenuState extends State<AdminNavigatonMenu> {
           onTap: () => Navigator.pushNamed(context, 'adminUsers'),
         ),
         ListTile(
+          leading: const Icon(Icons.create_new_folder),
+          title: const Text('Waiting projects'),
+          onTap: () => Navigator.pushNamed(context, 'adminWaitingProjects'),
+        ),
+        ListTile(
           leading: const Icon(Icons.folder),
           title: const Text('Projects'),
           onTap: () => Navigator.pushNamed(context, 'adminProjects'),

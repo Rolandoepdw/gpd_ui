@@ -114,7 +114,6 @@ class _LeadPrejectsPageState extends State<LeadPrejectsPage> {
                 });
             if (result) {
               await deleteProject(project.id, _credential.token);
-              await getMyProjects(_credential.token);
               setState(() {});
             }
           },

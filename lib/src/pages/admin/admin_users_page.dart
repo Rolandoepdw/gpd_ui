@@ -115,7 +115,6 @@ class _AdminUsersPageState extends State<AdminUsersPage> {
                 });
             if (result) {
               await deleteUsers(user.id, _credential.token);
-              await getAwaitingUsers(_credential.token);
               setState(() {});
             }
           },
