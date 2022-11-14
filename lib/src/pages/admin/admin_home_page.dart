@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:gpd/src/models/credential.dart';
+import 'package:gpd/src/pages/admin/admin_widgets/admin_appbar.dart';
 import 'package:gpd/src/pages/admin/admin_widgets/admin_navigaton_menu.dart';
 import 'package:gpd/src/user_preferences/user_preferences.dart';
 
@@ -20,28 +21,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
     _credential = Credential.fromJson(jsonDecode(_userPreferences.userData));
 
     return Scaffold(
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Icon(Icons.person, size: 30),
-              SizedBox(width: 15),
-              Text('${_credential.displayname}',
-                  style: TextStyle(fontSize: 22)),
-              SizedBox(width: 15)
-            ],
-          ),
-          actions: [
-            IconButton(
-                onPressed: () {
-                  _userPreferences.removeUserPreferencesData();
-                  Navigator.pushNamed(context, 'login');
-                },
-                icon: Icon(Icons.logout, size: 30))
-          ],
-          elevation: 5,
-        ),
+        appBar: AdminAppBar(_userPreferences, _credential),
         body: SafeArea(
             child: Row(children: [
           Flexible(flex: 2, child: AdminNavigatonMenu()),

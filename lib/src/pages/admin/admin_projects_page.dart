@@ -58,11 +58,11 @@ class _AdminProjectsPageState extends State<AdminProjectsPage> {
         child: Column(children: [
           Text('List of projects', style: TextStyle(fontSize: 20)),
           Divider(),
-          Expanded(child: _buildAwaitingUsersList(context))
+          Expanded(child: _buildProjectsList(context))
         ]));
   }
 
-  Widget _buildAwaitingUsersList(BuildContext context) {
+  Widget _buildProjectsList(BuildContext context) {
     return FutureBuilder(
       future: getProjects(_credential.token),
       builder: (BuildContext context, AsyncSnapshot<ApiResponse?> snapshot) {
@@ -73,7 +73,9 @@ class _AdminProjectsPageState extends State<AdminProjectsPage> {
         List<Project> list = [];
         if (snapshot.data!.data.length != 0)
           list = List<Project>.from(
-              snapshot.data!.data.map((project) => User.fromJson(project)));
+              snapshot.data!.data.map((project) => Project.fromJson(project)));
+
+        list.removeWhere((project) => project.state == 'WAITING');
 
         return ListView.builder(
             itemCount: list.length,

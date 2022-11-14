@@ -13,7 +13,8 @@ class AdminWaitingProjectsPage extends StatefulWidget {
   const AdminWaitingProjectsPage({Key? key}) : super(key: key);
 
   @override
-  State<AdminWaitingProjectsPage> createState() => _AdminWaitingProjectsPageState();
+  State<AdminWaitingProjectsPage> createState() =>
+      _AdminWaitingProjectsPageState();
 }
 
 class _AdminWaitingProjectsPageState extends State<AdminWaitingProjectsPage> {
@@ -45,26 +46,27 @@ class _AdminWaitingProjectsPageState extends State<AdminWaitingProjectsPage> {
         ),
         body: SafeArea(
             child: Row(children: [
-              Flexible(flex: 2, child: AdminNavigatonMenu()),
-              Flexible(flex: 5, child: _buildCenterPage(context)),
-              Flexible(
-                  flex: 2, child: Container(color: Theme.of(context).primaryColor))
-            ])));
+          Flexible(flex: 2, child: AdminNavigatonMenu()),
+          Flexible(flex: 5, child: _buildCenterPage(context)),
+          Flexible(
+              flex: 2, child: Container(color: Theme.of(context).primaryColor))
+        ])));
   }
 
   Widget _buildCenterPage(BuildContext context) {
     return Container(
         padding: EdgeInsets.all(20),
         child: Column(children: [
-          Text('Projects waiting to be activated', style: TextStyle(fontSize: 20)),
+          Text('Projects waiting to be activated',
+              style: TextStyle(fontSize: 20)),
           Divider(),
-          Expanded(child: _buildAwaitingUsersList(context))
+          Expanded(child: _buildAwaitingProjectsList(context))
         ]));
   }
 
-  Widget _buildAwaitingUsersList(BuildContext context) {
+  Widget _buildAwaitingProjectsList(BuildContext context) {
     return FutureBuilder(
-      future: getAwaitingUsers(_credential.token),
+      future: getProjects(_credential.token),
       builder: (BuildContext context, AsyncSnapshot<ApiResponse?> snapshot) {
         if (!snapshot.hasData) return Center(child: Text('No data dound.'));
         if (snapshot.data!.statusCode != 1)
@@ -72,8 +74,10 @@ class _AdminWaitingProjectsPageState extends State<AdminWaitingProjectsPage> {
 
         List<Project> list = [];
         if (snapshot.data!.data.length != 0)
-          list = List<Project>.from(snapshot.data!.data
-              .map((project) => User.fromJson(project)));
+          list = List<Project>.from(
+              snapshot.data!.data.map((project) => Project.fromJson(project)));
+
+        list.removeWhere((project) => project.state != 'WAITING');
 
         return ListView.builder(
             itemCount: list.length,
@@ -87,7 +91,7 @@ class _AdminWaitingProjectsPageState extends State<AdminWaitingProjectsPage> {
   Widget _buildListTile(BuildContext context, Project project) {
     return ListTile(
         onTap: () {},
-        leading: Icon(Icons.person_add),
+        leading: Icon(Icons.create_new_folder),
         title: Text(project.toString(), style: TextStyle(fontSize: 16)),
         subtitle: Text(project.area, style: TextStyle(fontSize: 10)),
         trailing: Container(
@@ -114,7 +118,8 @@ class _AdminWaitingProjectsPageState extends State<AdminWaitingProjectsPage> {
                     final result = await showDialog(
                         context: context,
                         builder: (BuildContext context) {
-                          return Alert(text: 'Do you want to delete the project?');
+                          return Alert(
+                              text: 'Do you want to delete the project?');
                         });
                     if (result) {
                       await deleteProject(project.id, _credential.token);

@@ -143,7 +143,7 @@ Future<ApiResponse?> getProjects(String token) async {
 
 Future<ApiResponse?> aceptProject(int id, String token) async {
   http.Response response = await http.get(
-      Uri.parse("http://localhost:3000/api/person/accept-request?id=$id"),
+      Uri.parse("http://localhost:3000/api/project/accept?id=$id"),
       headers: {'Authorization': token});
   return ApiResponse.fromJson(jsonDecode(response.body));
 }
