@@ -5,6 +5,6 @@ String getDate(){
   return date.toIso8601String();
 }
 
-String shortDate(String dateToIso8601String){
-  return dateToIso8601String.split('T').first;
+String shortDate(DateTime date){
+  return '${date.day}/${date.month}/${date.year}';
 }

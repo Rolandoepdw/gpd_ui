@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:gpd/core/utils/inputs_validation_functions.dart';
+import 'package:gpd/core/widgets/my_text_form_field.dart';
 import 'package:gpd/src/models/apiResponse.dart';
 import 'package:gpd/src/provider/http_provider.dart';
 import 'package:gpd/src/user_preferences/user_preferences.dart';
-import 'package:gpd/src/utils/inputs_validation_functions.dart';
-import '../my_widgets/my_text_form_field.dart';
 
 class CreateAccauntPage extends StatefulWidget {
   const CreateAccauntPage({Key? key}) : super(key: key);
@@ -34,7 +34,7 @@ class _CreateAccauntPageState extends State<CreateAccauntPage> {
       child: Center(
         child: SingleChildScrollView(
           child: Container(
-            height: 475,
+            height: 515,
             width: 400,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,

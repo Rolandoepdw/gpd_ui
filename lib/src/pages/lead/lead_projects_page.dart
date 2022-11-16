@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:gpd/src/models/apiResponse.dart';
 import 'package:gpd/src/models/credential.dart';
 import 'package:gpd/src/models/project.dart';
-import 'package:gpd/src/my_widgets/my_alert.dart';
+import 'package:gpd/core/widgets/my_alert.dart';
+import 'package:gpd/src/pages/lead/lead_widgets/lead_appbar.dart';
 import 'package:gpd/src/pages/lead/lead_widgets/lead_navigation_menu.dart';
 import 'package:gpd/src/provider/http_provider.dart';
 import 'package:gpd/src/user_preferences/user_preferences.dart';
@@ -23,28 +24,7 @@ class _LeadPrejectsPageState extends State<LeadPrejectsPage> {
     _credential = credentialFromJson(_userPreferences.userData);
 
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Icon(Icons.person, size: 30),
-            SizedBox(width: 15),
-            Text('${_credential.displayname}', style: TextStyle(fontSize: 22)),
-            SizedBox(width: 15)
-          ],
-        ),
-        actions: [
-          IconButton(
-              onPressed: () {
-                _userPreferences.removeUserPreferencesData();
-                Navigator.pushNamed(context, 'login');
-              },
-              icon: Icon(Icons.logout, size: 30)),
-          SizedBox(width: 15),
-        ],
-        elevation: 5,
-      ),
+      appBar: LeadAppBar(_userPreferences, _credential),
       body: SafeArea(
           child: Row(children: [
         Flexible(flex: 2, child: LeadNavigationMenu()),

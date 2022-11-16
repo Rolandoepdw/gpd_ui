@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gpd/src/my_widgets/my_text_area_form_field_decoration.dart';
+import 'package:gpd/core/widgets/my_text_area_form_field_decoration.dart';
 
 class MyTextAreaFormField extends StatelessWidget {
   TextEditingController _controller;

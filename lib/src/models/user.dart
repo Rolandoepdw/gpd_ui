@@ -37,15 +37,15 @@ class User {
     "roles": List<Role>.from(roles.map((x) => roleToJson(x))),
   };
 
-  get allRole{
-    String allRole = '';
+  get allRoles{
+    String allRoles = '';
     for(int i = 0; i < roles.length; i++){
       if(i < roles.length -1)
-        allRole += roles[i].name + ', ';
+        allRoles += roles[i].name + ', ';
       else
-        allRole += roles[i].name;
+        allRoles += roles[i].name;
     }
-    return allRole;
+    return allRoles;
   }
 
   @override
