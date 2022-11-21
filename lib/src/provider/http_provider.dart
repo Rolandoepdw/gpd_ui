@@ -118,6 +118,30 @@ Future<ApiResponse?> createProject(
   return ApiResponse.fromJson(jsonDecode(response.body));
 }
 
+Future<ApiResponse?> updateProject(
+    String token,
+    int id,
+    String projectName,
+    String area,
+    String startDate,
+    String endDate,
+    String justification,
+    String recomendations) async {
+  http.Response response = await http.post(
+    Uri.parse("http://localhost:3000/api/project/update?id=$id"),
+    headers: {'Authorization': token},
+    body: {
+      "projectName": projectName,
+      "area": area,
+      "startDate": startDate,
+      "endDate": endDate,
+      "justification": justification,
+      "recomendations": recomendations,
+    },
+  );
+  return ApiResponse.fromJson(jsonDecode(response.body));
+}
+
 Future<ApiResponse?> getMyProjects(String token) async {
   http.Response response = await http.get(
     Uri.parse("http://localhost:3000/api/project/my-projects"),

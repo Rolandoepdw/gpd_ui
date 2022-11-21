@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:gpd/responsive.dart';
 import 'package:gpd/src/models/credential.dart';
 import 'package:gpd/src/pages/admin/admin_components/admin_appbar.dart';
-import 'package:gpd/src/pages/admin/admin_components/admin_dashboard/components/calendart_widget.dart';
-import 'package:gpd/src/pages/admin/admin_components/admin_dashboard/components/waiting_projects_data_table.dart';
-import 'package:gpd/src/pages/admin/admin_components/admin_dashboard/components/waiting_users_data_table.dart';
 import 'package:gpd/src/pages/admin/admin_components/admin_drawer.dart';
+import 'package:gpd/src/pages/admin/admin_home_page/admin_waiting_projects_data_table.dart';
+import 'package:gpd/src/pages/admin/admin_home_page/admin_waiting_users_data_table.dart';
+import 'package:gpd/src/pages/components/calendart_widget.dart';
 import 'package:gpd/src/user_preferences/user_preferences.dart';
 import 'package:gpd/src/models/project.dart';
 import 'package:gpd/src/models/user.dart';
@@ -36,7 +36,6 @@ class _AdminHomePageState extends State<AdminHomePage> {
         drawer: AdminDrawer(),
         body: SafeArea(
             child: Row(children: [
-          // Flexible(flex: 2, child: AdminNavigatonMenu()),
           // We want this side menu only for large screen
           if (Responsive.isDesktop(context))
             Expanded(
@@ -73,39 +72,43 @@ class _AdminHomePageState extends State<AdminHomePage> {
 
   Widget _buildCenterPage(BuildContext context) {
     return Column(children: [
-      getWeitingUsers(),
+      getWaitingUsers(),
       SizedBox(height: defaultPadding),
-      getWeitingProjects()
+      getWaitingProjects()
     ]);
   }
 
-  getWeitingUsers() {
+  getWaitingUsers() {
     return FutureBuilder(
       future: getAwaitingUsers(_credential.token),
       builder: (BuildContext context, AsyncSnapshot<ApiResponse?> snapshot) {
         if (!snapshot.hasData)
-          return Center(child: CircularProgressIndicator());
+          return SizedBox(
+            height: MediaQuery.of(context).size.height * 0.8,
+              child: Center(child: CircularProgressIndicator()));
         if (snapshot.data!.statusCode != 1)
-          return Center(child: Text('No records.'));
+          return AdminWaitingUsersDataTable(_credential, [], refresh);
 
         List<User> list = [];
         if (snapshot.data!.data["formatedPeople"].length != 0)
           list = List<User>.from(snapshot.data!.data["formatedPeople"]
               .map((user) => User.fromJson(user)));
 
-        return WaitingUsersDataTable(_credential, list, refresh);
+        return AdminWaitingUsersDataTable(_credential, list, refresh);
       },
     );
   }
 
-  getWeitingProjects() {
+  getWaitingProjects() {
     return FutureBuilder(
       future: getProjects(_credential.token),
       builder: (BuildContext context, AsyncSnapshot<ApiResponse?> snapshot) {
         if (!snapshot.hasData)
-          return Center(child: CircularProgressIndicator());
+          return SizedBox(
+            height: MediaQuery.of(context).size.height * 0.8,
+              child: Center(child: CircularProgressIndicator()));
         if (snapshot.data!.statusCode != 1)
-          return Center(child: Text('No records.'));
+          return AdminWaitingProjectsDataTable(_credential, [], refresh);
 
         List<Project> list = [];
         if (snapshot.data!.data.length != 0)
@@ -114,7 +117,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
 
         list.removeWhere((project) => project.state != 'WAITING');
 
-        return WaitingProjectsDataTable(_credential, list, refresh);
+        return AdminWaitingProjectsDataTable(_credential, list, refresh);
       },
     );
   }

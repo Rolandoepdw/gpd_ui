@@ -1,17 +1,18 @@
 import 'package:gpd/core/constants/color_constants.dart';
 import 'package:gpd/core/utils/colorful_tag.dart';
 import 'package:gpd/src/models/credential.dart';
-import 'package:gpd/src/models/user.dart';
+import 'package:gpd/src/models/project.dart';
 import 'package:colorize_text_avatar/colorize_text_avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:gpd/src/provider/http_provider.dart';
+import 'package:gpd/core/utils/date_utils.dart';
 
-class WaitingUsersDataTable extends StatelessWidget {
+class AdminWaitingProjectsDataTable extends StatelessWidget {
   Credential _credential;
-  List<User> _users = [];
+  List<Project> _projects = [];
   Function _callBack;
 
-  WaitingUsersDataTable(this._credential, this._users, this._callBack);
+  AdminWaitingProjectsDataTable(this._credential, this._projects, this._callBack);
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +28,7 @@ class WaitingUsersDataTable extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "Solicitudes de usuarios",
+              "Solicitudes de proyectos",
               style: Theme.of(context).textTheme.subtitle1,
             ),
             Divider(),
@@ -44,19 +45,22 @@ class WaitingUsersDataTable extends StatelessWidget {
                   //   label: Text("Id"),
                   // ),
                   DataColumn(
-                    label: Text("Teléfono"),
+                    label: Text("Área"),
                   ),
                   DataColumn(
-                    label: Text("Roles"),
+                    label: Text("Fecha inicial"),
+                  ),
+                  DataColumn(
+                    label: Text("Fecha final"),
                   ),
                   DataColumn(
                     label: Text("Opciones"),
                   ),
                 ],
                 rows: List.generate(
-                  _users.length,
+                  _projects.length,
                   (index) => waitingUserDataRow(
-                      context, _users[index], _credential, _callBack),
+                      context, _projects[index], _credential, _callBack),
                 ),
               ),
             ),
@@ -67,10 +71,10 @@ class WaitingUsersDataTable extends StatelessWidget {
   }
 }
 
-DataRow waitingUserDataRow(BuildContext context, User userInfo,
+DataRow waitingUserDataRow(BuildContext context, Project projectInfo,
     Credential credential, Function callBack) {
   return DataRow(cells: [
-    // displayname
+    // projectName
     DataCell(
       Row(
         children: [
@@ -82,12 +86,12 @@ DataRow waitingUserDataRow(BuildContext context, User userInfo,
             upperCase: true,
             numberLetters: 1,
             shape: Shape.Rectangle,
-            text: userInfo.displayname,
+            text: projectInfo.projectName,
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: defaultPadding),
             child: Text(
-              userInfo.displayname,
+              projectInfo.projectName,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
             ),
@@ -96,23 +100,33 @@ DataRow waitingUserDataRow(BuildContext context, User userInfo,
       ),
     ),
     // id
-    // DataCell(Text('${userInfo.id}')),
-    // phone
-    DataCell(Text(userInfo.phone)),
-    // roles
+    // DataCell(Text('${projectInfo.id}')),
+    // area
+    DataCell(Text(projectInfo.area)),
+    // startDate
     DataCell(Container(
         padding: EdgeInsets.all(5),
         decoration: BoxDecoration(
-          color: getRoleColor(userInfo.allRoles[0]).withOpacity(.2),
-          border: Border.all(color: getRoleColor(userInfo.allRoles[0])),
+          color: getRoleColor(projectInfo.state).withOpacity(.2),
+          border: Border.all(color: getRoleColor(projectInfo.state)),
           borderRadius: BorderRadius.all(Radius.circular(5.0) //
               ),
         ),
-        child: Text(userInfo.allRoles))),
+        child: Text(shortDate(projectInfo.startDate)))),
+    // endDate
+    DataCell(Container(
+        padding: EdgeInsets.all(5),
+        decoration: BoxDecoration(
+          color: getRoleColor(projectInfo.state).withOpacity(.2),
+          border: Border.all(color: getRoleColor(projectInfo.state)),
+          borderRadius: BorderRadius.all(Radius.circular(5.0) //
+              ),
+        ),
+        child: Text(shortDate(projectInfo.endDate)))),
     // options
     DataCell(Row(children: [
       TextButton(
-          child: Text('Activar', style: TextStyle(color: greenColor)),
+          child: Text('Activar', style: TextStyle(color: primaryColor)),
           onPressed: () {
             showDialog(
                 context: context,
@@ -132,7 +146,7 @@ DataRow waitingUserDataRow(BuildContext context, User userInfo,
                           color: secondaryColor,
                           height: 70,
                           child: Column(children: [
-                            Text("¿Activar a '${userInfo.displayname}'?"),
+                            Text("¿Activar a '${projectInfo.projectName}'?"),
                             SizedBox(
                               height: 16,
                             ),
@@ -161,10 +175,8 @@ DataRow waitingUserDataRow(BuildContext context, User userInfo,
                                       style: ElevatedButton.styleFrom(
                                           backgroundColor: Colors.red),
                                       onPressed: () async {
-                                        await aceptUsers(
-                                            userInfo.id, credential.token);
-                                        await getAwaitingUsers(
-                                            credential.token);
+                                        await aceptProject(
+                                            projectInfo.id, credential.token);
                                         callBack();
                                         Navigator.of(context).pop();
                                       },
@@ -194,7 +206,7 @@ DataRow waitingUserDataRow(BuildContext context, User userInfo,
                           color: secondaryColor,
                           height: 70,
                           child: Column(children: [
-                            Text("¿Eliminar a '${userInfo.displayname}'?"),
+                            Text("¿Eliminar a '${projectInfo.projectName}'?"),
                             SizedBox(
                               height: 16,
                             ),
@@ -223,8 +235,8 @@ DataRow waitingUserDataRow(BuildContext context, User userInfo,
                                       style: ElevatedButton.styleFrom(
                                           backgroundColor: Colors.red),
                                       onPressed: () async {
-                                        await deleteUsers(
-                                            userInfo.id, credential.token);
+                                        await deleteProject(
+                                            projectInfo.id, credential.token);
                                         callBack();
                                         Navigator.of(context).pop();
                                       },

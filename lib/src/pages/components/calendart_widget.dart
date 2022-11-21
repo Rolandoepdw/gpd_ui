@@ -2,7 +2,7 @@ import 'package:gpd/core/constants/color_constants.dart';
 import 'package:gpd/src/models/calendar_data.dart';
 
 import 'package:flutter/material.dart';
-import 'package:gpd/src/pages/admin/admin_components/admin_dashboard/components/calendar_list_widget.dart';
+import 'package:gpd/src/pages/components/calendar_list_widget.dart';
 
 
 import 'package:intl/intl.dart';
@@ -62,7 +62,7 @@ class _CalendarWidgetState extends State<CalendarWidget> {
                     },
                     child: Icon(
                       Icons.chevron_left,
-                      color: greenColor,
+                      color: primaryColor,
                     ),
                   ),
                   InkWell(
@@ -75,7 +75,7 @@ class _CalendarWidgetState extends State<CalendarWidget> {
                     },
                     child: Icon(
                       Icons.chevron_right,
-                      color: greenColor,
+                      color: primaryColor,
                     ),
                   ),
                 ],
@@ -104,11 +104,11 @@ class _CalendarWidgetState extends State<CalendarWidget> {
               },
               calendarStyle: CalendarStyle(
                 todayDecoration: BoxDecoration(
-                  color: greenColor,
+                  color: primaryColor,
                   shape: BoxShape.circle,
                 ),
                 markerDecoration: BoxDecoration(
-                  color: greenColor,
+                  color: primaryColor,
                   shape: BoxShape.circle,
                 ),
               ),

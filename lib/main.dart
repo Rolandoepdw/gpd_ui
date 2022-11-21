@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:gpd/src/pages/admin/admin_home_page.dart';
-import 'package:gpd/src/pages/admin/admin_users_page.dart';
-import 'package:gpd/src/pages/admin/admin_projects_page.dart';
+import 'package:gpd/src/pages/admin/admin_home_page/admin_home_page.dart';
+import 'package:gpd/src/pages/admin/projects_page/admin_projects_page.dart';
+import 'package:gpd/src/pages/admin/users_page/admin_users_page.dart';
 import 'package:gpd/src/pages/create_account_page.dart';
-import 'package:gpd/src/pages/lead/lead_home_page.dart';
-import 'package:gpd/src/pages/lead/lead_projects_page.dart';
-import 'package:gpd/src/pages/lead/lead_widgets/lead_new_project_form.dart';
+import 'package:gpd/src/pages/lead/lead_components/lead_new_project_form.dart';
+import 'package:gpd/src/pages/lead/lead_home_page/lead_home_page.dart';
+import 'package:gpd/src/pages/lead/projects_page/lead_projects_page.dart';
 import 'package:gpd/src/pages/login_page.dart';
 import 'package:gpd/src/user_preferences/user_preferences.dart';
 import 'package:gpd/core/constants/color_constants.dart';
@@ -37,7 +37,7 @@ class GPD extends StatelessWidget {
           'adminHome': (BuildContext context) => AdminHomePage(),
           'adminUsers': (BuildContext context) => AdminUsersPage(),
           'leadHome': (BuildContext context) => LeadHomePage(),
-          'leadProjects': (BuildContext context) => LeadPrejectsPage(),
+          'leadProjects': (BuildContext context) => LeadProjectsPage(),
           'leadNewProjectForm': (BuildContext context) => LeadNewProjectForm(),
           'adminProjects': (BuildContext context) => AdminProjectsPage(),
         },
@@ -53,37 +53,37 @@ class GPD extends StatelessWidget {
         theme: ThemeData.dark().copyWith(
           appBarTheme: AppBarTheme(backgroundColor: bgColor, elevation: 5),
           scaffoldBackgroundColor: bgColor,
-          primaryColor: greenColor,
+          primaryColor: primaryColor,
           dialogBackgroundColor: secondaryColor,
-          textSelectionTheme: TextSelectionThemeData(
-              cursorColor: greenColor,
-              selectionColor: greenColor.withOpacity(0.5)),
-          inputDecorationTheme: InputDecorationTheme(
-              labelStyle: TextStyle(color: greenColor),
-              focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: greenColor),
-                  borderRadius: BorderRadius.circular(defaultPadding)),
-              border: OutlineInputBorder(
-                  borderSide: BorderSide(color: greenColor),
-                  borderRadius: BorderRadius.circular(defaultPadding))),
-          floatingActionButtonTheme: FloatingActionButtonThemeData(
-              backgroundColor: secondaryColor,
-              foregroundColor: greenColor,
-              hoverColor: greenColor.withOpacity(0.1)),
-          elevatedButtonTheme: ElevatedButtonThemeData(
-              style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(secondaryColor),
-                  foregroundColor: MaterialStateProperty.all(greenColor),
-                  overlayColor:
-                      MaterialStateProperty.all(greenColor.withOpacity(0.1)))),
-          textButtonTheme: TextButtonThemeData(
-              style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(bgColor),
-                  foregroundColor: MaterialStateProperty.all(greenColor),
-                  overlayColor:
-                      MaterialStateProperty.all(greenColor.withOpacity(0.1)))),
-          progressIndicatorTheme: ProgressIndicatorThemeData(color: greenColor),
           canvasColor: secondaryColor,
+          // textSelectionTheme: TextSelectionThemeData(
+          //     cursorColor: primaryColor,
+          //     selectionColor: primaryColor.withOpacity(0.5)),
+          // inputDecorationTheme: InputDecorationTheme(
+          //     labelStyle: TextStyle(color: primaryColor),
+          //     focusedBorder: OutlineInputBorder(
+          //         borderSide: BorderSide(color: primaryColor),
+          //         borderRadius: BorderRadius.circular(defaultPadding)),
+          //     border: OutlineInputBorder(
+          //         borderSide: BorderSide(color: primaryColor),
+          //         borderRadius: BorderRadius.circular(defaultPadding))),
+          // floatingActionButtonTheme: FloatingActionButtonThemeData(
+          //     backgroundColor: secondaryColor,
+          //     foregroundColor: primaryColor,
+          //     hoverColor: primaryColor.withOpacity(0.1)),
+          // elevatedButtonTheme: ElevatedButtonThemeData(
+          //     style: ButtonStyle(
+          //         backgroundColor: MaterialStateProperty.all(secondaryColor),
+          //         foregroundColor: MaterialStateProperty.all(primaryColor),
+          //         overlayColor:
+          //             MaterialStateProperty.all(primaryColor.withOpacity(0.1)))),
+          // textButtonTheme: TextButtonThemeData(
+          //     style: ButtonStyle(
+          //         backgroundColor: MaterialStateProperty.all(bgColor),
+          //         foregroundColor: MaterialStateProperty.all(primaryColor),
+          //         overlayColor:
+          //             MaterialStateProperty.all(primaryColor.withOpacity(0.1)))),
+          // progressIndicatorTheme: ProgressIndicatorThemeData(color: primaryColor)
         ));
   }
 }

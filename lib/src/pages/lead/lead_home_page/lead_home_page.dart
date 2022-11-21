@@ -2,24 +2,25 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:gpd/responsive.dart';
 import 'package:gpd/src/models/credential.dart';
-import 'package:gpd/src/models/full_user.dart';
-import 'package:gpd/src/pages/admin/admin_components/admin_appbar.dart';
-import 'package:gpd/src/pages/admin/admin_components/admin_dashboard/components/calendart_widget.dart';
-import 'package:gpd/src/pages/admin/admin_components/admin_drawer.dart';
-import 'package:gpd/src/pages/admin/admin_components/users_page/users_data_table.dart';
+import 'package:gpd/src/pages/components/calendart_widget.dart';
+import 'package:gpd/src/pages/lead/lead_components/lead_appbar.dart';
+import 'package:gpd/src/pages/lead/lead_home_page/lead_waiting_projects_data_table.dart';
 import 'package:gpd/src/user_preferences/user_preferences.dart';
+import 'package:gpd/src/models/project.dart';
 import 'package:gpd/src/provider/http_provider.dart';
 import 'package:gpd/core/constants/color_constants.dart';
 import 'package:gpd/src/models/apiResponse.dart';
 
-class AdminUsersPage extends StatefulWidget {
-  const AdminUsersPage({Key? key}) : super(key: key);
+import '../lead_components/lead_drawer.dart';
+
+class LeadHomePage extends StatefulWidget {
+  const LeadHomePage({Key? key}) : super(key: key);
 
   @override
-  State<AdminUsersPage> createState() => _AdminUsersPageState();
+  State<LeadHomePage> createState() => _LeadHomePageState();
 }
 
-class _AdminUsersPageState extends State<AdminUsersPage> {
+class _LeadHomePageState extends State<LeadHomePage> {
   final _userPreferences = UserPreferences();
   late Credential _credential;
 
@@ -30,8 +31,8 @@ class _AdminUsersPageState extends State<AdminUsersPage> {
     _credential = Credential.fromJson(jsonDecode(_userPreferences.userData));
 
     return Scaffold(
-        appBar: AdminAppBar(_userPreferences, _credential),
-        drawer: AdminDrawer(),
+        appBar: LeadAppBar(_userPreferences, _credential),
+        drawer: LeadDrawer(),
         body: SafeArea(
             child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
           // We want this side menu only for large screen
@@ -39,13 +40,13 @@ class _AdminUsersPageState extends State<AdminUsersPage> {
             Expanded(
               // default flex = 1
               // and it takes 1/6 part of the screen
-              child: AdminDrawer(),
+              child: LeadDrawer(),
             ),
-          Expanded(flex: 5, child: AdminDashboard(context))
+          Expanded(flex: 5, child: LeadDashboard(context))
         ])));
   }
 
-  Widget AdminDashboard(BuildContext context) {
+  Widget LeadDashboard(BuildContext context) {
     return SingleChildScrollView(
         child: Container(
             padding: EdgeInsets.all(defaultPadding),
@@ -54,7 +55,7 @@ class _AdminUsersPageState extends State<AdminUsersPage> {
                   flex: 5,
                   child: Column(
                     children: [
-                      _buildCenterPage(context),
+                      getMyWaitingProjects(),
                       if (Responsive.isMobile(context))
                         SizedBox(height: defaultPadding),
                       if (Responsive.isMobile(context)) CalendarWidget()
@@ -68,27 +69,23 @@ class _AdminUsersPageState extends State<AdminUsersPage> {
             ])));
   }
 
-  Widget _buildCenterPage(BuildContext context) {
-    return getActivatedUsers();
-  }
-
-  getActivatedUsers() {
+  getMyWaitingProjects() {
     return FutureBuilder(
-      future: getUsers(_credential.token),
+      future: getMyProjects(_credential.token),
       builder: (BuildContext context, AsyncSnapshot<ApiResponse?> snapshot) {
         if (!snapshot.hasData)
           return Center(child: CircularProgressIndicator());
         if (snapshot.data!.statusCode != 1)
-          return Center(child: Text('No records.'));
+          LeadWaitingProjectsDataTable(_credential, [], refresh);
 
-        List<FullUser> list = [];
-        if (snapshot.data!.data["formatedPeople"].length != 0)
-          list = List<FullUser>.from(snapshot.data!.data["formatedPeople"]
-              .map((user) => FullUser.fromJson(user)));
+        List<Project> list = [];
+        if (snapshot.data!.data.length != 0)
+          list = List<Project>.from(
+              snapshot.data!.data.map((project) => Project.fromJson(project)));
 
-        list.removeWhere((element) => element.state == 'WAITING');
+        list.removeWhere((project) => project.state != 'WAITING');
 
-        return UsersDataTable(_credential, list, refresh);
+        return LeadWaitingProjectsDataTable(_credential, list, refresh);
       },
     );
   }

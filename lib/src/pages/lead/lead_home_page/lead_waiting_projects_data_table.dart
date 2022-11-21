@@ -4,20 +4,22 @@ import 'package:gpd/src/models/credential.dart';
 import 'package:gpd/src/models/project.dart';
 import 'package:colorize_text_avatar/colorize_text_avatar.dart';
 import 'package:flutter/material.dart';
+import 'package:gpd/src/pages/lead/lead_components/lead_edit_project_form.dart';
 import 'package:gpd/src/provider/http_provider.dart';
 import 'package:gpd/core/utils/date_utils.dart';
 
-class ProjectsDataTable extends StatelessWidget {
+class LeadWaitingProjectsDataTable extends StatelessWidget {
   Credential _credential;
   List<Project> _projects = [];
   Function _callBack;
 
-  ProjectsDataTable(this._credential, this._projects, this._callBack);
+  LeadWaitingProjectsDataTable(
+      this._credential, this._projects, this._callBack);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 500,
+      height: 400,
       padding: EdgeInsets.all(defaultPadding),
       decoration: BoxDecoration(
         color: secondaryColor,
@@ -28,7 +30,7 @@ class ProjectsDataTable extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "Proyectos",
+              "Proyectos en espera",
               style: Theme.of(context).textTheme.subtitle1,
             ),
             Divider(),
@@ -73,6 +75,7 @@ class ProjectsDataTable extends StatelessWidget {
 
 DataRow waitingUserDataRow(BuildContext context, Project projectInfo,
     Credential credential, Function callBack) {
+  print(projectInfo.startDate.toIso8601String());
   return DataRow(cells: [
     // projectName
     DataCell(
@@ -124,63 +127,77 @@ DataRow waitingUserDataRow(BuildContext context, Project projectInfo,
         ),
         child: Text(shortDate(projectInfo.endDate)))),
     // options
-    DataCell(TextButton(
-        child: Text("Eliminar", style: TextStyle(color: Colors.redAccent)),
-        onPressed: () {
-          showDialog(
-              context: context,
-              builder: (_) {
-                return AlertDialog(
-                    title: Center(
-                        child: Column(children: [
-                      Icon(Icons.warning_outlined, size: 36, color: Colors.red),
-                      SizedBox(height: 20),
-                      Text("Confirmar"),
-                    ])),
-                    content: Container(
-                        color: secondaryColor,
-                        height: 70,
-                        child: Column(children: [
-                          Text("¿Eliminar a '${projectInfo.projectName}'?"),
-                          SizedBox(
-                            height: 16,
-                          ),
-                          Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                ElevatedButton.icon(
-                                    icon: Icon(
-                                      Icons.close,
-                                      size: 14,
-                                    ),
-                                    style: ElevatedButton.styleFrom(
-                                        backgroundColor: Colors.grey),
-                                    onPressed: () {
-                                      Navigator.of(context).pop();
-                                    },
-                                    label: Text("Cancelar")),
-                                SizedBox(
-                                  width: 20,
-                                ),
-                                ElevatedButton.icon(
-                                    icon: Icon(
-                                      Icons.delete,
-                                      size: 14,
-                                    ),
-                                    style: ElevatedButton.styleFrom(
-                                        backgroundColor: Colors.red),
-                                    onPressed: () async {
-                                      await deleteUsers(
-                                          projectInfo.id, credential.token);
-                                      callBack();
-                                      Navigator.of(context).pop();
-                                    },
-                                    label: Text("Eliminar"))
-                              ])
-                        ])));
-              });
-        }
-        // Delete
-        ))
+    DataCell(Row(children: [
+      TextButton(
+          child: Text('Editar', style: TextStyle(color: primaryColor)),
+          onPressed: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => LeadEditProjectForm(projectInfo, callBack)));
+          }),
+      SizedBox(
+        width: 6,
+      ),
+      TextButton(
+          child: Text("Eliminar", style: TextStyle(color: Colors.redAccent)),
+          onPressed: () {
+            showDialog(
+                context: context,
+                builder: (_) {
+                  return AlertDialog(
+                      title: Center(
+                          child: Column(children: [
+                        Icon(Icons.warning_outlined,
+                            size: 36, color: Colors.red),
+                        SizedBox(height: 20),
+                        Text("Confirmar"),
+                      ])),
+                      content: Container(
+                          color: secondaryColor,
+                          height: 70,
+                          child: Column(children: [
+                            Text("¿Eliminar a '${projectInfo.projectName}'?"),
+                            SizedBox(
+                              height: 16,
+                            ),
+                            Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  ElevatedButton.icon(
+                                      icon: Icon(
+                                        Icons.close,
+                                        size: 14,
+                                      ),
+                                      style: ElevatedButton.styleFrom(
+                                          backgroundColor: Colors.grey),
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                      label: Text("Cancelar")),
+                                  SizedBox(
+                                    width: 20,
+                                  ),
+                                  ElevatedButton.icon(
+                                      icon: Icon(
+                                        Icons.delete,
+                                        size: 14,
+                                      ),
+                                      style: ElevatedButton.styleFrom(
+                                          backgroundColor: Colors.red),
+                                      onPressed: () async {
+                                        await deleteUsers(
+                                            projectInfo.id, credential.token);
+                                        callBack();
+                                        Navigator.of(context).pop();
+                                      },
+                                      label: Text("Eliminar"))
+                                ])
+                          ])));
+                });
+          }
+          // Delete
+          )
+    ]))
   ]);
 }

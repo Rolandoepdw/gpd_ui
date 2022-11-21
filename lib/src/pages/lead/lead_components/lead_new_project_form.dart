@@ -200,6 +200,8 @@ class _LeadNewProjectFormState extends State<LeadNewProjectForm> {
                 _recomendations.text,
               );
 
+              print(_dateTimeRange.start);
+
               Navigator.pushNamed(context, 'leadProjects');
 
               await ScaffoldMessenger.of(context).showSnackBar(SnackBar(

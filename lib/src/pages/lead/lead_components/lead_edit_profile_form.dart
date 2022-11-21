@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gpd/core/constants/color_constants.dart';
 import 'package:gpd/core/utils/inputs_validation_functions.dart';
 import 'package:gpd/core/widgets/my_text_form_field.dart';
 import 'package:gpd/src/models/apiResponse.dart';
@@ -39,9 +40,9 @@ class _LeadEditProfileFormState extends State<LeadEditProfileForm> {
     return SingleChildScrollView(
       child: Center(
         child: Container(
-          decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
+          decoration: BoxDecoration(borderRadius: BorderRadius.circular(defaultBorderRadius)),
           padding: EdgeInsets.all(14),
-          height: 443,
+          height: 483,
           width: 400,
           child: Form(
             key: _formLoginKey,
@@ -128,7 +129,7 @@ class _LeadEditProfileFormState extends State<LeadEditProfileForm> {
   Widget _buildCreateButton(BuildContext context) {
     return Container(
       height: 40,
-      width: 90,
+      width: 85,
       child: ElevatedButton(
           onPressed: () async {
             if (_formLoginKey.currentState!.validate()) {
@@ -163,7 +164,7 @@ class _LeadEditProfileFormState extends State<LeadEditProfileForm> {
   Widget _buildCancelButton(BuildContext context) {
     return Container(
       height: 40,
-      width: 90,
+      width: 85,
       child: ElevatedButton(
           onPressed: () async {
             Navigator.pushNamed(context, 'leadHome');
