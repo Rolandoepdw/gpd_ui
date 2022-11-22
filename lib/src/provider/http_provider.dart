@@ -26,10 +26,10 @@ Future<ApiResponse?> signUp(String name, String phone, String password) async {
 
   http.Response response = await http.post(
     Uri.parse("http://localhost:3000/api/auth/signup"),
-    body: {"displayname": name, "phone": phone, "password": password},
+    body: {"displayname": name, "phone": phone, "password": password, "photo": "photo"},
   );
   apiResponse = ApiResponse.fromJson(jsonDecode(response.body));
-  if (apiResponse.statusCode == 1) {
+  if (apiResponse.statusCode == 1 ) {
     userPreferences.userData = jsonEncode(apiResponse.data);
   }
   return apiResponse;

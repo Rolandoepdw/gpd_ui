@@ -115,7 +115,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
           list = List<Project>.from(
               snapshot.data!.data.map((project) => Project.fromJson(project)));
 
-        list.removeWhere((project) => project.state != 'WAITING');
+        // list.removeWhere((project) => project.state != 'WAITING');
 
         return AdminWaitingProjectsDataTable(_credential, list, refresh);
       },

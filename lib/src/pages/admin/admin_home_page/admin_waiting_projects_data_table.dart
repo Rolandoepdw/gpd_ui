@@ -59,7 +59,7 @@ class AdminWaitingProjectsDataTable extends StatelessWidget {
                 ],
                 rows: List.generate(
                   _projects.length,
-                  (index) => waitingUserDataRow(
+                  (index) => waitingProjectsDataRow(
                       context, _projects[index], _credential, _callBack),
                 ),
               ),
@@ -71,7 +71,7 @@ class AdminWaitingProjectsDataTable extends StatelessWidget {
   }
 }
 
-DataRow waitingUserDataRow(BuildContext context, Project projectInfo,
+DataRow waitingProjectsDataRow(BuildContext context, Project projectInfo,
     Credential credential, Function callBack) {
   return DataRow(cells: [
     // projectName
@@ -109,7 +109,7 @@ DataRow waitingUserDataRow(BuildContext context, Project projectInfo,
         decoration: BoxDecoration(
           color: getRoleColor(projectInfo.state).withOpacity(.2),
           border: Border.all(color: getRoleColor(projectInfo.state)),
-          borderRadius: BorderRadius.all(Radius.circular(5.0) //
+          borderRadius: BorderRadius.all(Radius.circular(defaultBorderRadius) //
               ),
         ),
         child: Text(shortDate(projectInfo.startDate)))),
@@ -119,7 +119,7 @@ DataRow waitingUserDataRow(BuildContext context, Project projectInfo,
         decoration: BoxDecoration(
           color: getRoleColor(projectInfo.state).withOpacity(.2),
           border: Border.all(color: getRoleColor(projectInfo.state)),
-          borderRadius: BorderRadius.all(Radius.circular(5.0) //
+          borderRadius: BorderRadius.all(Radius.circular(defaultBorderRadius) //
               ),
         ),
         child: Text(shortDate(projectInfo.endDate)))),
