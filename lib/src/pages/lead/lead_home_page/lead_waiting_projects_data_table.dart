@@ -1,6 +1,5 @@
 import 'package:gpd/core/constants/color_constants.dart';
 import 'package:gpd/core/utils/colorful_tag.dart';
-import 'package:gpd/src/models/credential.dart';
 import 'package:gpd/src/models/project.dart';
 import 'package:colorize_text_avatar/colorize_text_avatar.dart';
 import 'package:flutter/material.dart';
@@ -9,12 +8,10 @@ import 'package:gpd/src/provider/http_provider.dart';
 import 'package:gpd/core/utils/date_utils.dart';
 
 class LeadWaitingProjectsDataTable extends StatelessWidget {
-  Credential _credential;
   List<Project> _projects = [];
   Function _callBack;
 
-  LeadWaitingProjectsDataTable(
-      this._credential, this._projects, this._callBack);
+  LeadWaitingProjectsDataTable(this._projects, this._callBack);
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +59,7 @@ class LeadWaitingProjectsDataTable extends StatelessWidget {
                 rows: List.generate(
                   _projects.length,
                   (index) => waitingUserDataRow(
-                      context, _projects[index], _credential, _callBack),
+                      context, _projects[index], _callBack),
                 ),
               ),
             ),
@@ -74,7 +71,7 @@ class LeadWaitingProjectsDataTable extends StatelessWidget {
 }
 
 DataRow waitingUserDataRow(BuildContext context, Project projectInfo,
-    Credential credential, Function callBack) {
+    Function callBack) {
   print(projectInfo.startDate.toIso8601String());
   return DataRow(cells: [
     // projectName
@@ -187,7 +184,7 @@ DataRow waitingUserDataRow(BuildContext context, Project projectInfo,
                                           backgroundColor: Colors.red),
                                       onPressed: () async {
                                         await deleteUsers(
-                                            projectInfo.id, credential.token);
+                                            projectInfo.id);
                                         callBack();
                                         Navigator.of(context).pop();
                                       },

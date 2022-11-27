@@ -43,14 +43,14 @@ class _CalendarWidgetState extends State<CalendarWidget> {
       decoration: BoxDecoration(
           color: secondaryColor,
           borderRadius: BorderRadius.circular(defaultBorderRadius)),
-      padding: EdgeInsets.all(defaultPadding),
+      padding: const EdgeInsets.all(defaultPadding),
       child: Column(
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text("${DateFormat("d  MMM  yyyy").format(_focusedDay)}",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
               Row(
                 children: [
                   InkWell(
@@ -60,7 +60,7 @@ class _CalendarWidgetState extends State<CalendarWidget> {
                             DateTime(_focusedDay.year, _focusedDay.month - 1);
                       });
                     },
-                    child: Icon(
+                    child: const Icon(
                       Icons.chevron_left,
                       color: primaryColor,
                     ),
@@ -68,12 +68,11 @@ class _CalendarWidgetState extends State<CalendarWidget> {
                   InkWell(
                     onTap: () {
                       setState(() {
-                        print(_focusedDay);
                         _focusedDay =
                             DateTime(_focusedDay.year, _focusedDay.month + 1);
                       });
                     },
-                    child: Icon(
+                    child: const Icon(
                       Icons.chevron_right,
                       color: primaryColor,
                     ),
@@ -82,7 +81,7 @@ class _CalendarWidgetState extends State<CalendarWidget> {
               )
             ],
           ),
-          SizedBox(height: defaultPadding),
+          const SizedBox(height: defaultPadding),
           TableCalendar<CalendarData>(
               selectedDayPredicate: (day) => isSameDay(_focusedDay, day),
               focusedDay: _focusedDay,
@@ -95,14 +94,14 @@ class _CalendarWidgetState extends State<CalendarWidget> {
                 dowTextFormatter: (date, locale) {
                   return DateFormat("EEE").format(date).toUpperCase();
                 },
-                weekendStyle: TextStyle(fontWeight: FontWeight.bold),
-                weekdayStyle: TextStyle(fontWeight: FontWeight.bold),
+                weekendStyle: const TextStyle(fontWeight: FontWeight.bold),
+                weekdayStyle: const TextStyle(fontWeight: FontWeight.bold),
               ),
               onPageChanged: (day) {
                 _focusedDay = day;
                 setState(() {});
               },
-              calendarStyle: CalendarStyle(
+              calendarStyle: const CalendarStyle(
                 todayDecoration: BoxDecoration(
                   color: primaryColor,
                   shape: BoxShape.circle,
@@ -113,7 +112,7 @@ class _CalendarWidgetState extends State<CalendarWidget> {
                 ),
               ),
               eventLoader: _eventLoader),
-          SizedBox(height: defaultPadding),
+          const SizedBox(height: defaultPadding),
           CalendartList(datas: _selectedDate),
         ],
       ),

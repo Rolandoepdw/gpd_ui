@@ -1,15 +1,11 @@
+import 'package:gpd/src/models/credential.dart';
+import 'dart:convert';
 import 'package:colorize_text_avatar/colorize_text_avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:gpd/responsive.dart';
-import 'package:gpd/src/models/credential.dart';
 import 'package:gpd/src/user_preferences/user_preferences.dart';
 
 class AdminAppBar extends StatefulWidget implements PreferredSizeWidget {
-  final UserPreferences _userPreferences;
-  final Credential _credential;
-
-  AdminAppBar(this._userPreferences, this._credential);
-
   @override
   State<AdminAppBar> createState() => _AdminAppBarState();
 
@@ -21,8 +17,12 @@ class AdminAppBar extends StatefulWidget implements PreferredSizeWidget {
 class _AdminAppBarState extends State<AdminAppBar> {
   @override
   AppBar build(BuildContext context) {
+    final userPreferences = UserPreferences();
+    final credential =
+        Credential.fromJson(jsonDecode(userPreferences.userData));
     return AppBar(
-        automaticallyImplyLeading: (Responsive.isDesktop(context)) ? false : true,
+        automaticallyImplyLeading:
+            (Responsive.isDesktop(context)) ? false : true,
         title: Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
@@ -37,19 +37,18 @@ class _AdminAppBarState extends State<AdminAppBar> {
                 upperCase: true,
                 numberLetters: 1,
                 shape: Shape.Circular,
-                text: widget._credential.displayname,
+                text: credential.displayname,
               ),
             ),
             SizedBox(width: 30),
-            Text('${widget._credential.displayname}',
-                style: TextStyle(fontSize: 18)),
+            Text('${credential.displayname}', style: TextStyle(fontSize: 18)),
             SizedBox(width: 15)
           ],
         ),
         actions: [
           IconButton(
               onPressed: () {
-                widget._userPreferences.removeUserPreferencesData();
+                userPreferences.removeUserPreferencesData();
                 Navigator.pushNamed(context, 'login');
               },
               icon: Icon(Icons.logout, size: 25)),

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:colorize_text_avatar/colorize_text_avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:gpd/core/constants/color_constants.dart';
@@ -8,22 +10,21 @@ import 'package:gpd/src/user_preferences/user_preferences.dart';
 import 'lead_edit_profile_form.dart';
 
 class LeadAppBar extends StatefulWidget implements PreferredSizeWidget {
-  final UserPreferences _userPreferences;
-  final Credential _credential;
-
-  LeadAppBar(this._userPreferences, this._credential);
 
   @override
   State<LeadAppBar> createState() => _LeadAppBarState();
 
   @override
   // TODO: implement preferredSize
-  Size get preferredSize => Size.fromHeight(50);
+  Size get preferredSize => const Size.fromHeight(50);
 }
 
 class _LeadAppBarState extends State<LeadAppBar> {
   @override
   Widget build(BuildContext context) {
+    final userPreferences = UserPreferences();
+    final credential =
+    Credential.fromJson(jsonDecode(userPreferences.userData));
     return AppBar(
       automaticallyImplyLeading: (Responsive.isDesktop(context)) ? false : true,
       title: Row(
@@ -40,13 +41,13 @@ class _LeadAppBarState extends State<LeadAppBar> {
               upperCase: true,
               numberLetters: 1,
               shape: Shape.Circular,
-              text: widget._credential.displayname,
+              text: credential.displayname,
             ),
           ),
-          SizedBox(width: 30),
-          Text('${widget._credential.displayname}',
-              style: TextStyle(fontSize: 18)),
-          SizedBox(width: 15)
+          const SizedBox(width: 30),
+          Text('${credential.displayname}',
+              style: const TextStyle(fontSize: 18)),
+          const SizedBox(width: 15)
         ],
       ),
       actions: [
@@ -55,15 +56,15 @@ class _LeadAppBarState extends State<LeadAppBar> {
               await _buildEditBottomSheet();
               setState(() {});
             },
-            icon: Icon(Icons.edit, size: 25)),
-        SizedBox(width: 15),
+            icon: const Icon(Icons.edit, size: 25)),
+        const SizedBox(width: 15),
         IconButton(
             onPressed: () {
-              widget._userPreferences.removeUserPreferencesData();
+              userPreferences.removeUserPreferencesData();
               Navigator.pushNamed(context, 'login');
             },
-            icon: Icon(Icons.logout, size: 25)),
-        SizedBox(width: 15),
+            icon: const Icon(Icons.logout, size: 25)),
+        const SizedBox(width: 15),
       ],
       elevation: 5,
     );
@@ -74,14 +75,14 @@ class _LeadAppBarState extends State<LeadAppBar> {
     return showModalBottomSheet<void>(
       context: context,
       builder: (BuildContext context) {
-        return LeadEditProfileForm();
+        return const LeadEditProfileForm();
       },
       constraints: BoxConstraints(
           maxWidth: size.width * 0.4,
           minWidth: size.width * 0.4,
           maxHeight: 443,
           minHeight: 443),
-      shape: RoundedRectangleBorder(
+      shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(defaultBorderRadius),
           topRight: Radius.circular(defaultBorderRadius),

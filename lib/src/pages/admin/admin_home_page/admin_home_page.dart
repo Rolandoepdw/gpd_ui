@@ -1,38 +1,20 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:gpd/responsive.dart';
-import 'package:gpd/src/models/credential.dart';
+import 'package:gpd/bloc/waiting_projects_bloc.dart';
 import 'package:gpd/src/pages/admin/admin_components/admin_appbar.dart';
 import 'package:gpd/src/pages/admin/admin_components/admin_drawer.dart';
 import 'package:gpd/src/pages/admin/admin_home_page/admin_waiting_projects_data_table.dart';
 import 'package:gpd/src/pages/admin/admin_home_page/admin_waiting_users_data_table.dart';
 import 'package:gpd/src/pages/components/calendart_widget.dart';
-import 'package:gpd/src/user_preferences/user_preferences.dart';
-import 'package:gpd/src/models/project.dart';
-import 'package:gpd/src/models/user.dart';
-import 'package:gpd/src/provider/http_provider.dart';
 import 'package:gpd/core/constants/color_constants.dart';
-import 'package:gpd/src/models/apiResponse.dart';
+import '../../../../responsive.dart';
 
-class AdminHomePage extends StatefulWidget {
-  const AdminHomePage({Key? key}) : super(key: key);
-
-  @override
-  State<AdminHomePage> createState() => _AdminHomePageState();
-}
-
-class _AdminHomePageState extends State<AdminHomePage> {
-  final _userPreferences = UserPreferences();
-  late Credential _credential;
-
-  void refresh() => setState(() {});
-
+class AdminHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    _credential = Credential.fromJson(jsonDecode(_userPreferences.userData));
+    WaitingProjectsBloc().getWatingProject();
 
     return Scaffold(
-        appBar: AdminAppBar(_userPreferences, _credential),
+        appBar: AdminAppBar(),
         drawer: AdminDrawer(),
         body: SafeArea(
             child: Row(children: [
@@ -56,7 +38,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
                   flex: 5,
                   child: Column(
                     children: [
-                      _buildCenterPage(context),
+                      _buildCenterPage(),
                       if (Responsive.isMobile(context))
                         SizedBox(height: defaultPadding),
                       if (Responsive.isMobile(context)) CalendarWidget()
@@ -70,55 +52,11 @@ class _AdminHomePageState extends State<AdminHomePage> {
             ])));
   }
 
-  Widget _buildCenterPage(BuildContext context) {
+  Widget _buildCenterPage() {
     return Column(children: [
-      getWaitingUsers(),
+      AdminWaitingUsersDataTable(),
       SizedBox(height: defaultPadding),
-      getWaitingProjects()
+      AdminWaitingProjectsDataTable()
     ]);
-  }
-
-  getWaitingUsers() {
-    return FutureBuilder(
-      future: getAwaitingUsers(_credential.token),
-      builder: (BuildContext context, AsyncSnapshot<ApiResponse?> snapshot) {
-        if (!snapshot.hasData)
-          return SizedBox(
-            height: MediaQuery.of(context).size.height * 0.8,
-              child: Center(child: CircularProgressIndicator()));
-        if (snapshot.data!.statusCode != 1)
-          return AdminWaitingUsersDataTable(_credential, [], refresh);
-
-        List<User> list = [];
-        if (snapshot.data!.data["formatedPeople"].length != 0)
-          list = List<User>.from(snapshot.data!.data["formatedPeople"]
-              .map((user) => User.fromJson(user)));
-
-        return AdminWaitingUsersDataTable(_credential, list, refresh);
-      },
-    );
-  }
-
-  getWaitingProjects() {
-    return FutureBuilder(
-      future: getProjects(_credential.token),
-      builder: (BuildContext context, AsyncSnapshot<ApiResponse?> snapshot) {
-        if (!snapshot.hasData)
-          return SizedBox(
-            height: MediaQuery.of(context).size.height * 0.8,
-              child: Center(child: CircularProgressIndicator()));
-        if (snapshot.data!.statusCode != 1)
-          return AdminWaitingProjectsDataTable(_credential, [], refresh);
-
-        List<Project> list = [];
-        if (snapshot.data!.data.length != 0)
-          list = List<Project>.from(
-              snapshot.data!.data.map((project) => Project.fromJson(project)));
-
-        // list.removeWhere((project) => project.state != 'WAITING');
-
-        return AdminWaitingProjectsDataTable(_credential, list, refresh);
-      },
-    );
   }
 }

@@ -41,7 +41,7 @@ class _LeadEditProfileFormState extends State<LeadEditProfileForm> {
       child: Center(
         child: Container(
           decoration: BoxDecoration(borderRadius: BorderRadius.circular(defaultBorderRadius)),
-          padding: EdgeInsets.all(14),
+          padding: const EdgeInsets.all(14),
           height: 483,
           width: 400,
           child: Form(
@@ -50,12 +50,12 @@ class _LeadEditProfileFormState extends State<LeadEditProfileForm> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 _buildText(),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 _buildName(),
                 _buildPhoneNumber(),
                 _buildPassword(),
                 _buildConfirmPassword(),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
@@ -72,7 +72,7 @@ class _LeadEditProfileFormState extends State<LeadEditProfileForm> {
   }
 
   Widget _buildText() {
-    return Center(
+    return const Center(
         child: Text('Edit Profile',
             style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold)));
   }
@@ -95,7 +95,7 @@ class _LeadEditProfileFormState extends State<LeadEditProfileForm> {
       'Phone',
       12,
       TextCapitalization.none,
-      TextInputType.numberWithOptions(decimal: false),
+      const TextInputType.numberWithOptions(decimal: false),
       false,
       (value) => validateInteger(value, 'phone'),
     );
@@ -137,7 +137,6 @@ class _LeadEditProfileFormState extends State<LeadEditProfileForm> {
                 _credential.token,
                 _nameController.text,
                 _phoneController.text,
-                _passwordController.text,
               );
               if(apiResponse!.statusCode == 1){
                 _userPreferences.userData = credentialToJson(Credential(
@@ -154,10 +153,10 @@ class _LeadEditProfileFormState extends State<LeadEditProfileForm> {
                   backgroundColor: Colors.blue,
                   elevation: 5,
                   dismissDirection: DismissDirection.endToStart,
-                  duration: Duration(seconds: 2)));
+                  duration: const Duration(seconds: 2)));
             }
           },
-          child: Text('Edit')),
+          child: const Text('Edit')),
     );
   }
 
@@ -169,7 +168,7 @@ class _LeadEditProfileFormState extends State<LeadEditProfileForm> {
           onPressed: () async {
             Navigator.pushNamed(context, 'leadHome');
           },
-          child: Text('Cancel')),
+          child: const Text('Cancel')),
     );
   }
 }

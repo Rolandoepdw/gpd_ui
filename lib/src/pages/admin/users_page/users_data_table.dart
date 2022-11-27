@@ -7,9 +7,9 @@ import 'package:flutter/material.dart';
 import 'package:gpd/src/provider/http_provider.dart';
 
 class UsersDataTable extends StatelessWidget {
-  Credential _credential;
+  final Credential _credential;
   List<FullUser> _users = [];
-  Function _callBack;
+  final Function _callBack;
 
   UsersDataTable(this._credential, this._users, this._callBack);
 
@@ -17,7 +17,7 @@ class UsersDataTable extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 500,
-      padding: EdgeInsets.all(defaultPadding),
+      padding: const EdgeInsets.all(defaultPadding),
       decoration: BoxDecoration(
         color: secondaryColor,
         borderRadius: BorderRadius.circular(defaultBorderRadius),
@@ -30,26 +30,26 @@ class UsersDataTable extends StatelessWidget {
               "Usuarios",
               style: Theme.of(context).textTheme.subtitle1,
             ),
-            Divider(),
+            const Divider(),
             SizedBox(
               width: double.infinity,
               child: DataTable(
                 horizontalMargin: 2,
                 columnSpacing: defaultPadding,
                 columns: [
-                  DataColumn(
+                  const DataColumn(
                     label: Text("Nombre"),
                   ),
-                  DataColumn(
+                  const DataColumn(
                     label: Text("Id"),
                   ),
-                  DataColumn(
+                  const DataColumn(
                     label: Text("Teléfono"),
                   ),
-                  DataColumn(
+                  const DataColumn(
                     label: Text("Roles"),
                   ),
-                  DataColumn(
+                  const DataColumn(
                     label: Text("Opciones"),
                   ),
                 ],
@@ -101,17 +101,17 @@ DataRow waitingUserDataRow(BuildContext context, FullUser userInfo,
     DataCell(Text(userInfo.phone)),
     // roles
     DataCell(Container(
-        padding: EdgeInsets.all(5),
+        padding: const EdgeInsets.all(5),
         decoration: BoxDecoration(
           color: getRoleColor(userInfo.allRoles[0]).withOpacity(.2),
           border: Border.all(color: getRoleColor(userInfo.allRoles[0])),
-          borderRadius: BorderRadius.all(Radius.circular(5.0) //
+          borderRadius: const BorderRadius.all(Radius.circular(5.0) //
               ),
         ),
         child: Text(userInfo.allRoles))),
     // options
     DataCell(TextButton(
-        child: Text("Eliminar", style: TextStyle(color: Colors.redAccent)),
+        child: const Text("Eliminar", style: TextStyle(color: Colors.redAccent)),
         onPressed: () {
           showDialog(
               context: context,
@@ -119,23 +119,23 @@ DataRow waitingUserDataRow(BuildContext context, FullUser userInfo,
                 return AlertDialog(
                     title: Center(
                         child: Column(children: [
-                      Icon(Icons.warning_outlined, size: 36, color: Colors.red),
-                      SizedBox(height: 20),
-                      Text("Confirmar"),
+                      const Icon(Icons.warning_outlined, size: 36, color: Colors.red),
+                      const SizedBox(height: 20),
+                      const Text("Confirmar"),
                     ])),
                     content: Container(
                         color: secondaryColor,
                         height: 70,
                         child: Column(children: [
                           Text("¿Eliminar a '${userInfo.displayname}'?"),
-                          SizedBox(
+                          const SizedBox(
                             height: 16,
                           ),
                           Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 ElevatedButton.icon(
-                                    icon: Icon(
+                                    icon: const Icon(
                                       Icons.close,
                                       size: 14,
                                     ),
@@ -144,12 +144,12 @@ DataRow waitingUserDataRow(BuildContext context, FullUser userInfo,
                                     onPressed: () {
                                       Navigator.of(context).pop();
                                     },
-                                    label: Text("Cancelar")),
-                                SizedBox(
+                                    label: const Text("Cancelar")),
+                                const SizedBox(
                                   width: 20,
                                 ),
                                 ElevatedButton.icon(
-                                    icon: Icon(
+                                    icon: const Icon(
                                       Icons.delete,
                                       size: 14,
                                     ),
@@ -157,11 +157,11 @@ DataRow waitingUserDataRow(BuildContext context, FullUser userInfo,
                                         backgroundColor: Colors.red),
                                     onPressed: () async {
                                       await deleteUsers(
-                                          userInfo.id, credential.token);
+                                          userInfo.id);
                                       callBack();
                                       Navigator.of(context).pop();
                                     },
-                                    label: Text("Eliminar"))
+                                    label: const Text("Eliminar"))
                               ])
                         ])));
               });

@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:gpd/src/models/apiResponse.dart';
+import 'package:gpd/src/models/credential.dart';
 import 'package:gpd/src/user_preferences/user_preferences.dart';
 import 'package:http/http.dart' as http;
 
@@ -26,10 +27,15 @@ Future<ApiResponse?> signUp(String name, String phone, String password) async {
 
   http.Response response = await http.post(
     Uri.parse("http://localhost:3000/api/auth/signup"),
-    body: {"displayname": name, "phone": phone, "password": password, "photo": "photo"},
+    body: {
+      "displayname": name,
+      "phone": phone,
+      "password": password,
+      "photo": "photo"
+    },
   );
   apiResponse = ApiResponse.fromJson(jsonDecode(response.body));
-  if (apiResponse.statusCode == 1 ) {
+  if (apiResponse.statusCode == 1) {
     userPreferences.userData = jsonEncode(apiResponse.data);
   }
   return apiResponse;
@@ -37,7 +43,9 @@ Future<ApiResponse?> signUp(String name, String phone, String password) async {
 
 //------------------------------------ Users -----------------------------------
 
-Future<ApiResponse?> getAwaitingUsers(String token) async {
+Future<ApiResponse?> getAwaitingUsers() async {
+  String token =
+      Credential.fromJson(jsonDecode(UserPreferences().userData)).token;
   http.Response response = await http.get(
     Uri.parse("http://localhost:3000/api/person/waiting"),
     headers: {"Authorization": token},
@@ -45,7 +53,9 @@ Future<ApiResponse?> getAwaitingUsers(String token) async {
   return ApiResponse.fromJson(jsonDecode(response.body));
 }
 
-Future<ApiResponse?> getUsers(String token) async {
+Future<ApiResponse?> getUsers() async {
+  String token =
+      Credential.fromJson(jsonDecode(UserPreferences().userData)).token;
   http.Response response = await http.get(
     Uri.parse("http://localhost:3000/api/person"),
     headers: {"Authorization": token},
@@ -53,14 +63,18 @@ Future<ApiResponse?> getUsers(String token) async {
   return ApiResponse.fromJson(jsonDecode(response.body));
 }
 
-Future<ApiResponse?> aceptUsers(int id, String token) async {
+Future<ApiResponse?> aceptUsers(int id) async {
+  String token =
+      Credential.fromJson(jsonDecode(UserPreferences().userData)).token;
   http.Response response = await http.get(
       Uri.parse("http://localhost:3000/api/person/accept-request?id=$id"),
       headers: {'Authorization': token});
   return ApiResponse.fromJson(jsonDecode(response.body));
 }
 
-Future<ApiResponse?> deleteUsers(int id, String token) async {
+Future<ApiResponse?> deleteUsers(int id) async {
+  String token =
+      Credential.fromJson(jsonDecode(UserPreferences().userData)).token;
   http.Response response = await http.delete(
       Uri.parse("http://localhost:3000/api/person/delete-profile?id=$id"),
       headers: {'Authorization': token});
@@ -68,7 +82,9 @@ Future<ApiResponse?> deleteUsers(int id, String token) async {
 }
 
 Future<ApiResponse?> updateProfile(
-    String token, String name, String phone, String password) async {
+    String name, String phone, String password) async {
+  String token =
+      Credential.fromJson(jsonDecode(UserPreferences().userData)).token;
   UserPreferences userPreferences = UserPreferences();
   ApiResponse? apiResponse;
 
@@ -86,9 +102,12 @@ Future<ApiResponse?> updateProfile(
 
 //------------------------------------ Role ------------------------------------
 
-Future<ApiResponse?> setRole(int id, int role, String token) async {
+Future<ApiResponse?> setRole(int id, int role) async {
+  String token =
+      Credential.fromJson(jsonDecode(UserPreferences().userData)).token;
   http.Response response = await http.get(
-      Uri.parse("http://localhost:3000/api/person/set-role?personId=$id&roleId=$role"),
+      Uri.parse(
+          "http://localhost:3000/api/person/set-role?personId=$id&roleId=$role"),
       headers: {'Authorization': token});
   return ApiResponse.fromJson(jsonDecode(response.body));
 }
@@ -96,13 +115,14 @@ Future<ApiResponse?> setRole(int id, int role, String token) async {
 //---------------------------------- Projects ----------------------------------
 
 Future<ApiResponse?> createProject(
-    String token,
     String projectName,
     String area,
     String startDate,
     String endDate,
     String justification,
     String recomendations) async {
+  String token =
+      Credential.fromJson(jsonDecode(UserPreferences().userData)).token;
   http.Response response = await http.post(
     Uri.parse("http://localhost:3000/api/project"),
     headers: {'Authorization': token},
@@ -119,7 +139,6 @@ Future<ApiResponse?> createProject(
 }
 
 Future<ApiResponse?> updateProject(
-    String token,
     int id,
     String projectName,
     String area,
@@ -127,6 +146,8 @@ Future<ApiResponse?> updateProject(
     String endDate,
     String justification,
     String recomendations) async {
+  String token =
+      Credential.fromJson(jsonDecode(UserPreferences().userData)).token;
   http.Response response = await http.post(
     Uri.parse("http://localhost:3000/api/project/update?id=$id"),
     headers: {'Authorization': token},
@@ -142,7 +163,9 @@ Future<ApiResponse?> updateProject(
   return ApiResponse.fromJson(jsonDecode(response.body));
 }
 
-Future<ApiResponse?> getMyProjects(String token) async {
+Future<ApiResponse?> getMyProjects() async {
+  String token =
+      Credential.fromJson(jsonDecode(UserPreferences().userData)).token;
   http.Response response = await http.get(
     Uri.parse("http://localhost:3000/api/project/my-projects"),
     headers: {"Authorization": token},
@@ -150,14 +173,18 @@ Future<ApiResponse?> getMyProjects(String token) async {
   return ApiResponse.fromJson(jsonDecode(response.body));
 }
 
-Future<ApiResponse?> deleteProject(int id, String token) async {
+Future<ApiResponse?> deleteProjects(int id) async {
+  String token =
+      Credential.fromJson(jsonDecode(UserPreferences().userData)).token;
   http.Response response = await http.delete(
       Uri.parse("http://localhost:3000/api/project?id=$id"),
       headers: {'Authorization': token});
   return ApiResponse.fromJson(jsonDecode(response.body));
 }
 
-Future<ApiResponse?> getProjects(String token) async {
+Future<ApiResponse?> getProjects() async {
+  String token =
+      Credential.fromJson(jsonDecode(UserPreferences().userData)).token;
   http.Response response = await http.get(
     Uri.parse("http://localhost:3000/api/project/all-projects"),
     headers: {"Authorization": token},
@@ -165,11 +192,11 @@ Future<ApiResponse?> getProjects(String token) async {
   return ApiResponse.fromJson(jsonDecode(response.body));
 }
 
-Future<ApiResponse?> aceptProject(int id, String token) async {
+Future<ApiResponse?> aceptProjects(int id) async {
+  String token =
+      Credential.fromJson(jsonDecode(UserPreferences().userData)).token;
   http.Response response = await http.get(
       Uri.parse("http://localhost:3000/api/project/accept?id=$id"),
       headers: {'Authorization': token});
   return ApiResponse.fromJson(jsonDecode(response.body));
 }
-
-

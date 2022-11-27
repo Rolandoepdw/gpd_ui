@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:gpd/responsive.dart';
-import 'package:gpd/src/models/credential.dart';
 import 'package:gpd/src/models/project.dart';
 import 'package:gpd/src/pages/components/calendart_widget.dart';
 import 'package:gpd/src/pages/lead/lead_components/lead_appbar.dart';
@@ -20,17 +19,13 @@ class LeadProjectsPage extends StatefulWidget {
 }
 
 class _LeadProjectsPageState extends State<LeadProjectsPage> {
-  final _userPreferences = UserPreferences();
-  late Credential _credential;
 
   void refresh() => setState(() {});
 
   @override
   Widget build(BuildContext context) {
-    _credential = Credential.fromJson(jsonDecode(_userPreferences.userData));
-
     return Scaffold(
-        appBar: LeadAppBar(_userPreferences, _credential),
+        appBar: LeadAppBar(),
         drawer: LeadDrawer(),
         body: SafeArea(
             child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -70,12 +65,12 @@ class _LeadProjectsPageState extends State<LeadProjectsPage> {
 
   getMyActivatedProjects() {
     return FutureBuilder(
-      future: getMyProjects(_credential.token),
+      future: getMyProjects(),
       builder: (BuildContext context, AsyncSnapshot<ApiResponse?> snapshot) {
         if (!snapshot.hasData)
           return Center(child: CircularProgressIndicator());
         if (snapshot.data!.statusCode != 1)
-          return LeadActivatedProjectsDataTable(_credential, [], refresh);
+          return LeadActivatedProjectsDataTable([], refresh);
 
         List<Project> list = [];
         if (snapshot.data!.data.length != 0)
@@ -84,7 +79,7 @@ class _LeadProjectsPageState extends State<LeadProjectsPage> {
 
         list.removeWhere((project) => project.state == 'WAITING');
 
-        return LeadActivatedProjectsDataTable(_credential, list, refresh);
+        return LeadActivatedProjectsDataTable(list, refresh);
       },
     );
   }

@@ -3,9 +3,7 @@ import 'package:gpd/core/utils/inputs_validation_functions.dart';
 import 'package:gpd/core/widgets/my_text_area_form_field.dart';
 import 'package:gpd/core/widgets/my_text_form_field.dart';
 import 'package:gpd/src/models/apiResponse.dart';
-import 'package:gpd/src/models/credential.dart';
 import 'package:gpd/src/provider/http_provider.dart';
-import 'package:gpd/src/user_preferences/user_preferences.dart';
 
 class LeadNewProjectForm extends StatefulWidget {
   const LeadNewProjectForm({Key? key}) : super(key: key);
@@ -20,16 +18,10 @@ class _LeadNewProjectFormState extends State<LeadNewProjectForm> {
   final _area = TextEditingController();
   final _justification = TextEditingController();
   final _recomendations = TextEditingController();
-  late Credential _credential;
   DateTimeRange _dateTimeRange =
       DateTimeRange(start: DateTime.now(), end: DateTime(2100));
   String _startDate = 'Fecha inicial';
   String _endDate = 'Fecha final';
-
-  _LeadNewProjectFormState() {
-    UserPreferences userPreferences = UserPreferences();
-    _credential = credentialFromJson(userPreferences.userData);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -191,7 +183,6 @@ class _LeadNewProjectFormState extends State<LeadNewProjectForm> {
           onPressed: () async {
             if (_formLoginKey.currentState!.validate()) {
               ApiResponse? apiResponse = await createProject(
-                _credential.token,
                 _projectName.text,
                 _area.text,
                 _dateTimeRange.start.toIso8601String(),

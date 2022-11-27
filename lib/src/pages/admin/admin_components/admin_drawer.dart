@@ -11,7 +11,7 @@ class AdminDrawer extends StatelessWidget {
         child: SingleChildScrollView(
             // it enables scrolling
             child: Column(children: [
-      DrawerHeader(
+      const DrawerHeader(
           child: Center(
         child: Text('G P D',
             style: TextStyle(
@@ -56,7 +56,7 @@ class DrawerListTile extends StatelessWidget {
       leading: Icon(iconData, color: Colors.white54, size: 20),
       title: Text(
         title,
-        style: TextStyle(color: Colors.white54),
+        style: const TextStyle(color: Colors.white54),
       ),
     );
   }

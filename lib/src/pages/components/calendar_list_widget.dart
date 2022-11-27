@@ -41,8 +41,8 @@ class _List extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text("🔥 Eventos del día", style: TextStyle(fontSize: 16)),
-        SizedBox(
+        const Text("🔥 Eventos del día", style: TextStyle(fontSize: 16)),
+        const SizedBox(
           height: defaultPadding,
         ),
         Wrapper(

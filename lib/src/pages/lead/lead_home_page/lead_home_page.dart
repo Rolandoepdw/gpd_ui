@@ -1,11 +1,9 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:gpd/responsive.dart';
-import 'package:gpd/src/models/credential.dart';
 import 'package:gpd/src/pages/components/calendart_widget.dart';
 import 'package:gpd/src/pages/lead/lead_components/lead_appbar.dart';
 import 'package:gpd/src/pages/lead/lead_home_page/lead_waiting_projects_data_table.dart';
-import 'package:gpd/src/user_preferences/user_preferences.dart';
 import 'package:gpd/src/models/project.dart';
 import 'package:gpd/src/provider/http_provider.dart';
 import 'package:gpd/core/constants/color_constants.dart';
@@ -21,17 +19,13 @@ class LeadHomePage extends StatefulWidget {
 }
 
 class _LeadHomePageState extends State<LeadHomePage> {
-  final _userPreferences = UserPreferences();
-  late Credential _credential;
 
   void refresh() => setState(() {});
 
   @override
   Widget build(BuildContext context) {
-    _credential = Credential.fromJson(jsonDecode(_userPreferences.userData));
-
     return Scaffold(
-        appBar: LeadAppBar(_userPreferences, _credential),
+        appBar: LeadAppBar(),
         drawer: LeadDrawer(),
         body: SafeArea(
             child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -71,12 +65,12 @@ class _LeadHomePageState extends State<LeadHomePage> {
 
   getMyWaitingProjects() {
     return FutureBuilder(
-      future: getMyProjects(_credential.token),
+      future: getMyProjects(),
       builder: (BuildContext context, AsyncSnapshot<ApiResponse?> snapshot) {
         if (!snapshot.hasData)
           return Center(child: CircularProgressIndicator());
         if (snapshot.data!.statusCode != 1)
-          LeadWaitingProjectsDataTable(_credential, [], refresh);
+          LeadWaitingProjectsDataTable([], refresh);
 
         List<Project> list = [];
         if (snapshot.data!.data.length != 0)
@@ -85,7 +79,7 @@ class _LeadHomePageState extends State<LeadHomePage> {
 
         list.removeWhere((project) => project.state != 'WAITING');
 
-        return LeadWaitingProjectsDataTable(_credential, list, refresh);
+        return LeadWaitingProjectsDataTable(list, refresh);
       },
     );
   }

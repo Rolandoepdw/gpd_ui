@@ -4,10 +4,8 @@ import 'package:gpd/core/utils/inputs_validation_functions.dart';
 import 'package:gpd/core/widgets/my_text_area_form_field.dart';
 import 'package:gpd/core/widgets/my_text_form_field.dart';
 import 'package:gpd/src/models/apiResponse.dart';
-import 'package:gpd/src/models/credential.dart';
 import 'package:gpd/src/models/project.dart';
 import 'package:gpd/src/provider/http_provider.dart';
-import 'package:gpd/src/user_preferences/user_preferences.dart';
 
 class LeadEditProjectForm extends StatefulWidget {
   Project _project;
@@ -28,14 +26,11 @@ class _LeadEditProjectFormState extends State<LeadEditProjectForm> {
   late final _area;
   late final _justification;
   late final _recomendations;
-  late Credential _credential;
   late DateTimeRange _dateTimeRange;
   late String _startDate;
   late String _endDate;
 
   _LeadEditProjectFormState(this._project, this._callBack) {
-    UserPreferences userPreferences = UserPreferences();
-    _credential = credentialFromJson(userPreferences.userData);
     _projectName = TextEditingController()..text = _project.projectName;
     _area = TextEditingController()..text = _project.area;
     _justification = TextEditingController()
@@ -206,7 +201,6 @@ class _LeadEditProjectFormState extends State<LeadEditProjectForm> {
           onPressed: () async {
             if (_formLoginKey.currentState!.validate()) {
               ApiResponse? apiResponse = await updateProject(
-                _credential.token,
                 widget._project.id,
                 _projectName.text,
                 _area.text,

@@ -18,7 +18,7 @@ class ProjectsDataTable extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 500,
-      padding: EdgeInsets.all(defaultPadding),
+      padding: const EdgeInsets.all(defaultPadding),
       decoration: BoxDecoration(
         color: secondaryColor,
         borderRadius: BorderRadius.circular(defaultBorderRadius),
@@ -31,29 +31,29 @@ class ProjectsDataTable extends StatelessWidget {
               "Proyectos",
               style: Theme.of(context).textTheme.subtitle1,
             ),
-            Divider(),
+            const Divider(),
             SizedBox(
               width: double.infinity,
               child: DataTable(
                 horizontalMargin: 2,
                 columnSpacing: defaultPadding,
                 columns: [
-                  DataColumn(
+                  const DataColumn(
                     label: Text("Nombre"),
                   ),
                   // DataColumn(
                   //   label: Text("Id"),
                   // ),
-                  DataColumn(
+                  const DataColumn(
                     label: Text("Área"),
                   ),
-                  DataColumn(
+                  const DataColumn(
                     label: Text("Fecha inicial"),
                   ),
-                  DataColumn(
+                  const DataColumn(
                     label: Text("Fecha final"),
                   ),
-                  DataColumn(
+                  const DataColumn(
                     label: Text("Opciones"),
                   ),
                 ],
@@ -105,27 +105,27 @@ DataRow waitingUserDataRow(BuildContext context, Project projectInfo,
     DataCell(Text(projectInfo.area)),
     // startDate
     DataCell(Container(
-        padding: EdgeInsets.all(5),
+        padding: const EdgeInsets.all(5),
         decoration: BoxDecoration(
           color: getRoleColor(projectInfo.state).withOpacity(.2),
           border: Border.all(color: getRoleColor(projectInfo.state)),
-          borderRadius: BorderRadius.all(Radius.circular(5.0) //
+          borderRadius: const BorderRadius.all(Radius.circular(5.0) //
               ),
         ),
         child: Text(shortDate(projectInfo.startDate)))),
     // endDate
     DataCell(Container(
-        padding: EdgeInsets.all(5),
+        padding: const EdgeInsets.all(5),
         decoration: BoxDecoration(
           color: getRoleColor(projectInfo.state).withOpacity(.2),
           border: Border.all(color: getRoleColor(projectInfo.state)),
-          borderRadius: BorderRadius.all(Radius.circular(5.0) //
+          borderRadius: const BorderRadius.all(Radius.circular(5.0) //
               ),
         ),
         child: Text(shortDate(projectInfo.endDate)))),
     // options
     DataCell(TextButton(
-        child: Text("Eliminar", style: TextStyle(color: Colors.redAccent)),
+        child: const Text("Eliminar", style: TextStyle(color: Colors.redAccent)),
         onPressed: () {
           showDialog(
               context: context,
@@ -133,23 +133,23 @@ DataRow waitingUserDataRow(BuildContext context, Project projectInfo,
                 return AlertDialog(
                     title: Center(
                         child: Column(children: [
-                      Icon(Icons.warning_outlined, size: 36, color: Colors.red),
-                      SizedBox(height: 20),
-                      Text("Confirmar"),
+                      const Icon(Icons.warning_outlined, size: 36, color: Colors.red),
+                      const SizedBox(height: 20),
+                      const Text("Confirmar"),
                     ])),
                     content: Container(
                         color: secondaryColor,
                         height: 70,
                         child: Column(children: [
                           Text("¿Eliminar a '${projectInfo.projectName}'?"),
-                          SizedBox(
+                          const SizedBox(
                             height: 16,
                           ),
                           Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 ElevatedButton.icon(
-                                    icon: Icon(
+                                    icon: const Icon(
                                       Icons.close,
                                       size: 14,
                                     ),
@@ -158,24 +158,24 @@ DataRow waitingUserDataRow(BuildContext context, Project projectInfo,
                                     onPressed: () {
                                       Navigator.of(context).pop();
                                     },
-                                    label: Text("Cancelar")),
-                                SizedBox(
+                                    label: const Text("Cancelar")),
+                                const SizedBox(
                                   width: 20,
                                 ),
                                 ElevatedButton.icon(
-                                    icon: Icon(
+                                    icon: const Icon(
                                       Icons.delete,
                                       size: 14,
                                     ),
                                     style: ElevatedButton.styleFrom(
                                         backgroundColor: Colors.red),
                                     onPressed: () async {
-                                      await deleteProject(
-                                          projectInfo.id, credential.token);
+                                      await deleteProjects(
+                                          projectInfo.id);
                                       callBack();
                                       Navigator.of(context).pop();
                                     },
-                                    label: Text("Eliminar"))
+                                    label: const Text("Eliminar"))
                               ])
                         ])));
               });

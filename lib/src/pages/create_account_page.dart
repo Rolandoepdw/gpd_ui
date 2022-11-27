@@ -40,14 +40,14 @@ class _CreateAccauntPageState extends State<CreateAccauntPage> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 _buildText(),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 _buildName(),
                 _buildPhoneNumber(),
                 _buildPassword(),
                 _buildConfirmPassword(),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 _buildCreateButton(context),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 _buildGoBack(context)
               ],
             ),
@@ -58,7 +58,7 @@ class _CreateAccauntPageState extends State<CreateAccauntPage> {
   }
 
   Widget _buildText() {
-    return Center(
+    return const Center(
         child: Text('Crear cuenta',
             style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold)));
   }
@@ -81,7 +81,7 @@ class _CreateAccauntPageState extends State<CreateAccauntPage> {
       'Teléfono',
       12,
       TextCapitalization.none,
-      TextInputType.numberWithOptions(decimal: false),
+      const TextInputType.numberWithOptions(decimal: false),
       false,
       (value) => validateInteger(value, 'teléfono'),
     );
@@ -127,12 +127,12 @@ class _CreateAccauntPageState extends State<CreateAccauntPage> {
                   backgroundColor: Colors.blue,
                   elevation: 5,
                   dismissDirection: DismissDirection.endToStart,
-                  duration: Duration(seconds: 2)));
+                  duration: const Duration(seconds: 2)));
 
               Navigator.pushNamed(context, 'login');
             }
           },
-          child: Text('Crear')),
+          child: const Text('Crear')),
     );
   }
 
@@ -144,7 +144,7 @@ class _CreateAccauntPageState extends State<CreateAccauntPage> {
             onPressed: () {
               Navigator.pushNamed(context, 'login');
             },
-            child: Text("¿Ya tienes cuenta?")),
+            child: const Text("¿Ya tienes cuenta?")),
       ],
     );
   }

@@ -30,13 +30,13 @@ class _AdminUsersPageState extends State<AdminUsersPage> {
     _credential = Credential.fromJson(jsonDecode(_userPreferences.userData));
 
     return Scaffold(
-        appBar: AdminAppBar(_userPreferences, _credential),
-        drawer: AdminDrawer(),
+        appBar: AdminAppBar(),
+        drawer: const AdminDrawer(),
         body: SafeArea(
             child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
           // We want this side menu only for large screen
           if (Responsive.isDesktop(context))
-            Expanded(
+            const Expanded(
               // default flex = 1
               // and it takes 1/6 part of the screen
               child: AdminDrawer(),
@@ -48,7 +48,7 @@ class _AdminUsersPageState extends State<AdminUsersPage> {
   Widget AdminDashboard(BuildContext context) {
     return SingleChildScrollView(
         child: Container(
-            padding: EdgeInsets.all(defaultPadding),
+            padding: const EdgeInsets.all(defaultPadding),
             child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
               Expanded(
                   flex: 5,
@@ -56,12 +56,12 @@ class _AdminUsersPageState extends State<AdminUsersPage> {
                     children: [
                       _buildCenterPage(context),
                       if (Responsive.isMobile(context))
-                        SizedBox(height: defaultPadding),
+                        const SizedBox(height: defaultPadding),
                       if (Responsive.isMobile(context)) CalendarWidget()
                     ],
                   )),
               if (!Responsive.isMobile(context))
-                SizedBox(width: defaultPadding),
+                const SizedBox(width: defaultPadding),
               // On Mobile means if the screen is less than 850 we dont want to show it
               if (!Responsive.isMobile(context))
                 Expanded(flex: 2, child: CalendarWidget())
@@ -74,17 +74,20 @@ class _AdminUsersPageState extends State<AdminUsersPage> {
 
   getActivatedUsers() {
     return FutureBuilder(
-      future: getUsers(_credential.token),
+      future: getUsers(),
       builder: (BuildContext context, AsyncSnapshot<ApiResponse?> snapshot) {
-        if (!snapshot.hasData)
-          return Center(child: CircularProgressIndicator());
-        if (snapshot.data!.statusCode != 1)
-          return Center(child: Text('No records.'));
+        if (!snapshot.hasData) {
+          return const Center(child: CircularProgressIndicator());
+        }
+        if (snapshot.data!.statusCode != 1) {
+          return const Center(child: Text('No records.'));
+        }
 
         List<FullUser> list = [];
-        if (snapshot.data!.data["formatedPeople"].length != 0)
+        if (snapshot.data!.data["formatedPeople"].length != 0) {
           list = List<FullUser>.from(snapshot.data!.data["formatedPeople"]
               .map((user) => FullUser.fromJson(user)));
+        }
 
         list.removeWhere((element) => element.state == 'WAITING');
 
