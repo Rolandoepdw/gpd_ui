@@ -1,29 +1,38 @@
 import 'package:flutter/material.dart';
+import 'package:gpd/core/constants/color_constants.dart';
 
-class Alert extends StatelessWidget {
-  String text;
+showMyDialog(
+    {required BuildContext context,
+    required Icon icon,
+    required String toDoText,
+    required List<Widget> actions}) {
+  showDialog(
+    context: context,
+    barrierDismissible: true,
+    // false = user must tap button, true = tap outside dialog
+    builder: (BuildContext dialogContext) {
+      return MyAlertDialog(icon, toDoText, actions);
+    },
+  );
+}
 
-  Alert({required this.text, Key? key}) : super(key: key);
+class MyAlertDialog extends StatelessWidget {
+  Icon _icon;
+  String _toDoText;
+  List<Widget> _actions;
+
+  MyAlertDialog(this._icon, this._toDoText, this._actions);
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text('Alert!'),
-      content: SingleChildScrollView(
-        child: Text(text),
-      ),
-      actions: [
-        TextButton(
-            child: const Text('Cancel'),
-            style: ButtonStyle(
-                foregroundColor: MaterialStateProperty.all(Theme.of(context).primaryColor)),
-            onPressed: () => Navigator.of(context).pop(false)),
-        TextButton(
-            child: const Text('Acept'),
-            style: ButtonStyle(
-                foregroundColor: MaterialStateProperty.all(Theme.of(context).primaryColor)),
-            onPressed: () => Navigator.of(context).pop(true))
-      ],
+      icon: _icon,
+      content: Text(_toDoText, textAlign: TextAlign.center, overflow: TextOverflow.ellipsis),
+      actions: _actions,
+      actionsAlignment: MainAxisAlignment.spaceAround,
+      actionsPadding: EdgeInsets.only(bottom: defaultPadding),
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(defaultBorderRadius)),
     );
   }
 }

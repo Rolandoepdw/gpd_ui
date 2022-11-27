@@ -12,12 +12,12 @@ class WaitingUsersBloc {
 
   WaitingUsersBloc._();
 
-  final _clientsStreamController = StreamController<List<User>>.broadcast();
+  final _usersUsersStreamController = StreamController<List<User>>.broadcast();
 
-  Stream<List<User>> get stream => _clientsStreamController.stream;
+  Stream<List<User>> get stream => _usersUsersStreamController.stream;
 
   dispose() {
-    _clientsStreamController.close();
+    _usersUsersStreamController.close();
   }
 
   getWatingUsers() async {
@@ -26,9 +26,9 @@ class WaitingUsersBloc {
     if (response!.statusCode == 1) {
       list = List<User>.from(
           response.data["formatedPeople"].map((user) => User.fromJson(user)));
-      _clientsStreamController.sink.add(list);
+      _usersUsersStreamController.sink.add(list);
     } else
-      _clientsStreamController.sink.add([]);
+      _usersUsersStreamController.sink.add([]);
   }
 
   Future<int> removeUser(int id) async {

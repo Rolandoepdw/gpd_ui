@@ -1,33 +1,18 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:gpd/bloc/users_bloc.dart';
 import 'package:gpd/responsive.dart';
-import 'package:gpd/src/models/credential.dart';
-import 'package:gpd/src/models/full_user.dart';
 import 'package:gpd/src/pages/admin/admin_components/admin_appbar.dart';
 import 'package:gpd/src/pages/admin/admin_components/admin_drawer.dart';
 import 'package:gpd/src/pages/admin/users_page/users_data_table.dart';
 import 'package:gpd/src/pages/components/calendart_widget.dart';
-import 'package:gpd/src/user_preferences/user_preferences.dart';
-import 'package:gpd/src/provider/http_provider.dart';
 import 'package:gpd/core/constants/color_constants.dart';
-import 'package:gpd/src/models/apiResponse.dart';
 
-class AdminUsersPage extends StatefulWidget {
+class AdminUsersPage extends StatelessWidget {
   const AdminUsersPage({Key? key}) : super(key: key);
 
   @override
-  State<AdminUsersPage> createState() => _AdminUsersPageState();
-}
-
-class _AdminUsersPageState extends State<AdminUsersPage> {
-  final _userPreferences = UserPreferences();
-  late Credential _credential;
-
-  void refresh() => setState(() {});
-
-  @override
   Widget build(BuildContext context) {
-    _credential = Credential.fromJson(jsonDecode(_userPreferences.userData));
+    UsersBloc().getActivatedUsers();
 
     return Scaffold(
         appBar: AdminAppBar(),
@@ -69,30 +54,6 @@ class _AdminUsersPageState extends State<AdminUsersPage> {
   }
 
   Widget _buildCenterPage(BuildContext context) {
-    return getActivatedUsers();
-  }
-
-  getActivatedUsers() {
-    return FutureBuilder(
-      future: getUsers(),
-      builder: (BuildContext context, AsyncSnapshot<ApiResponse?> snapshot) {
-        if (!snapshot.hasData) {
-          return const Center(child: CircularProgressIndicator());
-        }
-        if (snapshot.data!.statusCode != 1) {
-          return const Center(child: Text('No records.'));
-        }
-
-        List<FullUser> list = [];
-        if (snapshot.data!.data["formatedPeople"].length != 0) {
-          list = List<FullUser>.from(snapshot.data!.data["formatedPeople"]
-              .map((user) => FullUser.fromJson(user)));
-        }
-
-        list.removeWhere((element) => element.state == 'WAITING');
-
-        return UsersDataTable(_credential, list, refresh);
-      },
-    );
+    return UsersDataTable();
   }
 }

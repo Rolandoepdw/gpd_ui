@@ -1,6 +1,7 @@
 import 'package:gpd/bloc/waiting_users_bloc.dart';
 import 'package:gpd/core/constants/color_constants.dart';
 import 'package:gpd/core/utils/colorful_tag.dart';
+import 'package:gpd/core/widgets/my_alert.dart';
 import 'package:gpd/src/models/user.dart';
 import 'package:colorize_text_avatar/colorize_text_avatar.dart';
 import 'package:flutter/material.dart';
@@ -37,7 +38,7 @@ class _AdminWaitingUsersDataTableState
               child: StreamBuilder<List<User>>(
                   stream: WaitingUsersBloc().stream,
                   builder: (context, snapshot) {
-                    if(!snapshot.hasData){
+                    if (!snapshot.hasData) {
                       return Center(child: CircularProgressIndicator());
                     }
                     return DataTable(
@@ -62,7 +63,8 @@ class _AdminWaitingUsersDataTableState
                         ],
                         rows: List.generate(
                           snapshot.data!.length,
-                          (index) => waitingUserDataRow(context, snapshot.data![index]),
+                          (index) => waitingUserDataRow(
+                              context, snapshot.data![index]),
                         ));
                   }))
         ])));
@@ -112,62 +114,38 @@ class _AdminWaitingUsersDataTableState
       // options
       DataCell(Row(children: [
         TextButton(
-            child: Text('Activar', style: TextStyle(color: primaryColor)),
+            child: Text('Activar', style: TextStyle(color: Colors.green)),
             onPressed: () {
-              showDialog(
+              showMyDialog(
                   context: context,
-                  builder: (_) {
-                    return AlertDialog(
-                        title: Center(
-                          child: Column(
-                            children: [
-                              Icon(Icons.warning_outlined,
-                                  size: 36, color: Colors.red),
-                              SizedBox(height: 20),
-                              Text("Confirmar"),
-                            ],
-                          ),
+                  icon: Icon(Icons.check_circle, size: 40, color: Colors.green),
+                  toDoText: '¿Activar a ${userInfo.displayname}?',
+                  actions: [
+                    ElevatedButton.icon(
+                        icon: Icon(
+                          Icons.close,
+                          size: 14,
                         ),
-                        content: Container(
-                            color: secondaryColor,
-                            height: 70,
-                            child: Column(
-                              children: [
-                                Text("¿Activar a '${userInfo.displayname}'?"),
-                                SizedBox(
-                                  height: 16,
-                                ),
-                                Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      ElevatedButton.icon(
-                                          icon: Icon(
-                                            Icons.close,
-                                            size: 14,
-                                          ),
-                                          onPressed: () {
-                                            Navigator.of(context).pop();
-                                          },
-                                          label: Text("Cancelar")),
-                                      SizedBox(
-                                        width: 20,
-                                      ),
-                                      ElevatedButton.icon(
-                                          icon: Icon(
-                                            Icons.check,
-                                            size: 14,
-                                          ),
-                                          onPressed: () async {
-                                            await WaitingUsersBloc()
-                                                .aceptUser(userInfo.id);
-                                            setState(() {});
-                                            Navigator.of(context).pop();
-                                          },
-                                          label: Text("Activar"))
-                                    ])
-                              ],
-                            )));
-                  });
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.grey),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        label: Text("Cancelar")),
+                    ElevatedButton.icon(
+                        icon: Icon(
+                          Icons.check,
+                          size: 14,
+                        ),
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.green),
+                        onPressed: () async {
+                          await WaitingUsersBloc().aceptUser(userInfo.id);
+                          setState(() {});
+                          Navigator.of(context).pop();
+                        },
+                        label: Text("Activar"))
+                  ]);
             }),
         SizedBox(
           width: 6,
@@ -175,55 +153,37 @@ class _AdminWaitingUsersDataTableState
         TextButton(
             child: Text("Eliminar", style: TextStyle(color: Colors.redAccent)),
             onPressed: () {
-              showDialog(
+              showMyDialog(
                   context: context,
-                  builder: (_) {
-                    return AlertDialog(
-                        title: Center(
-                            child: Column(children: [
-                          Icon(Icons.warning_outlined,
-                              size: 36, color: Colors.red),
-                          SizedBox(height: 20),
-                          Text("Confirmar"),
-                        ])),
-                        content: Container(
-                            color: secondaryColor,
-                            height: 70,
-                            child: Column(children: [
-                              Text("¿Eliminar a '${userInfo.displayname}'?"),
-                              SizedBox(
-                                height: 16,
-                              ),
-                              Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    ElevatedButton.icon(
-                                        icon: Icon(
-                                          Icons.close,
-                                          size: 14,
-                                        ),
-                                        onPressed: () {
-                                          Navigator.of(context).pop();
-                                        },
-                                        label: Text("Cancelar")),
-                                    SizedBox(
-                                      width: 20,
-                                    ),
-                                    ElevatedButton.icon(
-                                        icon: Icon(
-                                          Icons.delete,
-                                          size: 14,
-                                        ),
-                                        onPressed: () async {
-                                          await WaitingUsersBloc()
-                                              .removeUser(userInfo.id);
-                                          setState(() {});
-                                          Navigator.of(context).pop();
-                                        },
-                                        label: Text("Eliminar"))
-                                  ])
-                            ])));
-                  });
+                  icon: Icon(Icons.delete_forever_outlined,
+                      size: 36, color: Colors.red),
+                  toDoText: '¿Eliminar a ${userInfo.displayname}?',
+                  actions: [
+                    ElevatedButton.icon(
+                        icon: Icon(
+                          Icons.close,
+                          size: 14,
+                        ),
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.grey),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        label: Text("Cancelar")),
+                    ElevatedButton.icon(
+                        icon: Icon(
+                          Icons.delete,
+                          size: 14,
+                        ),
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.red),
+                        onPressed: () async {
+                          await WaitingUsersBloc().removeUser(userInfo.id);
+                          setState(() {});
+                          Navigator.of(context).pop();
+                        },
+                        label: Text("Eliminar"))
+                  ]);
             }
             // Delete
             )
