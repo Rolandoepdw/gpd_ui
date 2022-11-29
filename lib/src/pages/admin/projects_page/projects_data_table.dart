@@ -1,186 +1,166 @@
 import 'package:gpd/core/constants/color_constants.dart';
 import 'package:gpd/core/utils/colorful_tag.dart';
-import 'package:gpd/src/models/credential.dart';
+import 'package:gpd/core/widgets/my_alert.dart';
 import 'package:gpd/src/models/project.dart';
 import 'package:colorize_text_avatar/colorize_text_avatar.dart';
 import 'package:flutter/material.dart';
-import 'package:gpd/src/provider/http_provider.dart';
 import 'package:gpd/core/utils/date_utils.dart';
+import 'package:gpd/bloc/projects_bloc.dart';
 
-class ProjectsDataTable extends StatelessWidget {
-  Credential _credential;
-  List<Project> _projects = [];
-  Function _callBack;
+class ProjectsDataTable extends StatefulWidget {
+  @override
+  State<ProjectsDataTable> createState() => _ProjectsDataTableState();
+}
 
-  ProjectsDataTable(this._credential, this._projects, this._callBack);
-
+class _ProjectsDataTableState extends State<ProjectsDataTable> {
   @override
   Widget build(BuildContext context) {
+    ProjectsBloc().getActivatedProject();
+
     return Container(
-      height: 500,
-      padding: const EdgeInsets.all(defaultPadding),
-      decoration: BoxDecoration(
-        color: secondaryColor,
-        borderRadius: BorderRadius.circular(defaultBorderRadius),
-      ),
-      child: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              "Proyectos",
-              style: Theme.of(context).textTheme.subtitle1,
-            ),
-            const Divider(),
-            SizedBox(
+        height: 500,
+        padding: const EdgeInsets.all(defaultPadding),
+        decoration: BoxDecoration(
+          color: secondaryColor,
+          borderRadius: BorderRadius.circular(defaultBorderRadius),
+        ),
+        child: SingleChildScrollView(
+            child:
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Text(
+            "Proyectos activos",
+            style: Theme.of(context).textTheme.subtitle1,
+          ),
+          const Divider(),
+          SizedBox(
               width: double.infinity,
-              child: DataTable(
-                horizontalMargin: 2,
-                columnSpacing: defaultPadding,
-                columns: [
-                  const DataColumn(
-                    label: Text("Nombre"),
-                  ),
-                  // DataColumn(
-                  //   label: Text("Id"),
-                  // ),
-                  const DataColumn(
-                    label: Text("Área"),
-                  ),
-                  const DataColumn(
-                    label: Text("Fecha inicial"),
-                  ),
-                  const DataColumn(
-                    label: Text("Fecha final"),
-                  ),
-                  const DataColumn(
-                    label: Text("Opciones"),
-                  ),
-                ],
-                rows: List.generate(
-                  _projects.length,
-                  (index) => waitingUserDataRow(
-                      context, _projects[index], _credential, _callBack),
-                ),
+              child: StreamBuilder<List<Project>>(
+                  stream: ProjectsBloc().stream,
+                  builder: (context, snapshot) {
+                    if (!snapshot.hasData) {
+                      return Center(child: CircularProgressIndicator());
+                    }
+                    return DataTable(
+                        horizontalMargin: 2,
+                        columnSpacing: defaultPadding,
+                        columns: [
+                          const DataColumn(
+                            label: Text("Nombre"),
+                          ),
+                          // DataColumn(
+                          //   label: Text("Id"),
+                          // ),
+                          const DataColumn(
+                            label: Text("Área"),
+                          ),
+                          const DataColumn(
+                            label: Text("Fecha inicial"),
+                          ),
+                          const DataColumn(
+                            label: Text("Fecha final"),
+                          ),
+                          const DataColumn(
+                            label: Text("Opciones"),
+                          ),
+                        ],
+                        rows: List.generate(
+                            snapshot.data!.length,
+                            (index) => waitingUserDataRow(
+                                context, snapshot.data![index])));
+                  }))
+        ])));
+  }
+
+  DataRow waitingUserDataRow(BuildContext context, Project projectInfo) {
+    return DataRow(cells: [
+      // projectName
+      DataCell(
+        Row(
+          children: [
+            TextAvatar(
+              size: 35,
+              backgroundColor: Colors.white,
+              textColor: Colors.white,
+              fontSize: 14,
+              upperCase: true,
+              numberLetters: 1,
+              shape: Shape.Rectangle,
+              text: projectInfo.projectName,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: defaultPadding),
+              child: Text(
+                projectInfo.projectName,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
               ),
             ),
           ],
         ),
       ),
-    );
+      // id
+      // DataCell(Text('${projectInfo.id}')),
+      // area
+      DataCell(Text(projectInfo.area)),
+      // startDate
+      DataCell(Container(
+          padding: const EdgeInsets.all(5),
+          decoration: BoxDecoration(
+            color: getRoleColor(projectInfo.state).withOpacity(.2),
+            border: Border.all(color: getRoleColor(projectInfo.state)),
+            borderRadius: const BorderRadius.all(Radius.circular(5.0) //
+                ),
+          ),
+          child: Text(shortDate(projectInfo.startDate)))),
+      // endDate
+      DataCell(Container(
+          padding: const EdgeInsets.all(5),
+          decoration: BoxDecoration(
+            color: getRoleColor(projectInfo.state).withOpacity(.2),
+            border: Border.all(color: getRoleColor(projectInfo.state)),
+            borderRadius: const BorderRadius.all(Radius.circular(5.0) //
+                ),
+          ),
+          child: Text(shortDate(projectInfo.endDate)))),
+      // options
+      DataCell(TextButton(
+          child:
+              const Text("Eliminar", style: TextStyle(color: Colors.redAccent)),
+          onPressed: () {
+            showMyDialog(
+                context: context,
+                icon: Icon(Icons.delete_forever_outlined,
+                    size: 36, color: Colors.red),
+                toDoText: '¿Eliminar a ${projectInfo.projectName}?',
+                actions: [
+                  ElevatedButton.icon(
+                      icon: Icon(
+                        Icons.close,
+                        size: 14,
+                      ),
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.grey),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      label: Text("Cancelar")),
+                  ElevatedButton.icon(
+                      icon: Icon(
+                        Icons.delete,
+                        size: 14,
+                      ),
+                      style:
+                          ElevatedButton.styleFrom(backgroundColor: Colors.red),
+                      onPressed: () async {
+                        await ProjectsBloc().removeProject(projectInfo.id);
+                        setState(() {});
+                        Navigator.of(context).pop();
+                      },
+                      label: Text("Eliminar"))
+                ]);
+          }
+          // Delete
+          ))
+    ]);
   }
-}
-
-DataRow waitingUserDataRow(BuildContext context, Project projectInfo,
-    Credential credential, Function callBack) {
-  return DataRow(cells: [
-    // projectName
-    DataCell(
-      Row(
-        children: [
-          TextAvatar(
-            size: 35,
-            backgroundColor: Colors.white,
-            textColor: Colors.white,
-            fontSize: 14,
-            upperCase: true,
-            numberLetters: 1,
-            shape: Shape.Rectangle,
-            text: projectInfo.projectName,
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: defaultPadding),
-            child: Text(
-              projectInfo.projectName,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-            ),
-          ),
-        ],
-      ),
-    ),
-    // id
-    // DataCell(Text('${projectInfo.id}')),
-    // area
-    DataCell(Text(projectInfo.area)),
-    // startDate
-    DataCell(Container(
-        padding: const EdgeInsets.all(5),
-        decoration: BoxDecoration(
-          color: getRoleColor(projectInfo.state).withOpacity(.2),
-          border: Border.all(color: getRoleColor(projectInfo.state)),
-          borderRadius: const BorderRadius.all(Radius.circular(5.0) //
-              ),
-        ),
-        child: Text(shortDate(projectInfo.startDate)))),
-    // endDate
-    DataCell(Container(
-        padding: const EdgeInsets.all(5),
-        decoration: BoxDecoration(
-          color: getRoleColor(projectInfo.state).withOpacity(.2),
-          border: Border.all(color: getRoleColor(projectInfo.state)),
-          borderRadius: const BorderRadius.all(Radius.circular(5.0) //
-              ),
-        ),
-        child: Text(shortDate(projectInfo.endDate)))),
-    // options
-    DataCell(TextButton(
-        child: const Text("Eliminar", style: TextStyle(color: Colors.redAccent)),
-        onPressed: () {
-          showDialog(
-              context: context,
-              builder: (_) {
-                return AlertDialog(
-                    title: Center(
-                        child: Column(children: [
-                      const Icon(Icons.warning_outlined, size: 36, color: Colors.red),
-                      const SizedBox(height: 20),
-                      const Text("Confirmar"),
-                    ])),
-                    content: Container(
-                        color: secondaryColor,
-                        height: 70,
-                        child: Column(children: [
-                          Text("¿Eliminar a '${projectInfo.projectName}'?"),
-                          const SizedBox(
-                            height: 16,
-                          ),
-                          Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                ElevatedButton.icon(
-                                    icon: const Icon(
-                                      Icons.close,
-                                      size: 14,
-                                    ),
-                                    style: ElevatedButton.styleFrom(
-                                        backgroundColor: Colors.grey),
-                                    onPressed: () {
-                                      Navigator.of(context).pop();
-                                    },
-                                    label: const Text("Cancelar")),
-                                const SizedBox(
-                                  width: 20,
-                                ),
-                                ElevatedButton.icon(
-                                    icon: const Icon(
-                                      Icons.delete,
-                                      size: 14,
-                                    ),
-                                    style: ElevatedButton.styleFrom(
-                                        backgroundColor: Colors.red),
-                                    onPressed: () async {
-                                      await deleteProjects(
-                                          projectInfo.id);
-                                      callBack();
-                                      Navigator.of(context).pop();
-                                    },
-                                    label: const Text("Eliminar"))
-                              ])
-                        ])));
-              });
-        }
-        // Delete
-        ))
-  ]);
 }

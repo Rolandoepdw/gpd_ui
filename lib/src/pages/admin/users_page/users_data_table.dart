@@ -26,7 +26,7 @@ class _UsersDataTableState extends State<UsersDataTable> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "Usuarios Activos",
+              "Usuarios activos",
               style: Theme.of(context).textTheme.subtitle1,
             ),
             const Divider(),

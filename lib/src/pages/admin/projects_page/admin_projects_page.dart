@@ -1,33 +1,18 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:gpd/bloc/projects_bloc.dart';
 import 'package:gpd/responsive.dart';
-import 'package:gpd/src/models/credential.dart';
-import 'package:gpd/src/models/project.dart';
 import 'package:gpd/src/pages/admin/admin_components/admin_appbar.dart';
 import 'package:gpd/src/pages/admin/admin_components/admin_drawer.dart';
 import 'package:gpd/src/pages/admin/projects_page/projects_data_table.dart';
 import 'package:gpd/src/pages/components/calendart_widget.dart';
-import 'package:gpd/src/user_preferences/user_preferences.dart';
-import 'package:gpd/src/provider/http_provider.dart';
 import 'package:gpd/core/constants/color_constants.dart';
-import 'package:gpd/src/models/apiResponse.dart';
 
-class AdminProjectsPage extends StatefulWidget {
+class AdminProjectsPage extends StatelessWidget {
   const AdminProjectsPage({Key? key}) : super(key: key);
 
   @override
-  State<AdminProjectsPage> createState() => _AdminProjectsPageState();
-}
-
-class _AdminProjectsPageState extends State<AdminProjectsPage> {
-  final _userPreferences = UserPreferences();
-  late Credential _credential;
-
-  void refresh() => setState(() {});
-
-  @override
   Widget build(BuildContext context) {
-    _credential = Credential.fromJson(jsonDecode(_userPreferences.userData));
+    ProjectsBloc().getActivatedProject();
 
     return Scaffold(
         appBar: AdminAppBar(),
@@ -54,7 +39,7 @@ class _AdminProjectsPageState extends State<AdminProjectsPage> {
                   flex: 5,
                   child: Column(
                     children: [
-                      getActivatedUsers(),
+                      _buildCenterPage(),
                       if (Responsive.isMobile(context))
                         const SizedBox(height: defaultPadding),
                       if (Responsive.isMobile(context)) CalendarWidget()
@@ -68,24 +53,7 @@ class _AdminProjectsPageState extends State<AdminProjectsPage> {
             ])));
   }
 
-  getActivatedUsers() {
-    return FutureBuilder(
-      future: getProjects(),
-      builder: (BuildContext context, AsyncSnapshot<ApiResponse?> snapshot) {
-        if (!snapshot.hasData)
-          return const Center(child: CircularProgressIndicator());
-        if (snapshot.data!.statusCode != 1)
-          return const Center(child: Text('No records.'));
-
-        List<Project> list = [];
-        if (snapshot.data!.data.length != 0)
-          list = List<Project>.from(
-              snapshot.data!.data.map((user) => Project.fromJson(user)));
-
-        list.removeWhere((element) => element.state == 'WAITING');
-
-        return ProjectsDataTable(_credential, list, refresh);
-      },
-    );
+  _buildCenterPage() {
+    return ProjectsDataTable();
   }
 }
