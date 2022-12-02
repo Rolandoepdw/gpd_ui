@@ -9,19 +9,17 @@ import 'package:gpd/src/provider/http_provider.dart';
 
 class LeadEditProjectForm extends StatefulWidget {
   Project _project;
-  Function _callBack;
 
-  LeadEditProjectForm(this._project, this._callBack, {Key? key}) : super(key: key);
+  LeadEditProjectForm(this._project, {Key? key}) : super(key: key);
 
   @override
   State<LeadEditProjectForm> createState() =>
-      _LeadEditProjectFormState(_project, _callBack);
+      _LeadEditProjectFormState(_project);
 }
 
 class _LeadEditProjectFormState extends State<LeadEditProjectForm> {
   final _formLoginKey = GlobalKey<FormState>();
   late final Project _project;
-  late final _callBack;
   late final _projectName;
   late final _area;
   late final _justification;
@@ -30,7 +28,7 @@ class _LeadEditProjectFormState extends State<LeadEditProjectForm> {
   late String _startDate;
   late String _endDate;
 
-  _LeadEditProjectFormState(this._project, this._callBack) {
+  _LeadEditProjectFormState(this._project) {
     _projectName = TextEditingController()..text = _project.projectName;
     _area = TextEditingController()..text = _project.area;
     _justification = TextEditingController()
@@ -98,7 +96,7 @@ class _LeadEditProjectFormState extends State<LeadEditProjectForm> {
 
   Widget _buildText() {
     return Center(
-        child: Text('Crear proyecto',
+        child: Text('Editar proyecto',
             style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold)));
   }
 
@@ -200,7 +198,7 @@ class _LeadEditProjectFormState extends State<LeadEditProjectForm> {
       child: ElevatedButton(
           onPressed: () async {
             if (_formLoginKey.currentState!.validate()) {
-              ApiResponse? apiResponse = await updateProject(
+              ApiResponse? apiResponse = await updateProjects(
                 widget._project.id,
                 _projectName.text,
                 _area.text,
@@ -209,8 +207,6 @@ class _LeadEditProjectFormState extends State<LeadEditProjectForm> {
                 _justification.text,
                 _recomendations.text,
               );
-
-              _callBack();
               Navigator.pop(context);
 
               await ScaffoldMessenger.of(context).showSnackBar(SnackBar(

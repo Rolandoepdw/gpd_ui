@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:gpd/bloc/users_bloc.dart';
 import 'package:gpd/responsive.dart';
 import 'package:gpd/src/pages/admin/admin_components/admin_appbar.dart';
 import 'package:gpd/src/pages/admin/admin_components/admin_drawer.dart';
-import 'package:gpd/src/pages/admin/users_page/users_data_table.dart';
+import 'package:gpd/src/pages/admin/users_page/admin_users_data_table.dart';
 import 'package:gpd/src/pages/components/calendart_widget.dart';
 import 'package:gpd/core/constants/color_constants.dart';
 
@@ -12,8 +11,6 @@ class AdminUsersPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    UsersBloc().getActivatedUsers();
-
     return Scaffold(
         appBar: AdminAppBar(),
         drawer: const AdminDrawer(),
@@ -54,6 +51,6 @@ class AdminUsersPage extends StatelessWidget {
   }
 
   Widget _buildCenterPage(BuildContext context) {
-    return UsersDataTable();
+    return AdminUsersDataTable();
   }
 }

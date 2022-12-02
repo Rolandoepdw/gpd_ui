@@ -1,3 +1,5 @@
+import 'package:gpd/core/constants/color_constants.dart';
+import 'package:gpd/core/widgets/edit_profile_form.dart';
 import 'package:gpd/src/models/credential.dart';
 import 'dart:convert';
 import 'package:colorize_text_avatar/colorize_text_avatar.dart';
@@ -27,8 +29,8 @@ class _AdminAppBarState extends State<AdminAppBar> {
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             SizedBox(
-              height: 35,
-              width: 35,
+              height: 32,
+              width: 32,
               child: TextAvatar(
                 size: 5,
                 backgroundColor: Colors.white,
@@ -40,12 +42,19 @@ class _AdminAppBarState extends State<AdminAppBar> {
                 text: credential.displayname,
               ),
             ),
-            SizedBox(width: 30),
+            SizedBox(width: 20),
             Text('${credential.displayname}', style: TextStyle(fontSize: 18)),
             SizedBox(width: 15)
           ],
         ),
         actions: [
+          IconButton(
+              onPressed: () async {
+                await buildEditBottomSheet(context);
+                setState(() {});
+              },
+              icon: const Icon(Icons.edit, size: 25)),
+          const SizedBox(width: 15),
           IconButton(
               onPressed: () {
                 userPreferences.removeUserPreferencesData();

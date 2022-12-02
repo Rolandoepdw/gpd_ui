@@ -41,15 +41,15 @@ class GPD extends StatelessWidget {
           'leadNewProjectForm': (BuildContext context) => LeadNewProjectForm(),
           'adminProjects': (BuildContext context) => AdminProjectsPage(),
         },
-        localizationsDelegates: [
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-        ],
-        supportedLocales: [
-          // Locale('en', ''), // English, no country code
-          Locale('es', 'ES'), // Spanish, no country code
-        ],
+        // localizationsDelegates: [
+        //   GlobalMaterialLocalizations.delegate,
+        //   GlobalWidgetsLocalizations.delegate,
+        //   GlobalCupertinoLocalizations.delegate,
+        // ],
+        // supportedLocales: [
+        //   // Locale('en', ''), // English, no country code
+        //   Locale('es', 'ES'), // Spanish, no country code
+        // ],
         theme: ThemeData.dark().copyWith(
           appBarTheme: AppBarTheme(backgroundColor: bgColor, elevation: 5),
           scaffoldBackgroundColor: bgColor,

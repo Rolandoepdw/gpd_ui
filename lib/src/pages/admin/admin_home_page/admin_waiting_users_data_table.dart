@@ -1,4 +1,4 @@
-import 'package:gpd/bloc/waiting_users_bloc.dart';
+import 'package:gpd/bloc/user_bloc.dart';
 import 'package:gpd/core/constants/color_constants.dart';
 import 'package:gpd/core/utils/colorful_tag.dart';
 import 'package:gpd/core/widgets/my_alert.dart';
@@ -16,7 +16,7 @@ class _AdminWaitingUsersDataTableState
     extends State<AdminWaitingUsersDataTable> {
   @override
   Widget build(BuildContext context) {
-    WaitingUsersBloc().getWatingUsers();
+    UsersBloc().getWatingUsers();
 
     return Container(
         height: 400,
@@ -36,7 +36,7 @@ class _AdminWaitingUsersDataTableState
           SizedBox(
               width: double.infinity,
               child: StreamBuilder<List<User>>(
-                  stream: WaitingUsersBloc().stream,
+                  stream: UsersBloc().stream,
                   builder: (context, snapshot) {
                     if (!snapshot.hasData) {
                       return Center(child: CircularProgressIndicator());
@@ -140,7 +140,8 @@ class _AdminWaitingUsersDataTableState
                         style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.green),
                         onPressed: () async {
-                          await WaitingUsersBloc().aceptUser(userInfo.id);
+                          await UsersBloc().aceptUser(userInfo.id);
+                          await UsersBloc().getWatingUsers();
                           setState(() {});
                           Navigator.of(context).pop();
                         },
@@ -178,7 +179,8 @@ class _AdminWaitingUsersDataTableState
                         style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.red),
                         onPressed: () async {
-                          await WaitingUsersBloc().removeUser(userInfo.id);
+                          await UsersBloc().removeUser(userInfo.id);
+                          await UsersBloc().getWatingUsers();
                           setState(() {});
                           Navigator.of(context).pop();
                         },

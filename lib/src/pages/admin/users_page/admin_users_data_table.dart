@@ -1,4 +1,4 @@
-import 'package:gpd/bloc/users_bloc.dart';
+import 'package:gpd/bloc/full_user_bloc.dart';
 import 'package:gpd/core/constants/color_constants.dart';
 import 'package:gpd/core/utils/colorful_tag.dart';
 import 'package:gpd/core/widgets/my_alert.dart';
@@ -6,14 +6,15 @@ import 'package:gpd/src/models/full_user.dart';
 import 'package:colorize_text_avatar/colorize_text_avatar.dart';
 import 'package:flutter/material.dart';
 
-class UsersDataTable extends StatefulWidget {
+class AdminUsersDataTable extends StatefulWidget {
   @override
-  State<UsersDataTable> createState() => _UsersDataTableState();
+  State<AdminUsersDataTable> createState() => _AdminUsersDataTableState();
 }
 
-class _UsersDataTableState extends State<UsersDataTable> {
+class _AdminUsersDataTableState extends State<AdminUsersDataTable> {
   @override
   Widget build(BuildContext context) {
+    FullUserBloc().getActivatedUsers();
     return Container(
       height: 500,
       padding: const EdgeInsets.all(defaultPadding),
@@ -33,7 +34,7 @@ class _UsersDataTableState extends State<UsersDataTable> {
             SizedBox(
               width: double.infinity,
               child: StreamBuilder<List<FullUser>>(
-                  stream: UsersBloc().stream,
+                  stream: FullUserBloc().stream,
                   builder: (context, snapshot) {
                     if (!snapshot.hasData) {
                       return Center(child: CircularProgressIndicator());
@@ -138,7 +139,8 @@ class _UsersDataTableState extends State<UsersDataTable> {
                       style:
                           ElevatedButton.styleFrom(backgroundColor: Colors.red),
                       onPressed: () async {
-                        await UsersBloc().removeUser(userInfo.id);
+                        await FullUserBloc().removeUser(userInfo.id);
+                        await FullUserBloc().getActivatedUsers();
                         setState(() {});
                         Navigator.of(context).pop();
                       },

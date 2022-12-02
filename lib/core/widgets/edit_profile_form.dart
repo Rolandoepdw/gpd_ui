@@ -7,14 +7,14 @@ import 'package:gpd/src/models/credential.dart';
 import 'package:gpd/src/provider/http_provider.dart';
 import 'package:gpd/src/user_preferences/user_preferences.dart';
 
-class LeadEditProfileForm extends StatefulWidget {
-  const LeadEditProfileForm({Key? key}) : super(key: key);
+class EditProfileForm extends StatefulWidget {
+  const EditProfileForm({Key? key}) : super(key: key);
 
   @override
-  State<LeadEditProfileForm> createState() => _LeadEditProfileFormState();
+  State<EditProfileForm> createState() => _EditProfileFormState();
 }
 
-class _LeadEditProfileFormState extends State<LeadEditProfileForm> {
+class _EditProfileFormState extends State<EditProfileForm> {
   final _formLoginKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
   final _phoneController = TextEditingController();
@@ -23,7 +23,7 @@ class _LeadEditProfileFormState extends State<LeadEditProfileForm> {
   UserPreferences _userPreferences = UserPreferences();
   late Credential _credential;
 
-  _LeadEditProfileFormState() {
+  _EditProfileFormState() {
     UserPreferences userPreferences = UserPreferences();
     _credential = credentialFromJson(userPreferences.userData);
     _nameController.text = _credential.displayname;
@@ -73,7 +73,7 @@ class _LeadEditProfileFormState extends State<LeadEditProfileForm> {
 
   Widget _buildText() {
     return const Center(
-        child: Text('Edit Profile',
+        child: Text('Editar perfil',
             style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold)));
   }
 
@@ -134,9 +134,9 @@ class _LeadEditProfileFormState extends State<LeadEditProfileForm> {
           onPressed: () async {
             if (_formLoginKey.currentState!.validate()) {
               ApiResponse? apiResponse = await updateProfile(
-                _credential.token,
                 _nameController.text,
                 _phoneController.text,
+                _passwordController.text
               );
               if(apiResponse!.statusCode == 1){
                 _userPreferences.userData = credentialToJson(Credential(
@@ -171,4 +171,25 @@ class _LeadEditProfileFormState extends State<LeadEditProfileForm> {
           child: const Text('Cancel')),
     );
   }
+}
+
+Future<void> buildEditBottomSheet(BuildContext context) {
+  Size size = MediaQuery.of(context).size;
+  return showModalBottomSheet<void>(
+    context: context,
+    builder: (BuildContext context) {
+      return const EditProfileForm();
+    },
+    constraints: BoxConstraints(
+        maxWidth: size.width * 0.4,
+        minWidth: size.width * 0.4,
+        maxHeight: 443,
+        minHeight: 443),
+    shape: const RoundedRectangleBorder(
+      borderRadius: BorderRadius.only(
+        topLeft: Radius.circular(defaultBorderRadius),
+        topRight: Radius.circular(defaultBorderRadius),
+      ),
+    ),
+  );
 }

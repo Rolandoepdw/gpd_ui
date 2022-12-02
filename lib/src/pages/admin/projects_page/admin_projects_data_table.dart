@@ -5,17 +5,17 @@ import 'package:gpd/src/models/project.dart';
 import 'package:colorize_text_avatar/colorize_text_avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:gpd/core/utils/date_utils.dart';
-import 'package:gpd/bloc/projects_bloc.dart';
+import 'package:gpd/bloc/project_bloc.dart';
 
-class ProjectsDataTable extends StatefulWidget {
+class AdminProjectsDataTable extends StatefulWidget {
   @override
-  State<ProjectsDataTable> createState() => _ProjectsDataTableState();
+  State<AdminProjectsDataTable> createState() => _AdminProjectsDataTableState();
 }
 
-class _ProjectsDataTableState extends State<ProjectsDataTable> {
+class _AdminProjectsDataTableState extends State<AdminProjectsDataTable> {
   @override
   Widget build(BuildContext context) {
-    ProjectsBloc().getActivatedProject();
+    ProjectBloc().getActivatedProject();
 
     return Container(
         height: 500,
@@ -35,7 +35,7 @@ class _ProjectsDataTableState extends State<ProjectsDataTable> {
           SizedBox(
               width: double.infinity,
               child: StreamBuilder<List<Project>>(
-                  stream: ProjectsBloc().stream,
+                  stream: ProjectBloc().stream,
                   builder: (context, snapshot) {
                     if (!snapshot.hasData) {
                       return Center(child: CircularProgressIndicator());
@@ -152,7 +152,8 @@ class _ProjectsDataTableState extends State<ProjectsDataTable> {
                       style:
                           ElevatedButton.styleFrom(backgroundColor: Colors.red),
                       onPressed: () async {
-                        await ProjectsBloc().removeProject(projectInfo.id);
+                        await ProjectBloc().deleteProject(projectInfo.id);
+                        await ProjectBloc().getActivatedProject();
                         setState(() {});
                         Navigator.of(context).pop();
                       },

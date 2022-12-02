@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:gpd/bloc/project_bloc.dart';
+import 'package:gpd/core/utils/date_utils.dart';
 import 'package:gpd/core/utils/inputs_validation_functions.dart';
 import 'package:gpd/core/widgets/my_text_area_form_field.dart';
 import 'package:gpd/core/widgets/my_text_form_field.dart';
 import 'package:gpd/src/models/apiResponse.dart';
-import 'package:gpd/src/provider/http_provider.dart';
 
 class LeadNewProjectForm extends StatefulWidget {
   const LeadNewProjectForm({Key? key}) : super(key: key);
@@ -142,10 +143,8 @@ class _LeadNewProjectFormState extends State<LeadNewProjectForm> {
 
     setState(() {
       _dateTimeRange = newDateTimeRange;
-      _startDate =
-          '${_dateTimeRange.start.day}/${_dateTimeRange.start.month}/${_dateTimeRange.start.year}';
-      _endDate =
-          '${_dateTimeRange.end.day}/${_dateTimeRange.end.month}/${_dateTimeRange.end.year}';
+      _startDate = shortDate(_dateTimeRange.start);
+      _endDate = shortDate(_dateTimeRange.end);
     }); // Press Save
   }
 
@@ -182,7 +181,7 @@ class _LeadNewProjectFormState extends State<LeadNewProjectForm> {
       child: ElevatedButton(
           onPressed: () async {
             if (_formLoginKey.currentState!.validate()) {
-              ApiResponse? apiResponse = await createProject(
+              ApiResponse? apiResponse = await ProjectBloc().createNewProject(
                 _projectName.text,
                 _area.text,
                 _dateTimeRange.start.toIso8601String(),
@@ -190,8 +189,6 @@ class _LeadNewProjectFormState extends State<LeadNewProjectForm> {
                 _justification.text,
                 _recomendations.text,
               );
-
-              print(_dateTimeRange.start);
 
               Navigator.pushNamed(context, 'leadProjects');
 
@@ -210,13 +207,12 @@ class _LeadNewProjectFormState extends State<LeadNewProjectForm> {
 
   Widget _buildCancelButton(BuildContext context) {
     return Container(
-      height: 40,
-      width: 90,
-      child: ElevatedButton(
-          onPressed: () async {
-            Navigator.pushNamed(context, 'leadProjects');
-          },
-          child: Text('Cancelar'))
-    );
+        height: 40,
+        width: 90,
+        child: ElevatedButton(
+            onPressed: () async {
+              Navigator.pushNamed(context, 'leadProjects');
+            },
+            child: Text('Cancelar')));
   }
 }

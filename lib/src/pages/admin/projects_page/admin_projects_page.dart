@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:gpd/bloc/projects_bloc.dart';
 import 'package:gpd/responsive.dart';
 import 'package:gpd/src/pages/admin/admin_components/admin_appbar.dart';
 import 'package:gpd/src/pages/admin/admin_components/admin_drawer.dart';
-import 'package:gpd/src/pages/admin/projects_page/projects_data_table.dart';
+import 'package:gpd/src/pages/admin/projects_page/admin_projects_data_table.dart';
 import 'package:gpd/src/pages/components/calendart_widget.dart';
 import 'package:gpd/core/constants/color_constants.dart';
 
@@ -12,8 +11,6 @@ class AdminProjectsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ProjectsBloc().getActivatedProject();
-
     return Scaffold(
         appBar: AdminAppBar(),
         drawer: const AdminDrawer(),
@@ -54,6 +51,6 @@ class AdminProjectsPage extends StatelessWidget {
   }
 
   _buildCenterPage() {
-    return ProjectsDataTable();
+    return AdminProjectsDataTable();
   }
 }

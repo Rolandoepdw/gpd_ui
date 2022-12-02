@@ -2,12 +2,11 @@ import 'dart:convert';
 
 import 'package:colorize_text_avatar/colorize_text_avatar.dart';
 import 'package:flutter/material.dart';
-import 'package:gpd/core/constants/color_constants.dart';
 import 'package:gpd/responsive.dart';
 import 'package:gpd/src/models/credential.dart';
 import 'package:gpd/src/user_preferences/user_preferences.dart';
 
-import 'lead_edit_profile_form.dart';
+import '../../../../core/widgets/edit_profile_form.dart';
 
 class LeadAppBar extends StatefulWidget implements PreferredSizeWidget {
 
@@ -31,8 +30,8 @@ class _LeadAppBarState extends State<LeadAppBar> {
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           SizedBox(
-            height: 35,
-            width: 35,
+            height: 32,
+            width: 32,
             child: TextAvatar(
               size: 5,
               backgroundColor: Colors.white,
@@ -44,7 +43,7 @@ class _LeadAppBarState extends State<LeadAppBar> {
               text: credential.displayname,
             ),
           ),
-          const SizedBox(width: 30),
+          const SizedBox(width: 20),
           Text('${credential.displayname}',
               style: const TextStyle(fontSize: 18)),
           const SizedBox(width: 15)
@@ -53,7 +52,7 @@ class _LeadAppBarState extends State<LeadAppBar> {
       actions: [
         IconButton(
             onPressed: () async {
-              await _buildEditBottomSheet();
+              await buildEditBottomSheet(context);
               setState(() {});
             },
             icon: const Icon(Icons.edit, size: 25)),
@@ -70,24 +69,4 @@ class _LeadAppBarState extends State<LeadAppBar> {
     );
   }
 
-  Future<void> _buildEditBottomSheet() {
-    Size size = MediaQuery.of(context).size;
-    return showModalBottomSheet<void>(
-      context: context,
-      builder: (BuildContext context) {
-        return const LeadEditProfileForm();
-      },
-      constraints: BoxConstraints(
-          maxWidth: size.width * 0.4,
-          minWidth: size.width * 0.4,
-          maxHeight: 443,
-          minHeight: 443),
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(defaultBorderRadius),
-          topRight: Radius.circular(defaultBorderRadius),
-        ),
-      ),
-    );
-  }
 }

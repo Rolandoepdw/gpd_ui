@@ -1,4 +1,4 @@
-import 'package:gpd/bloc/waiting_projects_bloc.dart';
+import 'package:gpd/bloc/project_bloc.dart';
 import 'package:gpd/core/constants/color_constants.dart';
 import 'package:gpd/core/utils/colorful_tag.dart';
 import 'package:gpd/core/widgets/my_alert.dart';
@@ -17,7 +17,7 @@ class _AdminWaitingProjectsDataTableState
     extends State<AdminWaitingProjectsDataTable> {
   @override
   Widget build(BuildContext context) {
-    WaitingProjectsBloc().getWatingProject();
+    ProjectBloc().getWatingProjects();
 
     return Container(
       height: 400,
@@ -38,7 +38,7 @@ class _AdminWaitingProjectsDataTableState
             SizedBox(
               width: double.infinity,
               child: StreamBuilder<List<Project>>(
-                  stream: WaitingProjectsBloc().stream,
+                  stream: ProjectBloc().stream,
                   builder: (context, snapshot) {
                     if (!snapshot.hasData) {
                       return Center(child: CircularProgressIndicator());
@@ -162,8 +162,9 @@ class _AdminWaitingProjectsDataTableState
                         style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.green),
                         onPressed: () async {
-                          await WaitingProjectsBloc()
+                          await ProjectBloc()
                               .aceptProject(projectInfo.id);
+                          await ProjectBloc().getWatingProjects();
                           setState(() {});
                           Navigator.of(context).pop();
                         },
@@ -201,8 +202,9 @@ class _AdminWaitingProjectsDataTableState
                         style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.red),
                         onPressed: () async {
-                          await WaitingProjectsBloc()
-                              .removeProject(projectInfo.id);
+                          await ProjectBloc()
+                              .deleteProject(projectInfo.id);
+                          await ProjectBloc().getWatingProjects();
                           setState(() {});
                           Navigator.of(context).pop();
                         },

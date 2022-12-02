@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:gpd/bloc/waiting_projects_bloc.dart';
 import 'package:gpd/src/pages/admin/admin_components/admin_appbar.dart';
 import 'package:gpd/src/pages/admin/admin_components/admin_drawer.dart';
 import 'package:gpd/src/pages/admin/admin_home_page/admin_waiting_projects_data_table.dart';
@@ -11,8 +10,6 @@ import '../../../../responsive.dart';
 class AdminHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    WaitingProjectsBloc().getWatingProject();
-
     return Scaffold(
         appBar: AdminAppBar(),
         drawer: AdminDrawer(),

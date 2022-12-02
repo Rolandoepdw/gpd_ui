@@ -3,32 +3,30 @@ import 'package:gpd/src/models/user.dart';
 import 'package:gpd/src/provider/http_provider.dart';
 import 'dart:async';
 
-class WaitingUsersBloc {
-  static final WaitingUsersBloc _singleton = WaitingUsersBloc._();
+class UsersBloc {
+  static final UsersBloc _singleton = UsersBloc._();
 
-  factory WaitingUsersBloc() {
-    return _singleton;
-  }
+  factory UsersBloc() => _singleton;
 
-  WaitingUsersBloc._();
+  UsersBloc._();
 
-  final _usersUsersStreamController = StreamController<List<User>>.broadcast();
+  final _userStreamController = StreamController<List<User>>.broadcast();
 
-  Stream<List<User>> get stream => _usersUsersStreamController.stream;
+  Stream<List<User>> get stream => _userStreamController.stream;
 
   dispose() {
-    _usersUsersStreamController.close();
+    _userStreamController.close();
   }
 
   getWatingUsers() async {
-    ApiResponse? response = await getAwaitingUsers();
+    ApiResponse? response = await getWaitingUsers();
     List<User> list = [];
     if (response!.statusCode == 1) {
       list = List<User>.from(
           response.data["formatedPeople"].map((user) => User.fromJson(user)));
-      _usersUsersStreamController.sink.add(list);
+      _userStreamController.sink.add(list);
     } else
-      _usersUsersStreamController.sink.add([]);
+      _userStreamController.sink.add([]);
   }
 
   Future<int> removeUser(int id) async {

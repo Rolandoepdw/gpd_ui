@@ -43,7 +43,7 @@ Future<ApiResponse?> signUp(String name, String phone, String password) async {
 
 //------------------------------------ Users -----------------------------------
 
-Future<ApiResponse?> getAwaitingUsers() async {
+Future<ApiResponse?> getWaitingUsers() async {
   String token =
       Credential.fromJson(jsonDecode(UserPreferences().userData)).token;
   http.Response response = await http.get(
@@ -138,7 +138,7 @@ Future<ApiResponse?> createProject(
   return ApiResponse.fromJson(jsonDecode(response.body));
 }
 
-Future<ApiResponse?> updateProject(
+Future<ApiResponse?> updateProjects(
     int id,
     String projectName,
     String area,
