@@ -39,7 +39,7 @@ class ProjectBloc {
       String endDate,
       String justification,
       String recomendations) {
-    return updateProject(id, projectName, area, startDate, endDate,
+    return updateProjects(id, projectName, area, startDate, endDate,
         justification, recomendations);
   }
 

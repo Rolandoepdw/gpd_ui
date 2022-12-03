@@ -82,7 +82,6 @@ class _LeadWaitingProjectsDataTableState
   }
 
   DataRow waitingUserDataRow(BuildContext context, Project projectInfo) {
-    print(projectInfo.startDate);
     return DataRow(cells: [
       // projectName
       DataCell(

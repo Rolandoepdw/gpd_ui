@@ -146,12 +146,14 @@ class _LeadActivatedProjectsDataTableState
         children: [
           TextButton(
               child: Text('Editar', style: TextStyle(color: primaryColor)),
-              onPressed: () {
+              onPressed: () async {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
                         builder: (context) =>
                             LeadEditProjectForm(projectInfo)));
+                await ProjectBloc().getMyActivatedProjects();
+                setState(() {});
               }),
           SizedBox(
             width: 6,

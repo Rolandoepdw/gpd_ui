@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:gpd/bloc/project_bloc.dart';
+import 'package:gpd/core/constants/color_constants.dart';
 import 'package:gpd/core/utils/date_utils.dart';
 import 'package:gpd/core/utils/inputs_validation_functions.dart';
 import 'package:gpd/core/widgets/my_text_area_form_field.dart';
 import 'package:gpd/core/widgets/my_text_form_field.dart';
 import 'package:gpd/src/models/apiResponse.dart';
 import 'package:gpd/src/models/project.dart';
-import 'package:gpd/src/provider/http_provider.dart';
 
 class LeadEditProjectForm extends StatefulWidget {
   Project _project;
@@ -151,8 +152,23 @@ class _LeadEditProjectFormState extends State<LeadEditProjectForm> {
   Future pickDateRange(BuildContext context) async {
     DateTimeRange? newDateTimeRange = await showDateRangePicker(
         context: context,
-        firstDate: DateTime.now(),
-        lastDate: DateTime(2050),
+        builder: (context, child) {
+          return Center(
+            child: SingleChildScrollView(
+              child: Container(
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(defaultBorderRadius),
+                      color: bgColor),
+                  width: 450,
+                  height: 480,
+                  child: Padding(
+                      padding: const EdgeInsets.all(defaultPadding),
+                      child: child)),
+            ),
+          );
+        },
+        firstDate: DateTime.now().add(Duration(days: -1)),
+        lastDate: DateTime(2025),
         initialDateRange: _dateTimeRange,
         initialEntryMode: DatePickerEntryMode.calendarOnly);
 
@@ -198,7 +214,7 @@ class _LeadEditProjectFormState extends State<LeadEditProjectForm> {
       child: ElevatedButton(
           onPressed: () async {
             if (_formLoginKey.currentState!.validate()) {
-              ApiResponse? apiResponse = await updateProjects(
+              ApiResponse? apiResponse = await ProjectBloc().updateProject(
                 widget._project.id,
                 _projectName.text,
                 _area.text,

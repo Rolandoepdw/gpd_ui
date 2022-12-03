@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gpd/bloc/project_bloc.dart';
+import 'package:gpd/core/constants/color_constants.dart';
 import 'package:gpd/core/utils/date_utils.dart';
 import 'package:gpd/core/utils/inputs_validation_functions.dart';
 import 'package:gpd/core/widgets/my_text_area_form_field.dart';
@@ -19,8 +20,8 @@ class _LeadNewProjectFormState extends State<LeadNewProjectForm> {
   final _area = TextEditingController();
   final _justification = TextEditingController();
   final _recomendations = TextEditingController();
-  DateTimeRange _dateTimeRange =
-      DateTimeRange(start: DateTime.now(), end: DateTime(2100));
+  late DateTimeRange _dateTimeRange = DateTimeRange(
+      start: DateTime.now(), end: DateTime.now().add(Duration(days: 1)));
   String _startDate = 'Fecha inicial';
   String _endDate = 'Fecha final';
 
@@ -134,8 +135,23 @@ class _LeadNewProjectFormState extends State<LeadNewProjectForm> {
   Future pickDateRange(BuildContext context) async {
     DateTimeRange? newDateTimeRange = await showDateRangePicker(
         context: context,
-        firstDate: DateTime.now(),
-        lastDate: DateTime(2100),
+        builder: (context, child) {
+          return Center(
+            child: SingleChildScrollView(
+              child: Container(
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(defaultBorderRadius),
+                      color: bgColor),
+                  width: 450,
+                  height: 480,
+                  child: Padding(
+                      padding: const EdgeInsets.all(defaultPadding),
+                      child: child)),
+            ),
+          );
+        },
+        firstDate: DateTime.now().add(Duration(days: -1)),
+        lastDate: DateTime(2025),
         initialDateRange: _dateTimeRange,
         initialEntryMode: DatePickerEntryMode.calendarOnly);
 
@@ -180,7 +196,15 @@ class _LeadNewProjectFormState extends State<LeadNewProjectForm> {
       width: 90,
       child: ElevatedButton(
           onPressed: () async {
-            if (_formLoginKey.currentState!.validate()) {
+            if (_dateTimeRange.start == null) {
+              await ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text('Seleccione las fechas',
+                      textAlign: TextAlign.center),
+                  backgroundColor: Colors.blue,
+                  elevation: 5,
+                  dismissDirection: DismissDirection.endToStart,
+                  duration: Duration(seconds: 2)));
+            } else if (_formLoginKey.currentState!.validate()) {
               ApiResponse? apiResponse = await ProjectBloc().createNewProject(
                 _projectName.text,
                 _area.text,
