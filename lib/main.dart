@@ -4,9 +4,10 @@ import 'package:gpd/src/pages/admin/admin_home_page/admin_home_page.dart';
 import 'package:gpd/src/pages/admin/projects_page/admin_projects_page.dart';
 import 'package:gpd/src/pages/admin/users_page/admin_users_page.dart';
 import 'package:gpd/src/pages/create_account_page.dart';
+import 'package:gpd/src/pages/lead/lead_all_events_page/lead_all_events_page.dart';
 import 'package:gpd/src/pages/lead/lead_components/lead_new_project_form.dart';
 import 'package:gpd/src/pages/lead/lead_home_page/lead_home_page.dart';
-import 'package:gpd/src/pages/lead/projects_page/lead_projects_page.dart';
+import 'package:gpd/src/pages/lead/lead_projects_page/lead_projects_page.dart';
 import 'package:gpd/src/pages/login_page.dart';
 import 'package:gpd/src/user_preferences/user_preferences.dart';
 import 'package:gpd/core/constants/color_constants.dart';
@@ -36,20 +37,21 @@ class GPD extends StatelessWidget {
           'createAccount': (BuildContext context) => CreateAccauntPage(),
           'adminHome': (BuildContext context) => AdminHomePage(),
           'adminUsers': (BuildContext context) => AdminUsersPage(),
+          'adminProjects': (BuildContext context) => AdminProjectsPage(),
           'leadHome': (BuildContext context) => LeadHomePage(),
           'leadProjects': (BuildContext context) => LeadProjectsPage(),
           'leadNewProjectForm': (BuildContext context) => LeadNewProjectForm(),
-          'adminProjects': (BuildContext context) => AdminProjectsPage(),
+          'leadAllEvents': (BuildContext context) => LeadAllEventsPage(),
         },
-        // localizationsDelegates: [
-        //   GlobalMaterialLocalizations.delegate,
-        //   GlobalWidgetsLocalizations.delegate,
-        //   GlobalCupertinoLocalizations.delegate,
-        // ],
-        // supportedLocales: [
-        //   // Locale('en', ''), // English, no country code
-        //   Locale('es', 'ES'), // Spanish, no country code
-        // ],
+        localizationsDelegates: [
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        supportedLocales: [
+          // Locale('en', ''), // English, no country code
+          Locale('es', 'ES'), // Spanish, no country code
+        ],
         theme: ThemeData.dark().copyWith(
           appBarTheme: AppBarTheme(backgroundColor: bgColor, elevation: 5),
           scaffoldBackgroundColor: bgColor,

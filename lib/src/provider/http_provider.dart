@@ -200,3 +200,83 @@ Future<ApiResponse?> aceptProjects(int id) async {
       headers: {'Authorization': token});
   return ApiResponse.fromJson(jsonDecode(response.body));
 }
+
+//----------------------------------- Events -----------------------------------
+
+Future<ApiResponse?> createEvent(
+    String eventName,
+    String description,
+    String startDate,
+    String endDate,
+    int projectId) async {
+
+
+  Map<String, dynamic> obj = {
+    'eventName': eventName,
+    'description': description,
+    'startDate': startDate,
+    'endDate': endDate,
+    'projectId': projectId
+  };
+
+  String jsonObj = jsonEncode(obj);
+
+  String token =
+      Credential.fromJson(jsonDecode(UserPreferences().userData)).token;
+  http.Response response = await http.post(
+    Uri.parse("http://localhost:3000/api/event"),
+    headers: {'Authorization': token, 'Content-Type': 'application/json'},
+    body: jsonObj
+  );
+  return ApiResponse.fromJson(jsonDecode(response.body));
+}
+
+Future<ApiResponse?> updateEvents(int eventId, String eventName, String description,
+    String startDate, String endDate, int projectId) async {
+  String token =
+      Credential.fromJson(jsonDecode(UserPreferences().userData)).token;
+
+  Map<String, dynamic> obj = {
+    'eventName': eventName,
+    'description': description,
+    'startDate': startDate,
+    'endDate': endDate,
+    'projectId': projectId
+  };
+
+  String jsonObj = jsonEncode(obj);
+
+  http.Response response = await http.post(
+    Uri.parse("http://localhost:3000/api/event/update?evetId=$eventId&projectId=$projectId"),
+    headers: {'Authorization': token, 'Content-Type': 'application/json'},
+    body: jsonObj,
+  );
+  return ApiResponse.fromJson(jsonDecode(response.body));
+}
+
+Future<ApiResponse?> getApiAllEvents() async {
+  String token =
+      Credential.fromJson(jsonDecode(UserPreferences().userData)).token;
+  http.Response response = await http.get(
+      Uri.parse("http://localhost:3000/api/event/all-events"),
+      headers: {'Authorization': token});
+  return ApiResponse.fromJson(jsonDecode(response.body));
+}
+
+Future<ApiResponse?> getEventsByProget(int id) async {
+  String token =
+      Credential.fromJson(jsonDecode(UserPreferences().userData)).token;
+  http.Response response = await http.get(
+      Uri.parse("http://localhost:3000/api/event/my-events?projectId=$id"),
+      headers: {'Authorization': token});
+  return ApiResponse.fromJson(jsonDecode(response.body));
+}
+
+Future<ApiResponse?> deleteEvents(int projectId, int eventId) async {
+  String token =
+      Credential.fromJson(jsonDecode(UserPreferences().userData)).token;
+  http.Response response = await http.delete(
+      Uri.parse("http://localhost:3000/api/event?projectId=$projectId&eventId=$eventId"),
+      headers: {'Authorization': token});
+  return ApiResponse.fromJson(jsonDecode(response.body));
+}

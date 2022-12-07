@@ -39,8 +39,8 @@ class Project {
     justification: json["justification"],
     recomendations: json["recomendations"],
     state: json["state"],
-    startDate: DateTime.parse(json["startDate"]),
-    endDate: DateTime.parse(json["endDate"]),
+    startDate: DateTime.parse(json["startDate"]).add(Duration(hours: 1)),
+    endDate: DateTime.parse(json["endDate"]).add(Duration(hours: 1)),
   );
 
   Map<String, dynamic> toJson() => {

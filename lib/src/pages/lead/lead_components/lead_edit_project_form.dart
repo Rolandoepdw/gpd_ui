@@ -208,6 +208,8 @@ class _LeadEditProjectFormState extends State<LeadEditProjectForm> {
   }
 
   Widget _buildCreateButton(BuildContext context) {
+    print('Inicial ${_dateTimeRange.start}');
+    print('Final ${_dateTimeRange.end}');
     return Container(
       height: 40,
       width: 90,

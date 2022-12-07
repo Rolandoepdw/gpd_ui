@@ -1,19 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:gpd/responsive.dart';
 import 'package:gpd/src/pages/components/calendart_widget.dart';
+import 'package:gpd/src/pages/lead/lead_all_events_page/lead_all_events_data_table.dart';
 import 'package:gpd/src/pages/lead/lead_components/lead_appbar.dart';
 import 'package:gpd/src/pages/lead/lead_components/lead_drawer.dart';
-import 'package:gpd/src/pages/lead/projects_page/lead_activated_projects_data_table.dart';
 import 'package:gpd/core/constants/color_constants.dart';
 
-class LeadProjectsPage extends StatefulWidget {
-  const LeadProjectsPage({Key? key}) : super(key: key);
-
-  @override
-  State<LeadProjectsPage> createState() => _LeadProjectsPageState();
-}
-
-class _LeadProjectsPageState extends State<LeadProjectsPage> {
+class LeadAllEventsPage extends StatelessWidget {
+  const LeadAllEventsPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -57,6 +51,6 @@ class _LeadProjectsPageState extends State<LeadProjectsPage> {
   }
 
   _buildCenterPage() {
-    return LeadActivatedProjectsDataTable();
+    return LeadAllEventsDataTable();
   }
 }

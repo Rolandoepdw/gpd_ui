@@ -30,7 +30,7 @@ class LeadDrawer extends StatelessWidget {
               DrawerListTile(
                   title: 'Eventos',
                   iconData: Icons.calendar_today_outlined,
-                  callback: () => Navigator.pushNamed(context, 'leadEvents')),
+                  callback: () => Navigator.pushNamed(context, 'leadAllEvents')),
             ])));
   }
 }

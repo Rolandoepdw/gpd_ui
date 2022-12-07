@@ -175,8 +175,7 @@ class _LeadWaitingProjectsDataTableState
                         style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.red),
                         onPressed: () async {
-                          await ProjectBloc()
-                              .deleteProject(projectInfo.id);
+                          await ProjectBloc().deleteProject(projectInfo.id);
                           await ProjectBloc().getMyWatingProjects();
                           setState(() {});
                           Navigator.of(context).pop();

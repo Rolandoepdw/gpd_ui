@@ -50,9 +50,6 @@ class _AdminWaitingProjectsDataTableState
                         DataColumn(
                           label: Text("Nombre"),
                         ),
-                        // DataColumn(
-                        //   label: Text("Id"),
-                        // ),
                         DataColumn(
                           label: Text("Área"),
                         ),
@@ -82,7 +79,6 @@ class _AdminWaitingProjectsDataTableState
 
   DataRow waitingProjectsDataRow(BuildContext context, Project projectInfo) {
     return DataRow(cells: [
-      // projectName
       DataCell(
         Row(
           children: [
@@ -107,11 +103,7 @@ class _AdminWaitingProjectsDataTableState
           ],
         ),
       ),
-      // id
-      // DataCell(Text('${projectInfo.id}')),
-      // area
       DataCell(Text(projectInfo.area)),
-      // startDate
       DataCell(Container(
           padding: EdgeInsets.all(5),
           decoration: BoxDecoration(
@@ -122,7 +114,6 @@ class _AdminWaitingProjectsDataTableState
                     ),
           ),
           child: Text(shortDate(projectInfo.startDate)))),
-      // endDate
       DataCell(Container(
           padding: EdgeInsets.all(5),
           decoration: BoxDecoration(
@@ -133,7 +124,6 @@ class _AdminWaitingProjectsDataTableState
                     ),
           ),
           child: Text(shortDate(projectInfo.endDate)))),
-      // options
       DataCell(Row(children: [
         TextButton(
             child: Text('Activar', style: TextStyle(color: Colors.green)),
@@ -162,8 +152,7 @@ class _AdminWaitingProjectsDataTableState
                         style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.green),
                         onPressed: () async {
-                          await ProjectBloc()
-                              .aceptProject(projectInfo.id);
+                          await ProjectBloc().aceptProject(projectInfo.id);
                           await ProjectBloc().getWatingProjects();
                           setState(() {});
                           Navigator.of(context).pop();
@@ -202,8 +191,7 @@ class _AdminWaitingProjectsDataTableState
                         style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.red),
                         onPressed: () async {
-                          await ProjectBloc()
-                              .deleteProject(projectInfo.id);
+                          await ProjectBloc().deleteProject(projectInfo.id);
                           await ProjectBloc().getWatingProjects();
                           setState(() {});
                           Navigator.of(context).pop();
