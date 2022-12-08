@@ -31,6 +31,10 @@ class AdminDrawer extends StatelessWidget {
           title: 'Proyectos',
           iconData: Icons.folder,
           callback: () => Navigator.pushNamed(context, 'adminProjects')),
+      DrawerListTile(
+          title: 'Eventos',
+          iconData: Icons.calendar_today_outlined,
+          callback: () => Navigator.pushNamed(context, 'adminAllEvents')),
     ])));
   }
 }

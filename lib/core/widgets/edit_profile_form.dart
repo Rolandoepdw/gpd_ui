@@ -59,7 +59,7 @@ class _EditProfileFormState extends State<EditProfileForm> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    _buildCreateButton(context),
+                    _buildEditButton(context),
                     _buildCancelButton(context)
                   ],
                 ),
@@ -81,7 +81,6 @@ class _EditProfileFormState extends State<EditProfileForm> {
     return MyTextFormField.name(
       _nameController,
       'Nombre',
-      40,
       TextCapitalization.words,
       TextInputType.name,
       false,
@@ -93,7 +92,6 @@ class _EditProfileFormState extends State<EditProfileForm> {
     return MyTextFormField.name(
       _phoneController,
       'Phone',
-      12,
       TextCapitalization.none,
       const TextInputType.numberWithOptions(decimal: false),
       false,
@@ -105,7 +103,6 @@ class _EditProfileFormState extends State<EditProfileForm> {
     return MyTextFormField.name(
       _passwordController,
       'Password',
-      25,
       TextCapitalization.words,
       TextInputType.name,
       true,
@@ -118,7 +115,6 @@ class _EditProfileFormState extends State<EditProfileForm> {
     return MyTextFormField.name(
       _confirmPasswordController,
       'Confirm password',
-      25,
       TextCapitalization.words,
       TextInputType.name,
       true,
@@ -126,7 +122,7 @@ class _EditProfileFormState extends State<EditProfileForm> {
     );
   }
 
-  Widget _buildCreateButton(BuildContext context) {
+  Widget _buildEditButton(BuildContext context) {
     return Container(
       height: 40,
       width: 85,
@@ -166,7 +162,7 @@ class _EditProfileFormState extends State<EditProfileForm> {
       width: 85,
       child: ElevatedButton(
           onPressed: () async {
-            Navigator.pushNamed(context, 'leadHome');
+            Navigator.pop(context);
           },
           child: const Text('Cancel')),
     );

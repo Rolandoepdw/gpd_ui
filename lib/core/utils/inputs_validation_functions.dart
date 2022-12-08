@@ -10,13 +10,16 @@ String? validateName(value, label) {
 //Password
 String? validatePassword(value) {
   if (value.isEmpty) return 'Introduzca una contraseña';
+  if(value.length < 1) return 'Introduzca almenos ocho caracteres';
   return null;
 }
 
 //Password & Confirm
 String? validatePasswordYConfirm(password, confirm){
   if(password.isEmpty) return 'Introdusca una contraseña.';
+  if(password.length < 1) return 'Introduzca almenos ocho caracteres';
   if(confirm.isEmpty) return 'Confirme su contrseña.';
+  if(confirm.length < 1) return 'Introduzca almenos ocho caracteres';
   if(password != confirm) return 'Las contraseñas deben de ser iguales.';
 }
 

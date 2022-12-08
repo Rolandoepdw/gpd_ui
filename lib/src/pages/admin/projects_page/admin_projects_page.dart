@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:gpd/responsive.dart';
+import 'package:gpd/core/widgets/calendar/calendar_widget.dart';
+import 'package:gpd/core/utils/responsive.dart';
 import 'package:gpd/src/pages/admin/admin_components/admin_appbar.dart';
 import 'package:gpd/src/pages/admin/admin_components/admin_drawer.dart';
 import 'package:gpd/src/pages/admin/projects_page/admin_projects_data_table.dart';
-import 'package:gpd/src/pages/components/calendart_widget.dart';
 import 'package:gpd/core/constants/color_constants.dart';
 
 class AdminProjectsPage extends StatelessWidget {

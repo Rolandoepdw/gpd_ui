@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:gpd/core/widgets/calendar/calendar_widget.dart';
 import 'package:gpd/src/pages/admin/admin_components/admin_appbar.dart';
 import 'package:gpd/src/pages/admin/admin_components/admin_drawer.dart';
 import 'package:gpd/src/pages/admin/admin_home_page/admin_waiting_projects_data_table.dart';
 import 'package:gpd/src/pages/admin/admin_home_page/admin_waiting_users_data_table.dart';
-import 'package:gpd/src/pages/components/calendart_widget.dart';
 import 'package:gpd/core/constants/color_constants.dart';
-import '../../../../responsive.dart';
+import '../../../../core/utils/responsive.dart';
 
 class AdminHomePage extends StatelessWidget {
   @override

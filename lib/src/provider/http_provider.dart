@@ -247,7 +247,7 @@ Future<ApiResponse?> updateEvents(int eventId, String eventName, String descript
   String jsonObj = jsonEncode(obj);
 
   http.Response response = await http.post(
-    Uri.parse("http://localhost:3000/api/event/update?evetId=$eventId&projectId=$projectId"),
+    Uri.parse("http://localhost:3000/api/event/update?eventId=$eventId&projectId=$projectId"),
     headers: {'Authorization': token, 'Content-Type': 'application/json'},
     body: jsonObj,
   );

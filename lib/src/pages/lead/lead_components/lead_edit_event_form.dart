@@ -100,7 +100,6 @@ class _LeadEditEventFormState extends State<LeadEditEventForm> {
     return MyTextFormField.name(
       _eventName,
       'Nombre del evento',
-      40,
       TextCapitalization.words,
       TextInputType.name,
       false,
@@ -112,7 +111,6 @@ class _LeadEditEventFormState extends State<LeadEditEventForm> {
     return MyTextFormField.name(
       _description,
       'Descripción',
-      40,
       TextCapitalization.words,
       TextInputType.name,
       false,

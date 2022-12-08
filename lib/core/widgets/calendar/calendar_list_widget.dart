@@ -1,9 +1,9 @@
 import 'package:gpd/core/constants/color_constants.dart';
 import 'package:gpd/core/widgets/wrapper.dart';
 import 'package:gpd/src/models/calendar_data.dart';
-
 import 'package:flutter/material.dart';
-import 'package:gpd/src/pages/components/list_calendar_data.dart';
+
+import 'list_calendar_data.dart';
 
 class CalendartList extends StatelessWidget {
   final List<CalendarData> datas;

@@ -1,10 +1,9 @@
-import 'package:gpd/core/constants/color_constants.dart';
 import 'package:gpd/core/widgets/edit_profile_form.dart';
 import 'package:gpd/src/models/credential.dart';
 import 'dart:convert';
 import 'package:colorize_text_avatar/colorize_text_avatar.dart';
 import 'package:flutter/material.dart';
-import 'package:gpd/responsive.dart';
+import 'package:gpd/core/utils/responsive.dart';
 import 'package:gpd/src/user_preferences/user_preferences.dart';
 
 class AdminAppBar extends StatefulWidget implements PreferredSizeWidget {

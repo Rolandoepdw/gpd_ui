@@ -1,5 +1,5 @@
 import 'package:gpd/core/constants/color_constants.dart';
-import 'package:gpd/core/widgets/calendar_item.dart';
+import 'package:gpd/core/widgets/calendar/calendar_item.dart';
 import 'package:gpd/src/models/calendar_data.dart';
 
 import 'package:flutter/material.dart';

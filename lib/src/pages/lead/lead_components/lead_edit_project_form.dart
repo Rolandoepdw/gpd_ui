@@ -105,7 +105,6 @@ class _LeadEditProjectFormState extends State<LeadEditProjectForm> {
     return MyTextFormField.name(
       _projectName,
       'Nombre del proyecto',
-      40,
       TextCapitalization.words,
       TextInputType.name,
       false,
@@ -117,7 +116,6 @@ class _LeadEditProjectFormState extends State<LeadEditProjectForm> {
     return MyTextFormField.name(
       _area,
       'Area',
-      40,
       TextCapitalization.words,
       TextInputType.name,
       false,
@@ -185,7 +183,6 @@ class _LeadEditProjectFormState extends State<LeadEditProjectForm> {
     return MyTextAreaFormField.name(
       _justification,
       'Justificación',
-      500,
       3,
       3,
       TextCapitalization.words,
@@ -198,7 +195,6 @@ class _LeadEditProjectFormState extends State<LeadEditProjectForm> {
     return MyTextAreaFormField.name(
       _recomendations,
       'Recomendaciones',
-      500,
       4,
       4,
       TextCapitalization.words,

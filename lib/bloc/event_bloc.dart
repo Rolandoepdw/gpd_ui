@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:gpd/bloc/calendar_data_bloc.dart';
 import 'package:gpd/src/models/apiResponse.dart';
 import 'package:gpd/src/models/event.dart';
 import 'package:gpd/src/provider/http_provider.dart';
@@ -20,11 +21,13 @@ class EventBloc {
 
   Future<ApiResponse?> createNewEvent(String eventName, String description,
       String startDate, String endDate, int projectId) {
+    CalendarDataBloc().getAllCalendarData(); //Refresh de CalendarWidget
     return createEvent(eventName, description, startDate, endDate, projectId);
   }
 
   Future<ApiResponse?> updateEvent(int eventId, String eventName, String description,
       String startDate, String endDate, int projectId) {
+    CalendarDataBloc().getAllCalendarData(); //Refresh de CalendarWidget
     return updateEvents(
         eventId, eventName, description, startDate, endDate, projectId);
   }
@@ -53,7 +56,7 @@ class EventBloc {
 
   Future<int> deleteEvent(int projectId, int eventId) async {
     ApiResponse? response = await deleteEvents(projectId, eventId);
-    print(response!.message);
+    CalendarDataBloc().getAllCalendarData(); //Refresh de CalendarWidget
     return response!.statusCode;
   }
 }

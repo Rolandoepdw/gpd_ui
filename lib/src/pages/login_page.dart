@@ -75,7 +75,6 @@ class _LoginPageState extends State<LoginPage> {
     return MyTextFormField.name(
       _userController,
       'Usuario',
-      40,
       TextCapitalization.words,
       TextInputType.name,
       false,
@@ -87,7 +86,6 @@ class _LoginPageState extends State<LoginPage> {
     return MyTextFormField.name(
       _passwordController,
       'Contraseña',
-      25,
       TextCapitalization.words,
       TextInputType.name,
       true,

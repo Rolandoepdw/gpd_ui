@@ -67,7 +67,6 @@ class _CreateAccauntPageState extends State<CreateAccauntPage> {
     return MyTextFormField.name(
       _nameController,
       'Nombre',
-      40,
       TextCapitalization.words,
       TextInputType.name,
       false,
@@ -79,7 +78,6 @@ class _CreateAccauntPageState extends State<CreateAccauntPage> {
     return MyTextFormField.name(
       _phoneController,
       'Teléfono',
-      12,
       TextCapitalization.none,
       const TextInputType.numberWithOptions(decimal: false),
       false,
@@ -91,7 +89,6 @@ class _CreateAccauntPageState extends State<CreateAccauntPage> {
     return MyTextFormField.name(
       _passwordController,
       'Contraseña',
-      25,
       TextCapitalization.words,
       TextInputType.name,
       true,
@@ -104,7 +101,6 @@ class _CreateAccauntPageState extends State<CreateAccauntPage> {
     return MyTextFormField.name(
       _confirmPasswordController,
       'Confirmar contraseña',
-      25,
       TextCapitalization.words,
       TextInputType.name,
       true,
