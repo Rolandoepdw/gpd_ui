@@ -1,7 +1,6 @@
-import 'package:elegant_notification/elegant_notification.dart';
 import 'package:flutter/material.dart';
-import 'package:gpd/core/constants/color_constants.dart';
 import 'package:gpd/core/utils/inputs_validation_functions.dart';
+import 'package:gpd/core/widgets/elegent_notification_manager.dart';
 import 'package:gpd/core/widgets/my_text_form_field.dart';
 import 'package:gpd/src/models/apiResponse.dart';
 import 'package:gpd/src/provider/http_provider.dart';
@@ -121,12 +120,14 @@ class _CreateAccauntPageState extends State<CreateAccauntPage> {
 
               Navigator.pushNamed(context, 'login');
 
-              ElegantNotification.info(
-                  title: Text("Información"),
-                  width: 300,
-                  background: secondaryColor,
-                  description: Text(apiResponse!.message[0]))
-                  .show(context);
+              print(apiResponse!.statusCode);
+
+              if (apiResponse.statusCode == 1) {
+                await InfoNotification(context, 'Proceso iniciado');
+              }
+
+              if (apiResponse.statusCode == 21)
+                await ErrorNotification(context, 'La persona ya ha sido registrada');
             }
           },
           child: const Text('Crear')),

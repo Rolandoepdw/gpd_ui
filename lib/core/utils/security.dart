@@ -4,20 +4,24 @@ import 'package:flutter/cupertino.dart';
 import 'package:gpd/src/models/credential.dart';
 import 'package:gpd/src/user_preferences/user_preferences.dart';
 
-checkRole(BuildContext context, String role) async {
+Future<dynamic> checkRole(BuildContext context, String role) async {
   UserPreferences userPreferences = await UserPreferences();
   if (userPreferences.userData == 'userPreferences error') {
-    return Navigator.pushNamed(context, 'login');
+    Navigator.pushNamed(context, 'login');
+    return 0;
   } else {
     Credential credential =
-        Credential.fromJson(jsonDecode(userPreferences.userData));
+        await Credential.fromJson(jsonDecode(userPreferences.userData));
     if (role == 'ADMIN' && !credential.isAdmin) {
-      userPreferences.removeUserPreferencesData();
-      return Navigator.pushNamed(context, 'login');
+      await userPreferences.removeUserPreferencesData();
+      Navigator.pushNamed(context, 'login');
+      return 0;
     }
     if (role == 'LEAD' && credential.isAdmin) {
-      userPreferences.removeUserPreferencesData();
-      return Navigator.pushNamed(context, 'login');
+      await userPreferences.removeUserPreferencesData();
+      Navigator.pushNamed(context, 'login');
+      return 0;
     }
+    return 1;
   }
 }

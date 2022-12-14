@@ -27,6 +27,6 @@ class UserPreferences {
 
   get userData => _userPreferences?.get('userData') ?? 'userPreferences error';
 
-  void removeUserPreferencesData() async =>
+  removeUserPreferencesData() async =>
       await _userPreferences?.remove('userData');
 }

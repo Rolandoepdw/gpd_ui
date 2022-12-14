@@ -1,9 +1,9 @@
-import 'package:elegant_notification/elegant_notification.dart';
 import 'package:flutter/material.dart';
 import 'package:gpd/bloc/project_bloc.dart';
 import 'package:gpd/core/constants/color_constants.dart';
 import 'package:gpd/core/utils/date_utils.dart';
 import 'package:gpd/core/utils/inputs_validation_functions.dart';
+import 'package:gpd/core/widgets/elegent_notification_manager.dart';
 import 'package:gpd/core/widgets/my_text_area_form_field.dart';
 import 'package:gpd/core/widgets/my_text_form_field.dart';
 import 'package:gpd/src/models/apiResponse.dart';
@@ -224,12 +224,8 @@ class _LeadEditProjectFormState extends State<LeadEditProjectForm> {
               );
               Navigator.pop(context);
 
-              ElegantNotification.success(
-                  title: Text("Actualizado"),
-                  width: 300,
-                  background: secondaryColor,
-                  description: Text(apiResponse!.message[0]))
-                  .show(context);
+              await SuccessNotification(
+                  context, 'Proyecto actualizado correctamente');
             }
           },
           child: Text('Editar')),

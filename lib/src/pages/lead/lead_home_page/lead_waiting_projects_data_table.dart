@@ -1,6 +1,7 @@
 import 'package:gpd/bloc/project_bloc.dart';
 import 'package:gpd/core/constants/color_constants.dart';
 import 'package:gpd/core/utils/colorful_tag.dart';
+import 'package:gpd/core/widgets/elegent_notification_manager.dart';
 import 'package:gpd/core/widgets/my_alert.dart';
 import 'package:gpd/src/models/project.dart';
 import 'package:colorize_text_avatar/colorize_text_avatar.dart';
@@ -179,6 +180,7 @@ class _LeadWaitingProjectsDataTableState
                           await ProjectBloc().getMyWatingProjects();
                           setState(() {});
                           Navigator.of(context).pop();
+                          await SuccessNotification(context, 'Proyecto eliminado correctamente');
                         },
                         label: Text("Eliminar"))
                   ]);

@@ -1,9 +1,8 @@
-import 'package:elegant_notification/elegant_notification.dart';
 import 'package:flutter/material.dart';
 import 'package:gpd/bloc/event_bloc.dart';
-import 'package:gpd/core/constants/color_constants.dart';
 import 'package:gpd/core/utils/date_utils.dart';
 import 'package:gpd/core/utils/inputs_validation_functions.dart';
+import 'package:gpd/core/widgets/elegent_notification_manager.dart';
 import 'package:gpd/core/widgets/my_text_form_field.dart';
 import 'package:gpd/src/models/apiResponse.dart';
 import 'package:gpd/src/models/event.dart';
@@ -207,26 +206,12 @@ class _LeadEditEventFormState extends State<LeadEditEventForm> {
       child: ElevatedButton(
           onPressed: () async {
             if (_startDate == null) {
-              ElegantNotification.error(
-                  title: Text("Error"),
-                  width: 300,
-                  background: secondaryColor,
-                  description: Text('Seleccione la fecha inicial'))
-                  .show(context);
+              await ErrorNotification(context, 'Seleccione la fecha inicial');
             } else if (_endDate == null) {
-              ElegantNotification.error(
-                  title: Text("Error"),
-                  width: 300,
-                  background: secondaryColor,
-                  description: Text('Seleccione la fecha final'))
-                  .show(context);
+              await ErrorNotification(context, 'Seleccione la fecha final');
             } else if (_endDate!.isBefore(_startDate!)) {
-              ElegantNotification.error(
-                  title: Text("Error"),
-                  width: 300,
-                  background: secondaryColor,
-                  description: Text('La fecha final debe ser posterior a la inicial'))
-                  .show(context);
+              await ErrorNotification(
+                  context, 'La fecha final debe ser posterior a la inicial');
             } else if (_formLoginKey.currentState!.validate()) {
               ApiResponse? apiResponse = await EventBloc().updateEvent(
                 event.id,
@@ -239,12 +224,8 @@ class _LeadEditEventFormState extends State<LeadEditEventForm> {
 
               Navigator.of(context).pop();
 
-              ElegantNotification.success(
-                  title: Text("Actualizado"),
-                  width: 300,
-                  background: secondaryColor,
-                  description: Text(apiResponse!.message[0]))
-                  .show(context);
+              await SuccessNotification(
+                  context, 'Evento actualizado correctamente');
             }
           },
           child: Text('Editar')),

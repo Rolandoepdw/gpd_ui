@@ -1,8 +1,7 @@
 import 'dart:convert';
-import 'package:elegant_notification/elegant_notification.dart';
 import 'package:flutter/material.dart';
-import 'package:gpd/core/constants/color_constants.dart';
 import 'package:gpd/core/utils/inputs_validation_functions.dart';
+import 'package:gpd/core/widgets/elegent_notification_manager.dart';
 import 'package:gpd/core/widgets/my_text_form_field.dart';
 import 'package:gpd/src/models/apiResponse.dart';
 import 'package:gpd/src/models/credential.dart';
@@ -112,13 +111,10 @@ class _LoginPageState extends State<LoginPage> {
                   Navigator.pushNamed(context, 'leadHome');
               }
 
-              if (apiResponse.statusCode != 1)
-                ElegantNotification.error(
-                        title: Text("Error"),
-                        width: 300,
-                        background: secondaryColor,
-                        description: Text(apiResponse.message[0]))
-                    .show(context);
+              if (apiResponse.statusCode == 4)
+                await ErrorNotification(context, 'Usuario no encontrado');
+              if (apiResponse.statusCode == 3)
+                await ErrorNotification(context, 'Contraseña incorrecta');
             }
           },
           child: Text('Acceder')),

@@ -1,6 +1,7 @@
 import 'package:gpd/bloc/user_bloc.dart';
 import 'package:gpd/core/constants/color_constants.dart';
 import 'package:gpd/core/utils/colorful_tag.dart';
+import 'package:gpd/core/widgets/elegent_notification_manager.dart';
 import 'package:gpd/core/widgets/my_alert.dart';
 import 'package:gpd/src/models/user.dart';
 import 'package:colorize_text_avatar/colorize_text_avatar.dart';
@@ -16,7 +17,7 @@ class _AdminWaitingUsersDataTableState
     extends State<AdminWaitingUsersDataTable> {
   @override
   Widget build(BuildContext context) {
-    UsersBloc().getWaitingUsers();
+    UsersBloc().getAllWaitingUsers();
 
     return Container(
         height: 400,
@@ -141,9 +142,10 @@ class _AdminWaitingUsersDataTableState
                             backgroundColor: Colors.green),
                         onPressed: () async {
                           await UsersBloc().aceptUser(userInfo.id);
-                          await UsersBloc().getWaitingUsers();
+                          await UsersBloc().getAllWaitingUsers();
                           setState(() {});
                           Navigator.of(context).pop();
+                          await SuccessNotification(context, 'Usuario activado con éxito');
                         },
                         label: Text("Activar"))
                   ]);
@@ -180,9 +182,10 @@ class _AdminWaitingUsersDataTableState
                             backgroundColor: Colors.red),
                         onPressed: () async {
                           await UsersBloc().removeUser(userInfo.id);
-                          await UsersBloc().getWaitingUsers();
+                          await UsersBloc().getAllWaitingUsers();
                           setState(() {});
                           Navigator.of(context).pop();
+                          await SuccessNotification(context, 'Usuario eliminado con éxito');
                         },
                         label: Text("Eliminar"))
                   ]);

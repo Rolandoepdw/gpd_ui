@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gpd/core/constants/color_constants.dart';
 import 'package:gpd/core/utils/inputs_validation_functions.dart';
+import 'package:gpd/core/widgets/elegent_notification_manager.dart';
 import 'package:gpd/core/widgets/my_text_form_field.dart';
 import 'package:gpd/src/models/apiResponse.dart';
 import 'package:gpd/src/models/credential.dart';
@@ -141,15 +142,11 @@ class _EditProfileFormState extends State<EditProfileForm> {
                     phone: _phoneController.text,
                     isAdmin: false));
               }
+
               Navigator.pop(context);
 
-              await ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content:
-                      Text(apiResponse.message[0], textAlign: TextAlign.center),
-                  backgroundColor: Colors.blue,
-                  elevation: 5,
-                  dismissDirection: DismissDirection.endToStart,
-                  duration: const Duration(seconds: 2)));
+              await SuccessNotification(
+                  context, 'Perfil editado correctamente');
             }
           },
           child: const Text('Edit')),

@@ -11,7 +11,9 @@ import '../../../../core/utils/responsive.dart';
 class AdminHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-        return Scaffold(
+    if (checkRole(context, 'ADMIN') == 0) return Container();
+
+    return Scaffold(
         appBar: AdminAppBar(),
         drawer: AdminDrawer(),
         body: SafeArea(

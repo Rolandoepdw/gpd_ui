@@ -4,6 +4,7 @@ import 'package:gpd/bloc/project_bloc.dart';
 import 'package:gpd/core/constants/color_constants.dart';
 import 'package:gpd/core/utils/date_utils.dart';
 import 'package:gpd/core/utils/inputs_validation_functions.dart';
+import 'package:gpd/core/widgets/elegent_notification_manager.dart';
 import 'package:gpd/core/widgets/my_text_area_form_field.dart';
 import 'package:gpd/core/widgets/my_text_form_field.dart';
 import 'package:gpd/src/models/apiResponse.dart';
@@ -195,10 +196,10 @@ class _LeadNewProjectFormState extends State<LeadNewProjectForm> {
           onPressed: () async {
             if (_startDate == 'Fecha inicial') {
               ElegantNotification.error(
-                  title: Text("Error"),
-                  width: 300,
-                  background: secondaryColor,
-                  description: Text('Seleccione las fechas'))
+                      title: Text("Error"),
+                      width: 300,
+                      background: secondaryColor,
+                      description: Text('Seleccione las fechas'))
                   .show(context);
             } else if (_formLoginKey.currentState!.validate()) {
               ApiResponse? apiResponse = await ProjectBloc().createNewProject(
@@ -212,12 +213,8 @@ class _LeadNewProjectFormState extends State<LeadNewProjectForm> {
 
               Navigator.pushNamed(context, 'leadProjects');
 
-              ElegantNotification.success(
-                  title: Text("Nuevo"),
-                  width: 300,
-                  background: secondaryColor,
-                  description: Text(apiResponse!.message[0]))
-                  .show(context);
+              await SuccessNotification(
+                  context, 'Proyecto creado correctamente');
             }
           },
           child: Text('Crear')),

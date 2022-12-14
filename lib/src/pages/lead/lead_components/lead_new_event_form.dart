@@ -4,6 +4,7 @@ import 'package:gpd/bloc/event_bloc.dart';
 import 'package:gpd/core/constants/color_constants.dart';
 import 'package:gpd/core/utils/date_utils.dart';
 import 'package:gpd/core/utils/inputs_validation_functions.dart';
+import 'package:gpd/core/widgets/elegent_notification_manager.dart';
 import 'package:gpd/core/widgets/my_text_form_field.dart';
 import 'package:gpd/src/models/apiResponse.dart';
 import 'package:gpd/src/models/project.dart';
@@ -193,24 +194,25 @@ class _LeadNewEventFormState extends State<LeadNewEventForm> {
           onPressed: () async {
             if (_startDate == null) {
               ElegantNotification.error(
-                  title: Text("Error"),
-                  width: 300,
-                  background: secondaryColor,
-                  description: Text('Seleccione la fecha inicial'))
+                      title: Text("Error"),
+                      width: 300,
+                      background: secondaryColor,
+                      description: Text('Seleccione la fecha inicial'))
                   .show(context);
             } else if (_endDate == null) {
               ElegantNotification.error(
-                  title: Text("Error"),
-                  width: 300,
-                  background: secondaryColor,
-                  description: Text('Seleccione la fecha final'))
+                      title: Text("Error"),
+                      width: 300,
+                      background: secondaryColor,
+                      description: Text('Seleccione la fecha final'))
                   .show(context);
             } else if (_endDate!.isBefore(_startDate!)) {
               ElegantNotification.error(
-                  title: Text("Error"),
-                  width: 300,
-                  background: secondaryColor,
-                  description: Text('La fecha final debe ser posterior a la inicial'))
+                      title: Text("Error"),
+                      width: 300,
+                      background: secondaryColor,
+                      description: Text(
+                          'La fecha final debe ser posterior a la inicial'))
                   .show(context);
             } else if (_formLoginKey.currentState!.validate()) {
               ApiResponse? apiResponse = await EventBloc().createNewEvent(
@@ -224,12 +226,7 @@ class _LeadNewEventFormState extends State<LeadNewEventForm> {
 
               Navigator.of(context).pop();
 
-              ElegantNotification.success(
-                  title: Text("Nuevo"),
-                  width: 300,
-                  background: secondaryColor,
-                  description: Text(apiResponse.message[0]))
-                  .show(context);
+              await SuccessNotification(context, 'Evento creado correctamente');
             }
           },
           child: Text('Crear')),
