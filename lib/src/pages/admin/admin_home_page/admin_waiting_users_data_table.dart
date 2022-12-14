@@ -16,7 +16,7 @@ class _AdminWaitingUsersDataTableState
     extends State<AdminWaitingUsersDataTable> {
   @override
   Widget build(BuildContext context) {
-    UsersBloc().getWatingUsers();
+    UsersBloc().getWaitingUsers();
 
     return Container(
         height: 400,
@@ -141,7 +141,7 @@ class _AdminWaitingUsersDataTableState
                             backgroundColor: Colors.green),
                         onPressed: () async {
                           await UsersBloc().aceptUser(userInfo.id);
-                          await UsersBloc().getWatingUsers();
+                          await UsersBloc().getWaitingUsers();
                           setState(() {});
                           Navigator.of(context).pop();
                         },
@@ -180,7 +180,7 @@ class _AdminWaitingUsersDataTableState
                             backgroundColor: Colors.red),
                         onPressed: () async {
                           await UsersBloc().removeUser(userInfo.id);
-                          await UsersBloc().getWatingUsers();
+                          await UsersBloc().getWaitingUsers();
                           setState(() {});
                           Navigator.of(context).pop();
                         },

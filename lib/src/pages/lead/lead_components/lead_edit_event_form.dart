@@ -1,5 +1,7 @@
+import 'package:elegant_notification/elegant_notification.dart';
 import 'package:flutter/material.dart';
 import 'package:gpd/bloc/event_bloc.dart';
+import 'package:gpd/core/constants/color_constants.dart';
 import 'package:gpd/core/utils/date_utils.dart';
 import 'package:gpd/core/utils/inputs_validation_functions.dart';
 import 'package:gpd/core/widgets/my_text_form_field.dart';
@@ -205,30 +207,26 @@ class _LeadEditEventFormState extends State<LeadEditEventForm> {
       child: ElevatedButton(
           onPressed: () async {
             if (_startDate == null) {
-              await ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text('Seleccione la fecha inicial',
-                      textAlign: TextAlign.center),
-                  backgroundColor: Colors.blue,
-                  elevation: 5,
-                  dismissDirection: DismissDirection.endToStart,
-                  duration: Duration(seconds: 2)));
+              ElegantNotification.error(
+                  title: Text("Error"),
+                  width: 300,
+                  background: secondaryColor,
+                  description: Text('Seleccione la fecha inicial'))
+                  .show(context);
             } else if (_endDate == null) {
-              await ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text('Seleccione la fecha final',
-                      textAlign: TextAlign.center),
-                  backgroundColor: Colors.blue,
-                  elevation: 5,
-                  dismissDirection: DismissDirection.endToStart,
-                  duration: Duration(seconds: 2)));
+              ElegantNotification.error(
+                  title: Text("Error"),
+                  width: 300,
+                  background: secondaryColor,
+                  description: Text('Seleccione la fecha final'))
+                  .show(context);
             } else if (_endDate!.isBefore(_startDate!)) {
-              await ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text(
-                      'La fecha final debe ser posterior a la inicial',
-                      textAlign: TextAlign.center),
-                  backgroundColor: Colors.blue,
-                  elevation: 5,
-                  dismissDirection: DismissDirection.endToStart,
-                  duration: Duration(seconds: 2)));
+              ElegantNotification.error(
+                  title: Text("Error"),
+                  width: 300,
+                  background: secondaryColor,
+                  description: Text('La fecha final debe ser posterior a la inicial'))
+                  .show(context);
             } else if (_formLoginKey.currentState!.validate()) {
               ApiResponse? apiResponse = await EventBloc().updateEvent(
                 event.id,
@@ -241,13 +239,12 @@ class _LeadEditEventFormState extends State<LeadEditEventForm> {
 
               Navigator.of(context).pop();
 
-              await ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text(apiResponse!.message[0],
-                      textAlign: TextAlign.center),
-                  backgroundColor: Colors.blue,
-                  elevation: 5,
-                  dismissDirection: DismissDirection.endToStart,
-                  duration: Duration(seconds: 2)));
+              ElegantNotification.success(
+                  title: Text("Actualizado"),
+                  width: 300,
+                  background: secondaryColor,
+                  description: Text(apiResponse!.message[0]))
+                  .show(context);
             }
           },
           child: Text('Editar')),

@@ -40,7 +40,8 @@ class _EditProfileFormState extends State<EditProfileForm> {
     return SingleChildScrollView(
       child: Center(
         child: Container(
-          decoration: BoxDecoration(borderRadius: BorderRadius.circular(defaultBorderRadius)),
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(defaultBorderRadius)),
           padding: const EdgeInsets.all(14),
           height: 483,
           width: 400,
@@ -130,11 +131,10 @@ class _EditProfileFormState extends State<EditProfileForm> {
           onPressed: () async {
             if (_formLoginKey.currentState!.validate()) {
               ApiResponse? apiResponse = await updateProfile(
-                _nameController.text,
-                _phoneController.text,
-                _passwordController.text
-              );
-              if(apiResponse!.statusCode == 1){
+                  _nameController.text,
+                  _phoneController.text,
+                  _passwordController.text);
+              if (apiResponse!.statusCode == 1) {
                 _userPreferences.userData = credentialToJson(Credential(
                     token: _credential.token,
                     displayname: _nameController.text,
@@ -144,8 +144,8 @@ class _EditProfileFormState extends State<EditProfileForm> {
               Navigator.pop(context);
 
               await ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text(apiResponse.message[0],
-                      textAlign: TextAlign.center),
+                  content:
+                      Text(apiResponse.message[0], textAlign: TextAlign.center),
                   backgroundColor: Colors.blue,
                   elevation: 5,
                   dismissDirection: DismissDirection.endToStart,

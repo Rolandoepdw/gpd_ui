@@ -18,7 +18,7 @@ class UsersBloc {
     _userStreamController.close();
   }
 
-  getWatingUsers() async {
+  getWaitingUsers() async {
     ApiResponse? response = await getWaitingUsers();
     List<User> list = [];
     if (response!.statusCode == 1) {
@@ -31,13 +31,13 @@ class UsersBloc {
 
   Future<int> removeUser(int id) async {
     ApiResponse? response = await deleteUsers(id);
-    if (response!.statusCode == 1) await this.getWatingUsers();
+    if (response!.statusCode == 1) await this.getWaitingUsers();
     return response.statusCode;
   }
 
   Future<int> aceptUser(int id) async {
     ApiResponse? response = await aceptUsers(id);
-    if (response!.statusCode == 1) await this.getWatingUsers();
+    if (response!.statusCode == 1) await this.getWaitingUsers();
     return response.statusCode;
   }
 }

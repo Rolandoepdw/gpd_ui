@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gpd/core/utils/security.dart';
 import 'package:gpd/core/widgets/calendar/calendar_widget.dart';
 import 'package:gpd/core/utils/responsive.dart';
 import 'package:gpd/src/pages/lead/lead_components/lead_appbar.dart';
@@ -12,6 +13,8 @@ class LeadHomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    checkRole(context, 'LEAD');
+    
     return Scaffold(
         appBar: LeadAppBar(),
         drawer: LeadDrawer(),

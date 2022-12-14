@@ -1,3 +1,4 @@
+import 'package:elegant_notification/elegant_notification.dart';
 import 'package:flutter/material.dart';
 import 'package:gpd/bloc/project_bloc.dart';
 import 'package:gpd/core/constants/color_constants.dart';
@@ -192,14 +193,13 @@ class _LeadNewProjectFormState extends State<LeadNewProjectForm> {
       width: 90,
       child: ElevatedButton(
           onPressed: () async {
-            if (_dateTimeRange.start == null) {
-              await ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text('Seleccione las fechas',
-                      textAlign: TextAlign.center),
-                  backgroundColor: Colors.blue,
-                  elevation: 5,
-                  dismissDirection: DismissDirection.endToStart,
-                  duration: Duration(seconds: 2)));
+            if (_startDate == 'Fecha inicial') {
+              ElegantNotification.error(
+                  title: Text("Error"),
+                  width: 300,
+                  background: secondaryColor,
+                  description: Text('Seleccione las fechas'))
+                  .show(context);
             } else if (_formLoginKey.currentState!.validate()) {
               ApiResponse? apiResponse = await ProjectBloc().createNewProject(
                 _projectName.text,
@@ -212,13 +212,12 @@ class _LeadNewProjectFormState extends State<LeadNewProjectForm> {
 
               Navigator.pushNamed(context, 'leadProjects');
 
-              await ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text(apiResponse!.message[0],
-                      textAlign: TextAlign.center),
-                  backgroundColor: Colors.blue,
-                  elevation: 5,
-                  dismissDirection: DismissDirection.endToStart,
-                  duration: Duration(seconds: 2)));
+              ElegantNotification.success(
+                  title: Text("Nuevo"),
+                  width: 300,
+                  background: secondaryColor,
+                  description: Text(apiResponse!.message[0]))
+                  .show(context);
             }
           },
           child: Text('Crear')),

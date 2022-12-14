@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gpd/core/utils/security.dart';
 import 'package:gpd/core/widgets/calendar/calendar_widget.dart';
 import 'package:gpd/src/pages/admin/admin_components/admin_appbar.dart';
 import 'package:gpd/src/pages/admin/admin_components/admin_drawer.dart';
@@ -10,16 +11,13 @@ import '../../../../core/utils/responsive.dart';
 class AdminHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+        return Scaffold(
         appBar: AdminAppBar(),
         drawer: AdminDrawer(),
         body: SafeArea(
             child: Row(children: [
-          // We want this side menu only for large screen
           if (Responsive.isDesktop(context))
             Expanded(
-              // default flex = 1
-              // and it takes 1/6 part of the screen
               child: AdminDrawer(),
             ),
           Expanded(flex: 5, child: AdminDashboard(context))
@@ -43,7 +41,6 @@ class AdminHomePage extends StatelessWidget {
                   )),
               if (!Responsive.isMobile(context))
                 SizedBox(width: defaultPadding),
-              // On Mobile means if the screen is less than 850 we dont want to show it
               if (!Responsive.isMobile(context))
                 Expanded(flex: 2, child: CalendarWidget())
             ])));

@@ -1,4 +1,6 @@
+import 'package:elegant_notification/elegant_notification.dart';
 import 'package:flutter/material.dart';
+import 'package:gpd/core/constants/color_constants.dart';
 import 'package:gpd/core/utils/inputs_validation_functions.dart';
 import 'package:gpd/core/widgets/my_text_form_field.dart';
 import 'package:gpd/src/models/apiResponse.dart';
@@ -117,15 +119,14 @@ class _CreateAccauntPageState extends State<CreateAccauntPage> {
               ApiResponse? apiResponse = await signUp(_nameController.text,
                   _phoneController.text, _passwordController.text);
 
-              await ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text(apiResponse!.message[0],
-                      textAlign: TextAlign.center),
-                  backgroundColor: Colors.blue,
-                  elevation: 5,
-                  dismissDirection: DismissDirection.endToStart,
-                  duration: const Duration(seconds: 2)));
-
               Navigator.pushNamed(context, 'login');
+
+              ElegantNotification.info(
+                  title: Text("Información"),
+                  width: 300,
+                  background: secondaryColor,
+                  description: Text(apiResponse!.message[0]))
+                  .show(context);
             }
           },
           child: const Text('Crear')),

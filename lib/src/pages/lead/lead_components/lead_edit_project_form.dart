@@ -1,3 +1,4 @@
+import 'package:elegant_notification/elegant_notification.dart';
 import 'package:flutter/material.dart';
 import 'package:gpd/bloc/project_bloc.dart';
 import 'package:gpd/core/constants/color_constants.dart';
@@ -223,13 +224,12 @@ class _LeadEditProjectFormState extends State<LeadEditProjectForm> {
               );
               Navigator.pop(context);
 
-              await ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text(apiResponse!.message[0],
-                      textAlign: TextAlign.center),
-                  backgroundColor: Colors.blue,
-                  elevation: 5,
-                  dismissDirection: DismissDirection.endToStart,
-                  duration: Duration(seconds: 2)));
+              ElegantNotification.success(
+                  title: Text("Actualizado"),
+                  width: 300,
+                  background: secondaryColor,
+                  description: Text(apiResponse!.message[0]))
+                  .show(context);
             }
           },
           child: Text('Editar')),

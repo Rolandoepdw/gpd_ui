@@ -33,6 +33,7 @@ dependencies:
   http: ^0.13.5
   colorize_text_avatar: ^1.0.2
   table_calendar: ^3.0.8
+  elegant_notification: ^1.6.4
 
   flutter_localizations:
     sdk: flutter
