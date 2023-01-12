@@ -86,25 +86,25 @@ class _EditProfileFormState extends State<EditProfileForm> {
       TextCapitalization.words,
       TextInputType.name,
       false,
-      (value) => validateName(value, 'name'),
+      (value) => validateName(value, 'nombre'),
     );
   }
 
   Widget _buildPhoneNumber() {
     return MyTextFormField.name(
       _phoneController,
-      'Phone',
+      'Teléfono',
       TextCapitalization.none,
       const TextInputType.numberWithOptions(decimal: false),
       false,
-      (value) => validateInteger(value, 'phone'),
+      (value) => validateInteger(value, 'teléfono'),
     );
   }
 
   Widget _buildPassword() {
     return MyTextFormField.name(
       _passwordController,
-      'Password',
+      'Contraseña',
       TextCapitalization.words,
       TextInputType.name,
       true,
@@ -116,7 +116,7 @@ class _EditProfileFormState extends State<EditProfileForm> {
   Widget _buildConfirmPassword() {
     return MyTextFormField.name(
       _confirmPasswordController,
-      'Confirm password',
+      'Confirmar contraseña',
       TextCapitalization.words,
       TextInputType.name,
       true,
@@ -149,7 +149,7 @@ class _EditProfileFormState extends State<EditProfileForm> {
                   context, 'Perfil editado correctamente');
             }
           },
-          child: const Text('Edit')),
+          child: const Text('Editar')),
     );
   }
 
@@ -161,7 +161,7 @@ class _EditProfileFormState extends State<EditProfileForm> {
           onPressed: () async {
             Navigator.pop(context);
           },
-          child: const Text('Cancel')),
+          child: const Text('Cancelar')),
     );
   }
 }

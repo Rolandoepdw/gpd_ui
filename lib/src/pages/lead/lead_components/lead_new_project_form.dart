@@ -7,7 +7,6 @@ import 'package:gpd/core/utils/inputs_validation_functions.dart';
 import 'package:gpd/core/widgets/elegent_notification_manager.dart';
 import 'package:gpd/core/widgets/my_text_area_form_field.dart';
 import 'package:gpd/core/widgets/my_text_form_field.dart';
-import 'package:gpd/src/models/apiResponse.dart';
 
 class LeadNewProjectForm extends StatefulWidget {
   const LeadNewProjectForm({Key? key}) : super(key: key);
@@ -202,7 +201,7 @@ class _LeadNewProjectFormState extends State<LeadNewProjectForm> {
                       description: Text('Seleccione las fechas'))
                   .show(context);
             } else if (_formLoginKey.currentState!.validate()) {
-              ApiResponse? apiResponse = await ProjectBloc().createNewProject(
+              await ProjectBloc().createNewProject(
                 _projectName.text,
                 _area.text,
                 _dateTimeRange.start.toIso8601String(),

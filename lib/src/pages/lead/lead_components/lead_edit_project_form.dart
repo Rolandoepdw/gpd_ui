@@ -6,7 +6,6 @@ import 'package:gpd/core/utils/inputs_validation_functions.dart';
 import 'package:gpd/core/widgets/elegent_notification_manager.dart';
 import 'package:gpd/core/widgets/my_text_area_form_field.dart';
 import 'package:gpd/core/widgets/my_text_form_field.dart';
-import 'package:gpd/src/models/apiResponse.dart';
 import 'package:gpd/src/models/project.dart';
 
 class LeadEditProjectForm extends StatefulWidget {
@@ -188,7 +187,7 @@ class _LeadEditProjectFormState extends State<LeadEditProjectForm> {
       3,
       TextCapitalization.words,
       false,
-      (value) => validateText(value, 'text'),
+      (value) => validateText(value, 'texto'),
     );
   }
 
@@ -200,7 +199,7 @@ class _LeadEditProjectFormState extends State<LeadEditProjectForm> {
       4,
       TextCapitalization.words,
       false,
-      (value) => validateText(value, 'text'),
+      (value) => validateText(value, 'texto'),
     );
   }
 
@@ -213,7 +212,7 @@ class _LeadEditProjectFormState extends State<LeadEditProjectForm> {
       child: ElevatedButton(
           onPressed: () async {
             if (_formLoginKey.currentState!.validate()) {
-              ApiResponse? apiResponse = await ProjectBloc().updateProject(
+              await ProjectBloc().updateProject(
                 widget._project.id,
                 _projectName.text,
                 _area.text,
