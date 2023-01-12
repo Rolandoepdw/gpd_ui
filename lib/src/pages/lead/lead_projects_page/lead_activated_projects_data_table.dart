@@ -8,6 +8,7 @@ import 'package:colorize_text_avatar/colorize_text_avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:gpd/src/pages/lead/lead_components/lead_edit_project_form.dart';
 import 'package:gpd/core/utils/date_utils.dart';
+import 'package:gpd/src/pages/lead/lead_components/lead_new_project_form.dart';
 import 'package:gpd/src/pages/lead/lead_project_detail_page/lead_project_detail_page.dart';
 
 class LeadActivatedProjectsDataTable extends StatefulWidget {
@@ -41,8 +42,13 @@ class _LeadActivatedProjectsDataTableState
               ),
               ElevatedButton(
                   child: Text('Nuevo'),
-                  onPressed: () =>
-                      Navigator.pushNamed(context, 'leadNewProjectForm'))
+                  onPressed: () async {
+                    await Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => LeadNewProjectForm()));
+                    ProjectBloc().getMyActivatedProjects();
+                  })
             ],
           ),
           Divider(),
@@ -169,7 +175,8 @@ class _LeadActivatedProjectsDataTableState
                                 await ProjectBloc().getMyActivatedProjects();
                                 setState(() {});
                                 Navigator.of(context).pop();
-                                await SuccessNotification(context, 'Proyecto eliminado correctamente');
+                                await SuccessNotification(context,
+                                    'Proyecto eliminado correctamente');
                               },
                               label: Text("Eliminar"))
                         ]);

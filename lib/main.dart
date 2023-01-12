@@ -6,7 +6,6 @@ import 'package:gpd/src/pages/admin/projects_page/admin_projects_page.dart';
 import 'package:gpd/src/pages/admin/users_page/admin_users_page.dart';
 import 'package:gpd/src/pages/create_account_page.dart';
 import 'package:gpd/src/pages/lead/lead_all_events_page/lead_all_events_page.dart';
-import 'package:gpd/src/pages/lead/lead_components/lead_new_project_form.dart';
 import 'package:gpd/src/pages/lead/lead_home_page/lead_home_page.dart';
 import 'package:gpd/src/pages/lead/lead_projects_page/lead_projects_page.dart';
 import 'package:gpd/src/pages/login_page.dart';
@@ -41,7 +40,6 @@ class GPD extends StatelessWidget {
           'adminProjects': (BuildContext context) => AdminProjectsPage(),
           'leadHome': (BuildContext context) => LeadHomePage(),
           'leadProjects': (BuildContext context) => LeadProjectsPage(),
-          'leadNewProjectForm': (BuildContext context) => LeadNewProjectForm(),
           'leadAllEvents': (BuildContext context) => LeadAllEventsPage(),
           'adminAllEvents': (BuildContext context) => AdminAllEventsPage(),
         },

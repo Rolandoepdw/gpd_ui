@@ -4,7 +4,6 @@ import 'package:gpd/core/utils/date_utils.dart';
 import 'package:gpd/core/utils/inputs_validation_functions.dart';
 import 'package:gpd/core/widgets/elegent_notification_manager.dart';
 import 'package:gpd/core/widgets/my_text_form_field.dart';
-import 'package:gpd/src/models/apiResponse.dart';
 import 'package:gpd/src/models/event.dart';
 import 'package:gpd/src/models/project.dart';
 
@@ -213,7 +212,7 @@ class _LeadEditEventFormState extends State<LeadEditEventForm> {
               await ErrorNotification(
                   context, 'La fecha final debe ser posterior a la inicial');
             } else if (_formLoginKey.currentState!.validate()) {
-              ApiResponse? apiResponse = await EventBloc().updateEvent(
+              await EventBloc().updateEvent(
                 event.id,
                 _eventName.text,
                 _description.text,

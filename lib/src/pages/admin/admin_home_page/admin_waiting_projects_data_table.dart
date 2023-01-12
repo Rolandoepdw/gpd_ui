@@ -111,7 +111,7 @@ class _AdminWaitingProjectsDataTableState
             color: getRoleColor(projectInfo.state).withOpacity(.2),
             border: Border.all(color: getRoleColor(projectInfo.state)),
             borderRadius:
-                BorderRadius.all(Radius.circular(defaultBorderRadius) //
+                BorderRadius.all(Radius.circular(5.0)
                     ),
           ),
           child: Text(shortDate(projectInfo.startDate)))),
@@ -121,7 +121,7 @@ class _AdminWaitingProjectsDataTableState
             color: getRoleColor(projectInfo.state).withOpacity(.2),
             border: Border.all(color: getRoleColor(projectInfo.state)),
             borderRadius:
-                BorderRadius.all(Radius.circular(defaultBorderRadius) //
+                BorderRadius.all(Radius.circular(5.0)
                     ),
           ),
           child: Text(shortDate(projectInfo.endDate)))),

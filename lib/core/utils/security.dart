@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:gpd/src/models/credential.dart';
 import 'package:gpd/src/user_preferences/user_preferences.dart';
 
-Future<dynamic> checkRole(BuildContext context, String role) async {
+Future<int> checkRole(BuildContext context, String role) async {
   UserPreferences userPreferences = await UserPreferences();
   if (userPreferences.userData == 'userPreferences error') {
     Navigator.pushNamed(context, 'login');
