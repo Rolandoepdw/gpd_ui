@@ -115,6 +115,8 @@ class _LoginPageState extends State<LoginPage> {
                 await ErrorNotification(context, 'Usuario no encontrado');
               if (apiResponse.statusCode == 3)
                 await ErrorNotification(context, 'Contraseña incorrecta');
+              if (apiResponse.statusCode == 22)
+                await InfoNotification(context, 'Esperando a ser activado');
             }
           },
           child: Text('Acceder')),

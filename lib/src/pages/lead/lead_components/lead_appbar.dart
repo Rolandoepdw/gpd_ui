@@ -25,6 +25,7 @@ class _LeadAppBarState extends State<LeadAppBar> {
     final credential =
     Credential.fromJson(jsonDecode(userPreferences.userData));
     return AppBar(
+
       automaticallyImplyLeading: (Responsive.isDesktop(context)) ? false : true,
       title: Row(
         mainAxisAlignment: MainAxisAlignment.end,

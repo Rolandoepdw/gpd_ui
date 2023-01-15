@@ -14,7 +14,7 @@ class LeadHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (checkRole(context, 'LEAD') == 0) return Container();
-    
+
     return Scaffold(
         appBar: LeadAppBar(),
         drawer: LeadDrawer(),
@@ -28,7 +28,9 @@ class LeadHomePage extends StatelessWidget {
               child: LeadDrawer(),
             ),
           Expanded(flex: 5, child: LeadDashboard(context))
-        ])));
+        ])),
+
+    );
   }
 
   Widget LeadDashboard(BuildContext context) {

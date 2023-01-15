@@ -1,4 +1,3 @@
-import 'package:elegant_notification/elegant_notification.dart';
 import 'package:flutter/material.dart';
 import 'package:gpd/bloc/project_bloc.dart';
 import 'package:gpd/core/constants/color_constants.dart';
@@ -194,12 +193,8 @@ class _LeadNewProjectFormState extends State<LeadNewProjectForm> {
       child: ElevatedButton(
           onPressed: () async {
             if (_startDate == 'Fecha inicial') {
-              ElegantNotification.error(
-                      title: Text("Error"),
-                      width: 300,
-                      background: secondaryColor,
-                      description: Text('Seleccione las fechas'))
-                  .show(context);
+              await ErrorNotification(
+                  context, 'Seleccione las fechas del proyecto');
             } else if (_formLoginKey.currentState!.validate()) {
               await ProjectBloc().createNewProject(
                 _projectName.text,
