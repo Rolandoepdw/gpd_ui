@@ -20,10 +20,12 @@ class LeadEditEventForm extends StatefulWidget {
 
 class _LeadEditEventFormState extends State<LeadEditEventForm> {
   final _formLoginKey = GlobalKey<FormState>();
+
   late final _eventName;
   late final _description;
   DateTime? _startDate;
   DateTime? _endDate;
+
   late String _textStartDate;
   late String _textEndDate;
 
@@ -70,7 +72,7 @@ class _LeadEditEventFormState extends State<LeadEditEventForm> {
                       ),
                       Container(
                         width: 220,
-                        child: _buildArea(),
+                        child: _buildDescription(),
                       ),
                     ]),
                 _buildDateRangePiker(context),
@@ -92,7 +94,7 @@ class _LeadEditEventFormState extends State<LeadEditEventForm> {
 
   Widget _buildText() {
     return Center(
-        child: Text('Crear evento',
+        child: Text('Editar evento',
             style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold)));
   }
 
@@ -107,7 +109,7 @@ class _LeadEditEventFormState extends State<LeadEditEventForm> {
     );
   }
 
-  Widget _buildArea() {
+  Widget _buildDescription() {
     return MyTextFormField.name(
       _description,
       'Descripción',
