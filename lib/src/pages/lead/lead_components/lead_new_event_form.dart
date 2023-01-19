@@ -20,10 +20,12 @@ class LeadNewEventForm extends StatefulWidget {
 
 class _LeadNewEventFormState extends State<LeadNewEventForm> {
   final _formLoginKey = GlobalKey<FormState>();
+
   final _eventName = TextEditingController();
   final _description = TextEditingController();
   DateTime? _startDate;
   DateTime? _endDate;
+
   String _textStartDate = 'Fecha inicial';
   String _textEndDate = 'Fecha final';
 

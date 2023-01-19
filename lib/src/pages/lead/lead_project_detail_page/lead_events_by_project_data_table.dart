@@ -127,7 +127,7 @@ class _LeadEventsByProjectDataTableState
                       child: Text('Área:  ${widget._project.area}',
                           maxLines: 1, overflow: TextOverflow.ellipsis))
                 ])
-          ]),
+          ] ),
           Padding(
               padding: const EdgeInsets.all(defaultPadding),
               child: Row(
