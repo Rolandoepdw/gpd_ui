@@ -39,9 +39,12 @@ class _LeadNewProjectFormState extends State<LeadNewProjectForm> {
       child: Center(
         child: SingleChildScrollView(
           child: Container(
-            padding: EdgeInsets.all(20),
             width: 500,
-            height: 600,
+            padding: EdgeInsets.all(defaultPadding),
+            decoration: BoxDecoration(
+                color: secondaryColor,
+                borderRadius: BorderRadius.circular(defaultBorderRadius)
+            ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [

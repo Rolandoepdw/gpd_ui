@@ -60,21 +60,24 @@ class _LeadActivatedProjectsDataTableState
                     if (!snapshot.hasData) {
                       return Center(child: CircularProgressIndicator());
                     }
-                    return DataTable(
-                        horizontalMargin: 2,
-                        columnSpacing: defaultPadding,
-                        columns: [
-                          DataColumn(label: Text("Nombre")),
-                          DataColumn(label: Text("Área")),
-                          DataColumn(label: Text("Fecha inicial")),
-                          DataColumn(label: Text("Fecha final")),
-                          DataColumn(label: Text("Opciones")),
-                        ],
-                        rows: List.generate(
-                          snapshot.data!.length,
-                          (index) => waitingUserDataRow(
-                              context, snapshot.data![index]),
-                        ));
+                    return SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: DataTable(
+                          horizontalMargin: 2,
+                          columnSpacing: defaultPadding,
+                          columns: [
+                            DataColumn(label: Text("Nombre")),
+                            DataColumn(label: Text("Área")),
+                            DataColumn(label: Text("Fecha inicial")),
+                            DataColumn(label: Text("Fecha final")),
+                            DataColumn(label: Text("Opciones")),
+                          ],
+                          rows: List.generate(
+                            snapshot.data!.length,
+                            (index) => waitingUserDataRow(
+                                context, snapshot.data![index]),
+                          )),
+                    );
                   }))
         ])));
   }

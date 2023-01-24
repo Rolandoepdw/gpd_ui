@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gpd/bloc/event_bloc.dart';
+import 'package:gpd/core/constants/color_constants.dart';
 import 'package:gpd/core/utils/date_utils.dart';
 import 'package:gpd/core/utils/inputs_validation_functions.dart';
 import 'package:gpd/core/widgets/elegent_notification_manager.dart';
@@ -55,9 +56,12 @@ class _LeadEditEventFormState extends State<LeadEditEventForm> {
       child: Center(
         child: SingleChildScrollView(
           child: Container(
-            padding: EdgeInsets.all(20),
             width: 500,
-            height: 600,
+            padding: EdgeInsets.all(defaultPadding),
+            decoration: BoxDecoration(
+                color: secondaryColor,
+                borderRadius: BorderRadius.circular(defaultBorderRadius)
+            ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
